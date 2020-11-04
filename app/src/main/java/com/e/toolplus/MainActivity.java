@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
@@ -16,17 +17,21 @@ import android.widget.Toast;
 
 import com.e.toolplus.databinding.ActivityMainBinding;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity {
+
     ActivityMainBinding binding;
-    String currentUser = null;
+    FirebaseUser mAuth;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
         binding = ActivityMainBinding.inflate(inflater);
@@ -51,10 +56,12 @@ public class MainActivity extends AppCompatActivity {
             builder.show();
         }
 
+        mAuth = FirebaseAuth.getInstance().getCurrentUser();
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(currentUser != null){
+                if(mAuth != null){
                     sendUserToHomeScreen();
                 }
                 else{
@@ -66,11 +73,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendUserToHomeScreen() {
-        Toast.makeText(this, "Home Screen", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(MainActivity.this,HomeActivity.class);
+        startActivity(intent);
+        this.finish();
     }
 
     private void sendUserToLoginScreen() {
-        Toast.makeText(this, "Login Screen", Toast.LENGTH_SHORT).show();
+        Intent in = new Intent(MainActivity.this,LoginActivity.class);
+        startActivity(in);
+        this.finish();
     }
 
     private boolean isConnected(MainActivity mainActivity) {
