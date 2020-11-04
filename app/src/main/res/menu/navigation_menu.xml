@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Categories" />
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_Cart"
+            android:icon="@drawable/cart"
+            android:title="Cart" />
+        <item
+            android:id="@+id/nav_ManageOrder"
+            android:icon="@drawable/manage_orders"
+            android:title="Manage Orders" />
+        <item
+            android:id="@+id/nav_history"
+            android:icon="@drawable/history"
+            android:title="History" />
+        <item
+            android:id="@+id/nav_favourite"
+            android:icon="@drawable/favorite"
+            android:title="Favourite" />
+    </group>
+
+    <item android:title="other">
+        <menu android:checkableBehavior="single">
+            <item
+                android:id="@+id/nav_viewProfile"
+                android:icon="@drawable/profile"
+                android:title="View Profile" />
+            <item
+                android:id="@+id/nav_logOut"
+                android:icon="@drawable/logout"
+                android:title="Log Out" />
+        </menu>
+    </item>
+
+
+</menu>
