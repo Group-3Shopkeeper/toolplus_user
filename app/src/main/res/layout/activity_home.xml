@@ -9,6 +9,60 @@
     android:visibility="visible"
     tools:context=".HomeActivity">
 
+    <RelativeLayout
+        android:id="@+id/rvMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                app:title="ToolPlus" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <EditText
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/appBar"
+            android:layout_margin="5dp"
+            android:background="@drawable/search_bar"
+            android:drawableLeft="@drawable/search"
+            android:drawablePadding="10dp"
+            android:hint="Search"
+            android:padding="10dp"
+            android:textColorHint="@color/white" />
+
+        <RelativeLayout
+            android:id="@+id/fragmentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/search_bar">
+
+
+
+            <com.ismaeldivita.chipnavigation.ChipNavigationBar
+                android:id="@+id/bottomNavigation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="15dp"
+                android:background="@drawable/rounded_corner"
+                android:elevation="8dp"
+                app:cnb_menuResource="@menu/navigation_bottom"
+                app:cnb_radius="8dp"
+                app:cnb_unselectedColor="@color/white" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
@@ -18,81 +72,5 @@
         app:headerLayout="@layout/navigation_header"
         app:menu="@menu/navigation_menu" />
 
-    <RelativeLayout
-        android:id="@+id/rvMain"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <com.ismaeldivita.chipnavigation.ChipNavigationBar
-            android:id="@+id/bottomNavigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="15dp"
-            android:background="@drawable/rounded_corner"
-            android:elevation="8dp"
-            app:cnb_menuResource="@menu/navigation_bottom"
-            app:cnb_radius="8dp"
-            app:cnb_unselectedColor="@color/white" />
-
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            >
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorPrimary"
-                app:title="ToolPlus"
-                />
-
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-
-            <EditText
-                android:id="@+id/search_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/appBar"
-                android:drawableLeft="@drawable/search"
-                android:drawablePadding="10dp"
-                android:background="@drawable/search_bar"
-                android:hint="Search"
-                android:padding="10dp"
-                android:layout_margin="5dp"
-                android:textColorHint="@color/white"/>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/search_bar"
-            android:layout_above="@+id/bottomNavigation">
-
-            <RelativeLayout
-                android:id="@+id/fragmentContainer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
-                <GridView
-                    android:id="@+id/gridView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:numColumns="2"
-                    >
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerForDiscounted"
-                        android:layout_width="match_parent"
-                        android:layout_height="160dp"/>
-
-                </GridView>
-
-            </RelativeLayout>
-
-        </ScrollView>
-    </RelativeLayout>
 </androidx.drawerlayout.widget.DrawerLayout>
