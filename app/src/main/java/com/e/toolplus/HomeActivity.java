@@ -38,8 +38,12 @@ public class HomeActivity extends AppCompatActivity {
         binding = ActivityHomeBinding.inflate(inflater);
         View view = binding.getRoot();
         setContentView(view);
+
         initComponent();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new HomeFragment()).commit();
         bottomMenu();
+
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         toggle.syncState();
         navigationDrawerMenu();
@@ -81,6 +85,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
     private void bottomMenu() {
         chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
@@ -117,6 +122,7 @@ public class HomeActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
     private void initComponent() {
         toolbar = binding.toolbar;
         drawerLayout = binding.drawerLayout;
@@ -124,6 +130,7 @@ public class HomeActivity extends AppCompatActivity {
         chipNavigationBar = binding.bottomNavigation;
         setSupportActionBar(toolbar);
     }
+
     private void sendUserToLoginScreen() {
         Intent in = new Intent(HomeActivity.this, LoginActivity.class);
         startActivity(in);
