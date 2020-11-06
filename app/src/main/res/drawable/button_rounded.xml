@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:ansroid="http://schemas.android.com/apk/res/android"
+    ansroid:shape="rectangle">
+
+    <solid ansroid:color="#F0F1F3" />
+
+    <corners ansroid:radius="25dp" />
+</shape>
+
+
