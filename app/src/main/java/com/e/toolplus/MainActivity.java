@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.e.toolplus.databinding.ActivityMainBinding;
+import com.e.toolplus.utility.InternetConnection;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         View v = binding.getRoot();
         setContentView(v);
 
-        if (!isConnected(MainActivity.this)) {
+        if (!InternetConnection.isConnected(MainActivity.this)) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setMessage("Please connect to the Internet to Proceed Further").setCancelable(false);
@@ -57,44 +58,29 @@ public class MainActivity extends AppCompatActivity {
         }
 
         mAuth = FirebaseAuth.getInstance().getCurrentUser();
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(mAuth != null){
-                    sendUserToHomeScreen();
+        if (InternetConnection.isConnected(MainActivity.this)) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (mAuth != null) {
+                        sendUserToHomeScreen();
+                    } else {
+                        sendUserToLoginScreen();
+                    }
                 }
-                else{
-                    sendUserToLoginScreen();
-                }
-            }
-        },5000);
-
+            }, 5000);
+        }
     }
 
     private void sendUserToHomeScreen() {
-        Intent intent = new Intent(MainActivity.this,HomeActivity.class);
+        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
         startActivity(intent);
         this.finish();
     }
 
     private void sendUserToLoginScreen() {
-        Intent in = new Intent(MainActivity.this,LoginActivity.class);
+        Intent in = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(in);
         this.finish();
     }
-
-    private boolean isConnected(MainActivity mainActivity) {
-        ConnectivityManager manager = (ConnectivityManager) mainActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo wifiConnect = manager.getNetworkInfo(manager.TYPE_WIFI);
-        NetworkInfo mobileConnect = manager.getNetworkInfo(manager.TYPE_MOBILE);
-
-        if ((wifiConnect != null && wifiConnect.isConnected()) || (mobileConnect != null && mobileConnect.isConnected())) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 }

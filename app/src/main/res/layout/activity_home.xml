@@ -38,22 +38,32 @@
             android:drawablePadding="10dp"
             android:hint="Search"
             android:padding="10dp"
+            android:focusable="false"
             android:textColorHint="@color/white" />
 
         <RelativeLayout
-            android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/search_bar">
 
+            <RelativeLayout
+                android:id="@+id/fragmentContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/bottomNavigation">
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
+                </ScrollView>
+            </RelativeLayout>
 
             <com.ismaeldivita.chipnavigation.ChipNavigationBar
                 android:id="@+id/bottomNavigation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_margin="15dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/rounded_corner"
                 android:elevation="8dp"
                 app:cnb_menuResource="@menu/navigation_bottom"
