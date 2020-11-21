@@ -5,14 +5,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
-
-        android:layout_width="175dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:elevation="10dp"
+        android:layout_width="190dp"
+        android:layout_height="240dp"
+        android:layout_margin="10dp"
+        android:elevation="5dp"
         app:cardBackgroundColor="@color/white"
-        app:cardElevation="10dp"
-        app:cardMaxElevation="15dp">
+        app:cardElevation="5dp"
+        app:cardMaxElevation="8dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -27,7 +26,7 @@
                 android:gravity="center"
                 android:text="Product Name"
                 android:textColor="@color/colorPrimary"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
 
             <ImageView
                 android:id="@+id/ivProductImage"
@@ -35,17 +34,18 @@
                 android:layout_height="125dp"
                 android:layout_below="@+id/tvProductName"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="8dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_launcher_background" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ivProductImage"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="30dp"
                 android:orientation="vertical"
-                android:paddingLeft="10dp">
+                android:paddingLeft="10dp"
+                android:layout_alignParentBottom="true">
 
                 <TextView
                     android:id="@+id/tvProductPrice"
@@ -67,15 +67,24 @@
                     android:text="Discount"
                     android:textColor="@color/colorAccent"
                     android:textSize="13sp" />
-                <TextView
-                    android:id="@+id/tvProductDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Description"
-                    android:layout_marginRight="10dp"
-                    android:autoSizeMaxTextSize="12sp"
-                    android:autoSizeMinTextSize="10sp"
-                    android:textSize="11sp"
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/btnAddToFavourite"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="5dp">
+
+                <ImageView
+                    android:id="@+id/imageFavoriteHeart"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/favourite_btn"
+                    android:padding="5dp"
                     />
 
             </LinearLayout>

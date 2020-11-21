@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.e.toolplus.databinding.ActivityMainBinding;
+import com.e.toolplus.utility.CustomAlertDialog;
 import com.e.toolplus.utility.InternetConnection;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,20 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (!InternetConnection.isConnected(MainActivity.this)) {
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setMessage("Please connect to the Internet to Proceed Further").setCancelable(false);
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    System.exit(0);
-                }
-            }).setPositiveButton("Connect", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
+            CustomAlertDialog.internetWarning(MainActivity.this);
 
-                }
-            });
-            builder.show();
         }
 
         mAuth = FirebaseAuth.getInstance().getCurrentUser();

@@ -1,70 +1,77 @@
 
 package com.e.toolplus.beans;
 
+import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
+public class Favorite implements Serializable
+{
 
-public class Product implements Serializable {
-
-    @SerializedName("productId")
+    @SerializedName("favoriteId")
     @Expose
-    private String productId;
+    private String favoriteId;
+    @SerializedName("userId")
+    @Expose
+    private String userId;
     @SerializedName("categoryId")
     @Expose
     private String categoryId;
-    @SerializedName("shopKeeperId")
+    @SerializedName("productId")
     @Expose
-    private String shopKeeperId;
+    private String productId;
     @SerializedName("name")
     @Expose
     private String name;
     @SerializedName("price")
     @Expose
     private Long price;
-    @SerializedName("discount")
-    @Expose
-    private Long discount;
     @SerializedName("brand")
     @Expose
     private String brand;
-    @SerializedName("qtyInStock")
-    @Expose
-    private Long qtyInStock;
     @SerializedName("imageUrl")
     @Expose
     private String imageUrl;
     @SerializedName("description")
     @Expose
     private String description;
-    @SerializedName("timestamp")
+    @SerializedName("shopKeeperId")
     @Expose
-    private Long timestamp;
+    private String shopKeeperId;
+    private final static long serialVersionUID = -109612746194515397L;
 
-    public Product() {
+    public Favorite() {
     }
 
-    public Product(String productId, String categoryId, String shopKeeperId, String name, Long price, Long discount, String brand, Long qtyInStock, String imageUrl, String description, Long timestamp) {
-        this.productId = productId;
+
+    public Favorite(String favoriteId, String userId, String categoryId, String productId, String name, Long price, String brand, String imageUrl, String description, String shopKeeperId) {
+        super();
+        this.favoriteId = favoriteId;
+        this.userId = userId;
         this.categoryId = categoryId;
-        this.shopKeeperId = shopKeeperId;
+        this.productId = productId;
         this.name = name;
         this.price = price;
-        this.discount = discount;
         this.brand = brand;
-        this.qtyInStock = qtyInStock;
         this.imageUrl = imageUrl;
         this.description = description;
-        this.timestamp = timestamp;
+        this.shopKeeperId = shopKeeperId;
     }
 
-    public String getProductId() {
-        return productId;
+    public String getFavoriteId() {
+        return favoriteId;
     }
 
-    public void setProductId(String productId) {
-        this.productId = productId;
+    public void setFavoriteId(String favoriteId) {
+        this.favoriteId = favoriteId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getCategoryId() {
@@ -75,12 +82,12 @@ public class Product implements Serializable {
         this.categoryId = categoryId;
     }
 
-    public String getShopKeeperId() {
-        return shopKeeperId;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setShopKeeperId(String shopKeeperId) {
-        this.shopKeeperId = shopKeeperId;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public String getName() {
@@ -99,28 +106,12 @@ public class Product implements Serializable {
         this.price = price;
     }
 
-    public Long getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(Long discount) {
-        this.discount = discount;
-    }
-
     public String getBrand() {
         return brand;
     }
 
     public void setBrand(String brand) {
         this.brand = brand;
-    }
-
-    public Long getQtyInStock() {
-        return qtyInStock;
-    }
-
-    public void setQtyInStock(Long qtyInStock) {
-        this.qtyInStock = qtyInStock;
     }
 
     public String getImageUrl() {
@@ -139,12 +130,12 @@ public class Product implements Serializable {
         this.description = description;
     }
 
-    public Long getTimestamp() {
-        return timestamp;
+    public String getShopKeeperId() {
+        return shopKeeperId;
     }
 
-    public void setTimestamp(Long timestamp) {
-        this.timestamp = timestamp;
+    public void setShopKeeperId(String shopKeeperId) {
+        this.shopKeeperId = shopKeeperId;
     }
 
 }

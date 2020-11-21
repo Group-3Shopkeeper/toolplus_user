@@ -32,5 +32,8 @@ public class ProductService {
 
         @GET("product/c/{categoryId}")
         public  Call<ArrayList<Product>> getProductByCategory(@Path("categoryId") String categoryId);
+
+        @GET("product/{productId}")
+        public Call<Product> getProductById(@Path("productId") String productId);
     }
 }

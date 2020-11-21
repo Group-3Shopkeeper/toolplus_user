@@ -9,12 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.e.toolplus.R;
+import com.e.toolplus.utility.CustomAlertDialog;
+import com.e.toolplus.utility.InternetConnection;
 
 public class ManageOrderFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        if(!InternetConnection.isConnected(getContext())){
+            CustomAlertDialog.internetWarning(getContext());
+        }
+
         return inflater.inflate(R.layout.fragment_manage_order, container, false);
     }
 }

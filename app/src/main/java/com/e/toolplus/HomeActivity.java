@@ -29,6 +29,7 @@ import com.e.toolplus.fragments.CartFragment;
 import com.e.toolplus.fragments.FavouriteFragment;
 import com.e.toolplus.fragments.HomeFragment;
 import com.e.toolplus.fragments.ManageOrderFragment;
+import com.e.toolplus.utility.CustomAlertDialog;
 import com.e.toolplus.utility.InternetConnection;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -69,20 +70,7 @@ public class HomeActivity extends AppCompatActivity {
         navigationDrawerMenu();
 
         if (!InternetConnection.isConnected(HomeActivity.this)) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-            builder.setMessage("Please connect to the Internet to Proceed Further").setCancelable(false);
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    System.exit(0);
-                }
-            }).setPositiveButton("Connect", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-
-                }
-            });
-            builder.show();
+            CustomAlertDialog.internetWarning(HomeActivity.this);
         }
 
     }
@@ -96,6 +84,7 @@ public class HomeActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new CartFragment()).commit();
                 } else if (itemId == R.id.nav_favourite) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new FavouriteFragment()).commit();
+
                 } else if (itemId == R.id.nav_history) {
 
                 } else if (itemId == R.id.nav_ManageOrder) {
