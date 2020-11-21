@@ -6,4 +6,8 @@
     <color name="colorCloudLight">#3b5e90</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
+
+    <color name="addToCart">#03A9F4</color>
+    <color name="buy">#FFC107</color>
+
 </resources>

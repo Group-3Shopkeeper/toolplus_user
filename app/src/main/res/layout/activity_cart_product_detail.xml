@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProductDetailScreen">
+    tools:context=".CartProductDetail">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
@@ -20,9 +20,9 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
-        android:layout_below="@id/appBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/appBar">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -30,7 +30,7 @@
             android:layout_below="@+id/appBar">
 
             <ImageView
-                android:id="@+id/productDetailImage"
+                android:id="@+id/cartDetailImage"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_margin="10dp"
@@ -42,7 +42,7 @@
                 android:id="@+id/ll1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/productDetailImage"
+                android:layout_below="@+id/cartDetailImage"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
@@ -52,7 +52,7 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:id="@+id/productDetailName"
+                    android:id="@+id/cartDetailName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Product Name"
@@ -61,7 +61,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/productDetailPrice"
+                    android:id="@+id/cartDetailPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Price"
@@ -70,7 +70,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/productDetailDiscount"
+                    android:id="@+id/cartDetailDiscount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Discount"
@@ -99,7 +99,7 @@
                     android:textColor="@color/colorPrimary" />
 
                 <TextView
-                    android:id="@+id/productDetailDescription"
+                    android:id="@+id/cartDetailDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -120,14 +120,7 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:id="@+id/productDetailCategory"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Category"
-                    android:textColor="@color/colorPrimary" />
-
-                <TextView
-                    android:id="@+id/productDetailStocks"
+                    android:id="@+id/cartDetailStocks"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -146,7 +139,7 @@
                 android:weightSum="1">
 
                 <RelativeLayout
-                    android:id="@+id/btnProductDetailCart"
+                    android:id="@+id/btnCartDetailRemove"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -156,9 +149,9 @@
                     android:layout_weight="0.5"
                     android:background="@color/white"
                     android:elevation="8dp"
-                    android:paddingRight="5dp"
                     android:paddingLeft="5dp"
                     android:paddingTop="7dp"
+                    android:paddingRight="5dp"
                     android:paddingBottom="7dp">
 
                     <TextView
@@ -167,17 +160,16 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
-                        android:drawableLeft="@drawable/add_to_cart"
+                        android:drawableLeft="@drawable/cart_remove_item"
                         android:drawablePadding="7dp"
-                        android:text="Add To Cart"
                         android:gravity="center_vertical"
+                        android:text="Remove"
                         android:textColor="@color/colorPrimary"
-                        android:textStyle="bold"
-                        />
+                        android:textStyle="bold" />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/btnProductDetailBuy"
+                    android:id="@+id/btnCartDetailBuy"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -187,9 +179,9 @@
                     android:layout_weight="0.5"
                     android:background="@color/white"
                     android:elevation="8dp"
-                    android:paddingRight="5dp"
                     android:paddingLeft="5dp"
                     android:paddingTop="7dp"
+                    android:paddingRight="5dp"
                     android:paddingBottom="7dp">
 
                     <TextView
@@ -199,8 +191,8 @@
                         android:layout_centerVertical="true"
                         android:drawableLeft="@drawable/buy"
                         android:drawablePadding="7dp"
-                        android:text="Buy"
                         android:gravity="center_vertical"
+                        android:text="Buy"
                         android:textColor="@color/colorPrimary"
                         android:textStyle="bold" />
                 </RelativeLayout>

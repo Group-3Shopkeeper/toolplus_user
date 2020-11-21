@@ -2,6 +2,7 @@ package com.e.toolplus.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -16,7 +17,9 @@ import java.util.ArrayList;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
     Context context;
     ArrayList<Category> list;
-    public CategoryAdapter(Context context, ArrayList<Category> list){
+    OnRecyclerViewItemClick listener;
+
+    public CategoryAdapter(Context context, ArrayList<Category> list) {
         this.context = context;
         this.list = list;
     }
@@ -24,7 +27,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        CategoryHomeItemBinding binding = CategoryHomeItemBinding.inflate(LayoutInflater.from(context),parent,false);
+        CategoryHomeItemBinding binding = CategoryHomeItemBinding.inflate(LayoutInflater.from(context), parent, false);
         return new CategoryViewHolder(binding);
     }
 
@@ -46,6 +49,24 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         public CategoryViewHolder(CategoryHomeItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+
+            binding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION && listener != null){
+                        Category category = list.get(position);
+                        listener.onItemClick(category, position);
+                    }
+                }
+            });
         }
+    }
+
+    public interface OnRecyclerViewItemClick {
+        public void onItemClick(Category category, int position);
+    }
+    public void setOnItemClick(OnRecyclerViewItemClick listener){
+        this.listener = listener;
     }
 }

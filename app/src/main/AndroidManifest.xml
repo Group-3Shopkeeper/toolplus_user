@@ -11,8 +11,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProductDetailScreen"></activity>
+        <activity android:name=".CartProductDetail"></activity>
+        <activity android:name=".ProductDetailScreen" />
         <activity android:name=".ProductScreen" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".LoginActivity" />
