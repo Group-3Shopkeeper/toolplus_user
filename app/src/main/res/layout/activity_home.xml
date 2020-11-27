@@ -63,12 +63,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_margin="10dp"
                 android:background="@drawable/rounded_corner"
                 android:elevation="8dp"
                 app:cnb_menuResource="@menu/navigation_bottom"
-                app:cnb_radius="8dp"
-                app:cnb_unselectedColor="@color/white" />
+                app:cnb_unselectedColor="@color/white"
+                android:layout_margin="3dp"/>
 
         </RelativeLayout>
     </RelativeLayout>

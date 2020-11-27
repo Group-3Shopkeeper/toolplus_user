@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.e.toolplus.beans.Category;
+import com.e.toolplus.R;
 import com.e.toolplus.beans.Product;
 import com.e.toolplus.databinding.DiscountedProductItemBinding;
 import com.squareup.picasso.Picasso;
@@ -34,7 +34,7 @@ public class DiscountedProductAdapter extends RecyclerView.Adapter<DiscountedPro
     @Override
     public void onBindViewHolder(@NonNull DiscountedProductViewHolder holder, int position) {
         Product product = arrayList.get(position);
-        Picasso.get().load(product.getImageUrl()).into(holder.binding.discountedProductImage);
+        Picasso.get().load(product.getImageUrl()).placeholder(R.drawable.logo_white).into(holder.binding.discountedProductImage);
         holder.binding.discountedProductName.setText(product.getName());
         holder.binding.discountedProductPrice.setText("Price : "+product.getPrice());
         holder.binding.discountedProductActualPrice.setText("Discount : "+product.getDiscount());

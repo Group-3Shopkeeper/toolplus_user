@@ -1,5 +1,6 @@
 package com.e.toolplus;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -38,6 +39,11 @@ public class ProductDetailScreen extends AppCompatActivity {
         final ActivityProductDetailScreenBinding binding = ActivityProductDetailScreenBinding.inflate(LayoutInflater.from(ProductDetailScreen.this));
         setContentView(binding.getRoot());
 
+        setSupportActionBar(binding.toolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+
+
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         Intent in = getIntent();
@@ -64,7 +70,7 @@ public class ProductDetailScreen extends AppCompatActivity {
                         if (pId.equals(cart.getProductId())) {
                             flag = 1;
                             binding.addToC.setText("Already Added");
-                            binding.btnProductDetailCart.setBackgroundColor(getResources().getColor(R.color.addToCart));
+                            binding.btnProductDetailCart.setBackgroundColor(getResources().getColor(R.color.buy));
                         }
                     }
                 }
@@ -105,7 +111,7 @@ public class ProductDetailScreen extends AppCompatActivity {
                                 if (response.isSuccessful()) {
                                     Toast.makeText(ProductDetailScreen.this, "Product Successfully Added In Cart", Toast.LENGTH_SHORT).show();
                                     binding.addToC.setText("Added To Cart");
-                                    binding.btnProductDetailCart.setBackgroundColor(getResources().getColor(R.color.addToCart));
+                                    binding.btnProductDetailCart.setBackgroundColor(getResources().getColor(R.color.buy));
                                     flag = 1;
                                 }
                             }

@@ -1,6 +1,7 @@
 package com.e.toolplus.adapter;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.e.toolplus.R;
 import com.e.toolplus.beans.Category;
 import com.e.toolplus.databinding.CategoryHomeItemBinding;
 import com.squareup.picasso.Picasso;
@@ -34,8 +36,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         Category category = list.get(position);
-        Picasso.get().load(category.getImageUrl()).into(holder.binding.ivCategory);
+        Picasso.get().load(category.getImageUrl()).placeholder(R.drawable.logo_white).into(holder.binding.ivCategory);
         holder.binding.tvCategoryName.setText(category.getCategoryName());
+        holder.binding.tvCategoryName.setGravity(Gravity.CENTER_HORIZONTAL);
     }
 
     @Override

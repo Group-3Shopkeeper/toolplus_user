@@ -1,11 +1,9 @@
 package com.e.toolplus.adapter;
 
-import android.app.AlertDialog;
+
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.provider.Settings;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +12,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.e.toolplus.ProductScreen;
 import com.e.toolplus.R;
 import com.e.toolplus.api.FavoriteService;
 import com.e.toolplus.beans.Favorite;
 import com.e.toolplus.beans.Product;
-import com.e.toolplus.databinding.CustomAlertDialogBinding;
 import com.e.toolplus.databinding.ProductScreenItemBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -35,7 +32,8 @@ public class ProductScreenAdapter extends RecyclerView.Adapter<ProductScreenAdap
     ArrayList<Product> list;
     OnRecyclerViewItemClick listener;
     OnRecyclerViewItemClick favListener;
-    int flag = 0;
+    ArrayList<Favorite> favList;
+    String categoryId;
 
     public ProductScreenAdapter(Context context, ArrayList<Product> list) {
         this.context = context;
@@ -53,38 +51,43 @@ public class ProductScreenAdapter extends RecyclerView.Adapter<ProductScreenAdap
     public void onBindViewHolder(@NonNull final ProductScreenViewHolder holder, final int position) {
         final String currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-
         final Product product = list.get(position);
 
-        String categoryId = product.getCategoryId();
+        categoryId = product.getCategoryId();
 
         holder.binding.tvProductName.setText(product.getName());
-        holder.binding.tvProductPrice.setText("Discount : " + product.getDiscount());
-        holder.binding.tvProductPrice.setText("Price : " + product.getPrice());
-        Picasso.get().load(product.getImageUrl()).into(holder.binding.ivProductImage);
 
-        FavoriteService.FavoriteAPI favoriteAPI = FavoriteService.getFavoriteAPIInstance();
-        Call<ArrayList<Favorite>> listCall = favoriteAPI.getFavoriteByCategory(currentUser, categoryId);
+        if (product.getDiscount() != 0) {
+            holder.binding.tvProductDiscount.setText("Discount : " + product.getDiscount());
+        }
+        if (product.getDiscount() == 0) {
+            holder.binding.tvProductDiscount.setVisibility(View.INVISIBLE);
+        }
+        holder.binding.tvProductPrice.setText("Price : " + product.getPrice());
+        Picasso.get().load(product.getImageUrl()).placeholder(R.drawable.logo_white).into(holder.binding.ivProductImage);
+
+        FavoriteService.FavoriteAPI api = FavoriteService.getFavoriteAPIInstance();
+        Call<ArrayList<Favorite>> listCall = api.getFavoriteByCategory(currentUser, categoryId);
         listCall.enqueue(new Callback<ArrayList<Favorite>>() {
             @Override
             public void onResponse(Call<ArrayList<Favorite>> call, Response<ArrayList<Favorite>> response) {
+                favList = response.body();
                 try {
-                    ArrayList<Favorite> favList = response.body();
-
                     if (favList.size() != 0) {
 
-                        for (Favorite favorite : favList){
+                        for (Favorite favorite : favList) {
                             String proId = favorite.getProductId();
                             String proId2 = product.getProductId();
-                            if (proId.equals(proId2)){
+                            if (proId.equals(proId2)) {
                                 holder.binding.imageFavoriteHeart.setImageResource(R.drawable.favorite_btn_filled);
-                                flag = 1;
+                                holder.binding.imageFavoriteHeart.setTag("ADDED");
                             }
                         }
                     }
                 } catch (NullPointerException e) {
 
                 }
+
             }
 
             @Override
@@ -93,14 +96,49 @@ public class ProductScreenAdapter extends RecyclerView.Adapter<ProductScreenAdap
             }
         });
 
+
         holder.binding.btnAddToFavourite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (flag == 1) {
-                    Toast.makeText(context, "Product Already Added in Favorite", Toast.LENGTH_SHORT).show();
-                }
-                if (flag == 0) {
 
+                if (holder.binding.imageFavoriteHeart.getTag() == "ADDED") {
+
+                    Product product1 = list.get(position);
+                    String favoriteId = null;
+                    for (Favorite favorite : favList) {
+                        int flag = 1;
+
+                        if (favorite.getProductId().equals(product1.getProductId())) {
+                            flag = 0;
+                            favoriteId = favorite.getFavoriteId();
+
+                            FavoriteService.FavoriteAPI api1 = FavoriteService.getFavoriteAPIInstance();
+                            Call<Favorite> delete = api1.deleteFavorite(favoriteId);
+                            delete.enqueue(new Callback<Favorite>() {
+                                @Override
+                                public void onResponse(Call<Favorite> call, Response<Favorite> response) {
+                                    if (response.isSuccessful()) {
+                                        Favorite test = response.body();
+
+                                        holder.binding.imageFavoriteHeart.setImageResource(R.drawable.favourite_btn);
+                                        holder.binding.imageFavoriteHeart.setTag("DELETE");
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Favorite> call, Throwable t) {
+                                    Log.e("onFailure",""+t);
+                                }
+                            });
+                        }
+
+                        if(flag == 0)
+                            break;
+                    }
+                }
+
+                if (holder.binding.imageFavoriteHeart.getTag() != "ADDED") {
+                    Toast.makeText(context, "Non Added Called", Toast.LENGTH_SHORT).show();
                     Favorite favorite = new Favorite();
                     Product product1 = list.get(position);
                     favorite.setBrand(product1.getBrand());
@@ -120,6 +158,22 @@ public class ProductScreenAdapter extends RecyclerView.Adapter<ProductScreenAdap
                         public void onResponse(Call<Favorite> call, Response<Favorite> response) {
                             if (response.isSuccessful()) {
                                 holder.binding.imageFavoriteHeart.setImageResource(R.drawable.favorite_btn_filled);
+                                holder.binding.imageFavoriteHeart.setTag("ADDED");
+
+                                FavoriteService.FavoriteAPI api = FavoriteService.getFavoriteAPIInstance();
+                                Call<ArrayList<Favorite>> listCall = api.getFavoriteByCategory(currentUser, categoryId);
+                                listCall.enqueue(new Callback<ArrayList<Favorite>>() {
+                                    @Override
+                                    public void onResponse(Call<ArrayList<Favorite>> call, Response<ArrayList<Favorite>> response) {
+                                        favList = response.body();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<ArrayList<Favorite>> call, Throwable t) {
+
+                                    }
+                                });
+
                             }
                         }
 
@@ -171,13 +225,11 @@ public class ProductScreenAdapter extends RecyclerView.Adapter<ProductScreenAdap
 
     public interface OnRecyclerViewItemClick {
         void onItemClick(Product product, int position);
+
     }
 
     public void setOnItemClick(OnRecyclerViewItemClick listener) {
         this.listener = listener;
     }
 
-    public void setOnFavouriteClick(OnRecyclerViewItemClick favListener) {
-        this.favListener = favListener;
-    }
 }

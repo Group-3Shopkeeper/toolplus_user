@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.e.toolplus.R;
 import com.e.toolplus.beans.Product;
 import com.e.toolplus.databinding.DiscountedProductItemBinding;
 import com.squareup.picasso.Picasso;
@@ -34,7 +35,7 @@ public class RecentlyAddedProductAdapter extends RecyclerView.Adapter<RecentlyAd
     @Override
     public void onBindViewHolder(@NonNull RecentlyAddedProductViewHolder holder, int position) {
     Product product = list.get(position);
-        Picasso.get().load(product.getImageUrl()).into(holder.binding.discountedProductImage);
+        Picasso.get().load(product.getImageUrl()).placeholder(R.drawable.logo_white).into(holder.binding.discountedProductImage);
         holder.binding.discountedProductName.setText(product.getName());
         holder.binding.discountedProductPrice.setText("Price : "+product.getPrice());
         holder.binding.discountedProductActualPrice.setText("Qty in Stock : "+product.getQtyInStock());
