@@ -17,7 +17,7 @@
             android:elevation="10dp"
             android:padding="5dp"
             android:src="@drawable/cart_remove_item"
-            app:civ_circle_background_color="@color/white" />
+            app:civ_circle_background_color="@color/colorAccent" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewOfCart"

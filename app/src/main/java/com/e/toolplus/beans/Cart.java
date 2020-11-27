@@ -1,7 +1,6 @@
 
 package com.e.toolplus.beans;
 
-import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

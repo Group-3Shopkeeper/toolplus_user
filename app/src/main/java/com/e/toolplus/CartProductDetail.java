@@ -1,20 +1,16 @@
 package com.e.toolplus;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.e.toolplus.adapter.CartProductAdapter;
@@ -34,7 +30,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CartProductDetail extends AppCompatActivity {
-    ActivityCartProductDetailBinding binding;
     CartProductAdapter adapter;
 
     @Override
@@ -42,6 +37,10 @@ public class CartProductDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         final ActivityCartProductDetailBinding binding = ActivityCartProductDetailBinding.inflate(LayoutInflater.from(CartProductDetail.this));
         setContentView(binding.getRoot());
+
+        setSupportActionBar(binding.toolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
         Intent in = getIntent();
         final Cart cart = (Cart) in.getSerializableExtra("cart");
@@ -53,13 +52,16 @@ public class CartProductDetail extends AppCompatActivity {
             productCall.enqueue(new Callback<Product>() {
                 @Override
                 public void onResponse(Call<Product> call, Response<Product> response) {
+
                     Product product = response.body();
+
                     Picasso.get().load(product.getImageUrl()).into(binding.cartDetailImage);
                     binding.cartDetailDescription.setText(product.getDescription());
                     binding.cartDetailDiscount.setText("Discount : " + product.getDiscount());
                     binding.cartDetailPrice.setText("Price : " + product.getPrice());
                     binding.cartDetailName.setText(product.getName());
                     binding.cartDetailStocks.setText("Stocks : " + product.getQtyInStock());
+
                 }
 
                 @Override

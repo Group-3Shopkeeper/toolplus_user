@@ -5,12 +5,10 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.e.toolplus.R;
 import com.e.toolplus.adapter.FavoriteProductAdapter;
 import com.e.toolplus.api.FavoriteService;
 import com.e.toolplus.beans.Favorite;
@@ -34,6 +32,7 @@ public class FavouriteFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        binding = FragmentFavouriteBinding.inflate(LayoutInflater.from(getContext()));
 
         if(!InternetConnection.isConnected(getContext())){
             CustomAlertDialog.internetWarning(getContext());
@@ -47,14 +46,9 @@ public class FavouriteFragment extends Fragment {
                 public void onResponse(Call<ArrayList<Favorite>> call, Response<ArrayList<Favorite>> response) {
                     ArrayList<Favorite> list1 = response.body();
 
-                    for(Favorite favorite : list1){
-                        Log.e("checking ","=======>>>>"+favorite.getFavoriteId());
-                    }
-
                     adapter = new FavoriteProductAdapter(getContext(), list1);
-                    binding.rvFavorite.setAdapter(adapter);
                     binding.rvFavorite.setLayoutManager(new GridLayoutManager(getContext(),2));
-
+                    binding.rvFavorite.setAdapter(adapter);
                 }
 
                 @Override
@@ -65,6 +59,6 @@ public class FavouriteFragment extends Fragment {
 
         }
 
-        return inflater.inflate(R.layout.fragment_favourite, container, false);
+        return binding.getRoot();
     }
 }

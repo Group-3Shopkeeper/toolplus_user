@@ -36,7 +36,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="15dp"
                     android:layout_weight="0.5"
-                    android:background="@color/white"
+                    android:background="@color/colorPrimary"
                     android:elevation="7dp"
                     android:gravity="center"
                     android:paddingTop="7dp"
@@ -51,7 +51,7 @@
                         android:drawablePadding="7dp"
                         android:gravity="center_vertical"
                         android:text="Remove all"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/white"
                         android:textStyle="bold" />
                 </RelativeLayout>
 
@@ -64,7 +64,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="15dp"
                     android:layout_weight="0.5"
-                    android:background="@color/white"
+                    android:background="@color/colorPrimary"
                     android:elevation="7dp"
                     android:gravity="center"
                     android:paddingTop="7dp"
@@ -79,7 +79,7 @@
                         android:drawablePadding="7dp"
                         android:gravity="center_vertical"
                         android:text="Buy Cart"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/white"
                         android:textStyle="bold" />
 
                 </RelativeLayout>

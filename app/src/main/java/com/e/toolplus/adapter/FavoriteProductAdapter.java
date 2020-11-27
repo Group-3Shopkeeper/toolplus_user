@@ -8,11 +8,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.e.toolplus.api.ProductService;
+import com.e.toolplus.R;
 import com.e.toolplus.beans.Favorite;
-import com.e.toolplus.beans.Product;
 import com.e.toolplus.databinding.ProductScreenItemBinding;
-import com.e.toolplus.utility.InternetConnection;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -41,30 +39,13 @@ public class FavoriteProductAdapter extends RecyclerView.Adapter<FavoriteProduct
     @Override
     public void onBindViewHolder(@NonNull final FavoriteProductViewHolder holder, int position) {
         Favorite favorite = list.get(position);
-        String productId = favorite.getProductId();
 
-        ProductService.ProductAPI api = ProductService.getProductAPIInstance();
-        Call<Product> product = api.getProductById(productId);
-        product.enqueue(new Callback<Product>() {
-            @Override
-            public void onResponse(Call<Product> call, Response<Product> response) {
-                Product product1 = response.body();
+        holder.binding.tvProductName.setText(favorite.getName());
+        holder.binding.tvProductPrice.setText("Price : "+favorite.getPrice());
+        Picasso.get().load(favorite.getImageUrl()).placeholder(R.drawable.logo_white).into(holder.binding.ivProductImage);
 
-                holder.binding.tvProductPrice.setText("Price : " + product1.getPrice());
-                holder.binding.tvProductName.setText(product1.getName());
-                holder.binding.tvProductDiscount.setText("Discount : " + product1.getDiscount());
-                Picasso.get().load(product1.getImageUrl()).into(holder.binding.ivProductImage);
-
-                holder.binding.btnAddToFavourite.setVisibility(View.INVISIBLE);
-
-            }
-
-            @Override
-            public void onFailure(Call<Product> call, Throwable t) {
-
-            }
-        });
-
+        holder.binding.tvProductDiscount.setVisibility(View.INVISIBLE);
+        holder.binding.btnAddToFavourite.setVisibility(View.INVISIBLE);
 
     }
 

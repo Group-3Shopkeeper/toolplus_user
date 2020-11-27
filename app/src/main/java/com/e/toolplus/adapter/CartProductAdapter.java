@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.e.toolplus.R;
 import com.e.toolplus.beans.Cart;
 import com.e.toolplus.databinding.CartItemsBinding;
 import com.squareup.picasso.Picasso;
@@ -37,7 +38,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         Cart cart = list.get(position);
         holder.binding.cartProductName.setText(cart.getName());
         holder.binding.cartProductPrice.setText("Price : "+cart.getPrice());
-        Picasso.get().load(cart.getImageUrl()).into(holder.binding.cartProductImage);
+        Picasso.get().load(cart.getImageUrl()).placeholder(R.drawable.logo_white).into(holder.binding.cartProductImage);
     }
 
     @Override

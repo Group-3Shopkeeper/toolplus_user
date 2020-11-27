@@ -147,7 +147,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="25dp"
                     android:layout_weight="0.5"
-                    android:background="@color/white"
+                    android:background="@color/addToCart"
                     android:elevation="8dp"
                     android:paddingLeft="5dp"
                     android:paddingTop="7dp"
@@ -164,7 +164,7 @@
                         android:drawablePadding="7dp"
                         android:gravity="center_vertical"
                         android:text="Remove"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/white"
                         android:textStyle="bold" />
                 </RelativeLayout>
 
@@ -177,7 +177,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="25dp"
                     android:layout_weight="0.5"
-                    android:background="@color/white"
+                    android:background="@color/addToCart"
                     android:elevation="8dp"
                     android:paddingLeft="5dp"
                     android:paddingTop="7dp"
@@ -193,7 +193,7 @@
                         android:drawablePadding="7dp"
                         android:gravity="center_vertical"
                         android:text="Buy"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/white"
                         android:textStyle="bold" />
                 </RelativeLayout>
 
