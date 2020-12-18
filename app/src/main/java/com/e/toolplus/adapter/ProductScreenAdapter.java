@@ -118,8 +118,6 @@ public class ProductScreenAdapter extends RecyclerView.Adapter<ProductScreenAdap
                                 @Override
                                 public void onResponse(Call<Favorite> call, Response<Favorite> response) {
                                     if (response.isSuccessful()) {
-                                        Favorite test = response.body();
-
                                         holder.binding.imageFavoriteHeart.setImageResource(R.drawable.favourite_btn);
                                         holder.binding.imageFavoriteHeart.setTag("DELETE");
                                     }
@@ -138,7 +136,6 @@ public class ProductScreenAdapter extends RecyclerView.Adapter<ProductScreenAdap
                 }
 
                 if (holder.binding.imageFavoriteHeart.getTag() != "ADDED") {
-                    Toast.makeText(context, "Non Added Called", Toast.LENGTH_SHORT).show();
                     Favorite favorite = new Favorite();
                     Product product1 = list.get(position);
                     favorite.setBrand(product1.getBrand());

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.e.toolplus.BuyCart;
 import com.e.toolplus.CartProductDetail;
 import com.e.toolplus.adapter.CartProductAdapter;
 import com.e.toolplus.api.CartService;
@@ -18,6 +19,8 @@ import com.e.toolplus.beans.Cart;
 import com.e.toolplus.databinding.FragmentCartBinding;
 import com.e.toolplus.utility.CustomAlertDialog;
 import com.e.toolplus.utility.InternetConnection;
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.PulseRing;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -38,6 +41,9 @@ public class CartFragment extends Fragment {
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         if(InternetConnection.isConnected(getContext())){
+            Sprite doubleBounce = new PulseRing();
+            binding.spinKitCart.setIndeterminateDrawable(doubleBounce);
+
             CartService.CartAPI cartAPI = CartService.getCartAPIInstance();
             Call<ArrayList<Cart>> listCall = cartAPI.getCartList(userId);
 
@@ -51,7 +57,7 @@ public class CartFragment extends Fragment {
                     adapter = new CartProductAdapter(getContext(), list);
                     binding.rvCart.setAdapter(adapter);
                     binding.rvCart.setLayoutManager(new LinearLayoutManager(getContext()));
-
+                    binding.spinKitCart.setVisibility(View.INVISIBLE);
                     adapter.setOnItemClick(new CartProductAdapter.OnRecyclerViewItemClick() {
                         @Override
                         public void onItemClick(Cart cart, int position) {
@@ -95,6 +101,35 @@ public class CartFragment extends Fragment {
                 }
             });
         }
+
+        binding.btnBuyAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CartService.CartAPI cartAPI = CartService.getCartAPIInstance();
+                Call<ArrayList<Cart>> listCall = cartAPI.getCartList(userId);
+                listCall.enqueue(new Callback<ArrayList<Cart>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<Cart>> call, Response<ArrayList<Cart>> response) {
+                        ArrayList<Cart> list = response.body();
+                        if(list.size() == 0){
+                            Toast.makeText(getContext(), "No Product Added", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Intent intent = new Intent(getContext(), BuyCart.class);
+                            intent.putExtra("list",list);
+                            startActivity(intent);
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArrayList<Cart>> call, Throwable t) {
+
+                    }
+                });
+
+            }
+        });
 
         if(!InternetConnection.isConnected(getContext())){
             CustomAlertDialog.internetWarning(getContext());

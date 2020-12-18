@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,15 +37,23 @@ public class HomeActivity extends AppCompatActivity {
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     ChipNavigationBar chipNavigationBar;
+    int Buy = 0;
 
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LayoutInflater inflater = LayoutInflater.from(HomeActivity.this);
-        binding = ActivityHomeBinding.inflate(inflater);
-        View view = binding.getRoot();
-        setContentView(view);
+        binding = ActivityHomeBinding.inflate(LayoutInflater.from(HomeActivity.this));
+        setContentView(binding.getRoot());
+        try {
+            Intent in = getIntent();
+            Buy = (int) in.getIntExtra("Buy", 0);
+            if (Buy == 11) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new ManageOrderFragment()).commit();
+            }
+        } catch (NullPointerException e) {
+            Log.e("empty Intent", "" + e);
+        }
 
         initComponent();
 

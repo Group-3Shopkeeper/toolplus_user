@@ -42,6 +42,31 @@ public class Cart implements Serializable {
     @Expose
     private String shopKeeperId;
 
+    public Cart() {
+    }
+
+    public Cart(Long qtyInStock, String cartId, String userId, String categoryId, String productId, String name, Long price, String brand, String imageUrl, String description, String shopKeeperId) {
+        this.qtyInStock = qtyInStock;
+        this.cartId = cartId;
+        this.userId = userId;
+        this.categoryId = categoryId;
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+        this.brand = brand;
+        this.imageUrl = imageUrl;
+        this.description = description;
+        this.shopKeeperId = shopKeeperId;
+    }
+
+    public Long getQtyInStock() {
+        return qtyInStock;
+    }
+
+    public void setQtyInStock(Long qtyInStock) {
+        this.qtyInStock = qtyInStock;
+    }
+
     public String getCartId() {
         return cartId;
     }
@@ -122,11 +147,5 @@ public class Cart implements Serializable {
         this.shopKeeperId = shopKeeperId;
     }
 
-    public Long getQtyInStock() {
-        return qtyInStock;
-    }
 
-    public void setQtyInStock(Long qtyInStock) {
-        this.qtyInStock = qtyInStock;
-    }
 }

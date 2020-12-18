@@ -1,6 +1,7 @@
 package com.e.toolplus.adapter;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.e.toolplus.R;
 import com.e.toolplus.beans.Favorite;
 import com.e.toolplus.databinding.ProductScreenItemBinding;
+import com.e.toolplus.databinding.ProductScreenItemFavoriteBinding;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -32,7 +34,7 @@ public class FavoriteProductAdapter extends RecyclerView.Adapter<FavoriteProduct
     @NonNull
     @Override
     public FavoriteProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ProductScreenItemBinding binding = ProductScreenItemBinding.inflate(LayoutInflater.from(context));
+        ProductScreenItemFavoriteBinding binding = ProductScreenItemFavoriteBinding.inflate(LayoutInflater.from(context));
         return new FavoriteProductViewHolder(binding);
     }
 
@@ -42,11 +44,8 @@ public class FavoriteProductAdapter extends RecyclerView.Adapter<FavoriteProduct
 
         holder.binding.tvProductName.setText(favorite.getName());
         holder.binding.tvProductPrice.setText("Price : "+favorite.getPrice());
+        holder.binding.tvProductPrice.setForegroundGravity(Gravity.CENTER_HORIZONTAL);
         Picasso.get().load(favorite.getImageUrl()).placeholder(R.drawable.logo_white).into(holder.binding.ivProductImage);
-
-        holder.binding.tvProductDiscount.setVisibility(View.INVISIBLE);
-        holder.binding.btnAddToFavourite.setVisibility(View.INVISIBLE);
-
     }
 
     @Override
@@ -55,9 +54,9 @@ public class FavoriteProductAdapter extends RecyclerView.Adapter<FavoriteProduct
     }
 
     public class FavoriteProductViewHolder extends RecyclerView.ViewHolder {
-        ProductScreenItemBinding binding;
+        ProductScreenItemFavoriteBinding binding;
 
-        public FavoriteProductViewHolder(ProductScreenItemBinding binding) {
+        public FavoriteProductViewHolder(ProductScreenItemFavoriteBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
 

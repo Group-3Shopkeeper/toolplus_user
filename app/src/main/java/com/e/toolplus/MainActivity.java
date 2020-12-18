@@ -25,11 +25,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
-        binding = ActivityMainBinding.inflate(inflater);
-        View v = binding.getRoot();
-        setContentView(v);
+        binding = ActivityMainBinding.inflate(LayoutInflater.from(MainActivity.this));
+        setContentView(binding.getRoot());
 
         if (!InternetConnection.isConnected(MainActivity.this)) {
 
