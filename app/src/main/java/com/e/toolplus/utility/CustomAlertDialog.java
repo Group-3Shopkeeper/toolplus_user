@@ -20,7 +20,7 @@ public class CustomAlertDialog {
         CustomAlertDialogBinding binding = CustomAlertDialogBinding.inflate(LayoutInflater.from(context));
         builder.setView(binding.getRoot());
 
-        AlertDialog alertDialog = builder.create();
+        final AlertDialog alertDialog = builder.create();
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         binding.negative.setVisibility(View.INVISIBLE);

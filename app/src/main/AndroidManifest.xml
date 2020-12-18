@@ -13,15 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CartProductDetail"></activity>
+        <activity android:name=".AddUser"></activity>
+        <activity android:name=".BuyCart" />
+        <activity android:name=".CartProductDetail" />
         <activity
             android:name=".ProductDetailScreen"
             android:parentActivityName=".ProductScreen" />
-
         <activity android:name=".ProductScreen" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".LoginActivity" />
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

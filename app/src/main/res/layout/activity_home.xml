@@ -70,6 +70,7 @@
                 android:layout_margin="3dp"/>
 
         </RelativeLayout>
+
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView

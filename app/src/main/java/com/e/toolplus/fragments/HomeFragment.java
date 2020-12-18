@@ -23,6 +23,9 @@ import com.e.toolplus.beans.Product;
 import com.e.toolplus.databinding.FragmentHomeBinding;
 import com.e.toolplus.utility.CustomAlertDialog;
 import com.e.toolplus.utility.InternetConnection;
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.PulseRing;
+import com.github.ybq.android.spinkit.style.WanderingCubes;
 
 import java.util.ArrayList;
 
@@ -42,8 +45,10 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         binding = FragmentHomeBinding.inflate(LayoutInflater.from(getContext()));
+        Sprite doubleBounce = new PulseRing();
+        binding.spinKit.setIndeterminateDrawable(doubleBounce);
 
-        if (InternetConnection.isConnected(getContext()))   {
+        if (InternetConnection.isConnected(getContext())){
             CategoryService.CategoryAPI categoryAPI = CategoryService.getCategoryAPIInstance();
             Call<ArrayList<Category>> categoryList = categoryAPI.getCategoryList();
             categoryList.enqueue(new Callback<ArrayList<Category>>() {
@@ -72,7 +77,6 @@ public class HomeFragment extends Fragment {
             });
         }
 
-
         if(InternetConnection.isConnected(getContext())){
             ProductService.ProductAPI productAPI = ProductService.getProductAPIInstance();
             Call<ArrayList<Product>> listCall = productAPI.getDiscountedProducts();
@@ -83,7 +87,7 @@ public class HomeFragment extends Fragment {
 
                     discountedAdapter = new DiscountedProductAdapter(getContext(),discountedProduct);
                     binding.discountedProduct.setAdapter(discountedAdapter);
-                    binding.discountedProduct.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,true));
+                    binding.discountedProduct.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
 
                     discountedAdapter.setOnItemClick(new DiscountedProductAdapter.OnRecyclerItemClick() {
                         @Override
@@ -117,7 +121,9 @@ public class HomeFragment extends Fragment {
                     ArrayList<Product> arrayList = response.body();
                     recentlyAdapter = new RecentlyAddedProductAdapter(getContext(),arrayList);
                     binding.recentlyAdded.setAdapter(recentlyAdapter);
-                    binding.recentlyAdded.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,true));
+                    binding.recentlyAdded.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+                    binding.recentlyAdded.setItemViewCacheSize(2);
+                    binding.spinKit.setVisibility(View.INVISIBLE);
 
                     recentlyAdapter.setOnItemClick(new RecentlyAddedProductAdapter.OnRecyclerItemClick() {
                         @Override

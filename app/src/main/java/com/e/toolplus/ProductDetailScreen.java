@@ -5,13 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
 import com.e.toolplus.api.CartService;
+import com.e.toolplus.api.FavoriteService;
 import com.e.toolplus.beans.Cart;
 import com.e.toolplus.beans.Category;
+import com.e.toolplus.beans.Favorite;
 import com.e.toolplus.beans.Product;
 import com.e.toolplus.databinding.ActivityProductDetailScreenBinding;
 import com.e.toolplus.utility.CustomAlertDialog;
@@ -31,7 +34,9 @@ public class ProductDetailScreen extends AppCompatActivity {
     Category category;
     String userId;
     ArrayList<Cart> list;
+    ArrayList<Favorite> favList;
     int flag = 0;
+    int flag2 = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +87,110 @@ public class ProductDetailScreen extends AppCompatActivity {
             });
         }
 
+        if (InternetConnection.isConnected(ProductDetailScreen.this)){
+            FavoriteService.FavoriteAPI favoriteAPI = FavoriteService.getFavoriteAPIInstance();
+            Call<ArrayList<Favorite>> listCall = favoriteAPI.getFavoriteByCategory(userId,category.getCategoryId());
+            listCall.enqueue(new Callback<ArrayList<Favorite>>() {
+                @Override
+                public void onResponse(Call<ArrayList<Favorite>> call, Response<ArrayList<Favorite>> response) {
+                    favList = response.body();
+                    String pId = product.getProductId();
+                    try {
+                        for (Favorite favorite : favList){
+                            if (pId.equals(favorite.getProductId())){
+                                flag2 = 1;
+                                binding.imageFavoriteHeart.setImageResource(R.drawable.favorite_btn_filled);
+                            }
+                        }
+                    }catch (NullPointerException e){
+
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<ArrayList<Favorite>> call, Throwable t) {
+
+                }
+            });
+        }
+
+        binding.imageFavoriteHeart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (InternetConnection.isConnected(ProductDetailScreen.this)){
+                    if(flag2 == 1){
+                        for (Favorite favorite : favList){
+                            if (product.getProductId().equals(favorite.getProductId())){
+                                FavoriteService.FavoriteAPI favoriteAPI = FavoriteService.getFavoriteAPIInstance();
+                                Call<Favorite> fav = favoriteAPI.deleteFavorite(favorite.getFavoriteId());
+                                fav.enqueue(new Callback<Favorite>() {
+                                    @Override
+                                    public void onResponse(Call<Favorite> call, Response<Favorite> response) {
+                                        if (response.isSuccessful()){
+                                            binding.imageFavoriteHeart.setImageResource(R.drawable.favourite_btn);
+                                            flag2 = 0;
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Favorite> call, Throwable t) {
+
+                                    }
+                                });
+                            }
+
+                            if (flag2 == 0)
+                                break;
+                        }
+                    }
+                    if (flag2 == 0){
+                        Favorite favorite = new Favorite();
+                        favorite.setBrand(product.getBrand());
+                        favorite.setCategoryId(product.getCategoryId());
+                        favorite.setDescription(product.getDescription());
+                        favorite.setImageUrl(product.getImageUrl());
+                        favorite.setName(product.getName());
+                        favorite.setPrice(product.getPrice());
+                        favorite.setProductId(product.getProductId());
+                        favorite.setShopKeeperId(product.getShopKeeperId());
+                        favorite.setUserId(userId);
+
+                        FavoriteService.FavoriteAPI api = FavoriteService.getFavoriteAPIInstance();
+                        Call<Favorite> favoriteCall = api.saveProductInFavorite(favorite);
+                        favoriteCall.enqueue(new Callback<Favorite>() {
+                            @Override
+                            public void onResponse(Call<Favorite> call, Response<Favorite> response) {
+                                if (response.isSuccessful()){
+                                    flag2 = 1;
+                                    binding.imageFavoriteHeart.setImageResource(R.drawable.favorite_btn_filled);
+
+                                    FavoriteService.FavoriteAPI api1 = FavoriteService.getFavoriteAPIInstance();
+                                    Call<ArrayList<Favorite>> listCall = api1.getFavoriteByCategory(userId,category.getCategoryId());
+                                    listCall.enqueue(new Callback<ArrayList<Favorite>>() {
+                                        @Override
+                                        public void onResponse(Call<ArrayList<Favorite>> call, Response<ArrayList<Favorite>> response) {
+                                            favList = response.body();
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<ArrayList<Favorite>> call, Throwable t) {
+
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Favorite> call, Throwable t) {
+
+                            }
+                        });
+                    }
+                }
+            }
+        });
+
         binding.btnProductDetailCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,7 +204,9 @@ public class ProductDetailScreen extends AppCompatActivity {
                         cart.setCategoryId(category.getCategoryId());
                         cart.setUserId(userId);
                         cart.setShopKeeperId(product.getShopKeeperId());
+
                         cart.setQtyInStock(product.getQtyInStock());
+
                         cart.setDescription(product.getDescription());
                         cart.setImageUrl(product.getImageUrl());
                         cart.setName(product.getName());

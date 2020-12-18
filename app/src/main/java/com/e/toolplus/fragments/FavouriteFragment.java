@@ -1,5 +1,6 @@
 package com.e.toolplus.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,12 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.e.toolplus.FavoriteProductDetail;
 import com.e.toolplus.adapter.FavoriteProductAdapter;
 import com.e.toolplus.api.FavoriteService;
 import com.e.toolplus.beans.Favorite;
 import com.e.toolplus.databinding.FragmentFavouriteBinding;
 import com.e.toolplus.utility.CustomAlertDialog;
 import com.e.toolplus.utility.InternetConnection;
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.PulseRing;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -39,6 +43,8 @@ public class FavouriteFragment extends Fragment {
         }
 
         if (InternetConnection.isConnected(getContext())){
+            Sprite doubleBounce = new PulseRing();
+            binding.spinKitFav.setIndeterminateDrawable(doubleBounce);
             FavoriteService.FavoriteAPI api = FavoriteService.getFavoriteAPIInstance();
             Call<ArrayList<Favorite>> list = api.getFavorite(currentUserId);
             list.enqueue(new Callback<ArrayList<Favorite>>() {
@@ -49,6 +55,16 @@ public class FavouriteFragment extends Fragment {
                     adapter = new FavoriteProductAdapter(getContext(), list1);
                     binding.rvFavorite.setLayoutManager(new GridLayoutManager(getContext(),2));
                     binding.rvFavorite.setAdapter(adapter);
+                    binding.spinKitFav.setVisibility(View.INVISIBLE);
+
+                    adapter.setOnItemClick(new FavoriteProductAdapter.OnRecyclerViewItemClick() {
+                        @Override
+                        public void onItemClick(Favorite favorite, int position) {
+                            Intent in = new Intent(getContext(), FavoriteProductDetail.class);
+                            in.putExtra("favorite",favorite);
+                            startActivity(in);
+                        }
+                    });
                 }
 
                 @Override

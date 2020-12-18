@@ -14,6 +14,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/spinKit"
+                style="@style/SpinKitView.Large.Circle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:elevation="20dp"
+                app:SpinKit_Color="@color/colorPrimaryDark" />
+
             <RelativeLayout
                 android:id="@+id/rlForCategory1"
                 android:layout_width="match_parent"
@@ -21,24 +31,25 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/rounded_corner"
                 android:elevation="5dp">
+
                 <TextView
                     android:id="@+id/categoryHeading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Categories"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:padding="5dp"
-                    android:textSize="16sp"
-                    android:textColor="@color/white"/>
+                    android:text="Categories"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/gv1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/categoryHeading"
                     android:horizontalSpacing="10dp"
-                    android:numColumns="3"
-                    android:layout_below="@id/categoryHeading"/>
+                    android:numColumns="3" />
 
             </RelativeLayout>
 
@@ -99,6 +110,8 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recentlyAdded"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:spanCount="2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvProductNew"
@@ -106,6 +119,8 @@
                     android:verticalSpacing="10dp" />
 
             </RelativeLayout>
+
+
         </RelativeLayout>
     </ScrollView>
 

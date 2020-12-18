@@ -21,7 +21,8 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
     Context context;
     OnRecyclerViewItemClick listener;
     OnRecyclerViewItemClick listenerRemove;
-    public CartProductAdapter(Context context, ArrayList<Cart> list){
+
+    public CartProductAdapter(Context context, ArrayList<Cart> list) {
         this.list = list;
         this.context = context;
     }
@@ -29,7 +30,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
     @NonNull
     @Override
     public CartProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        CartItemsBinding binding = CartItemsBinding.inflate(LayoutInflater.from(context),parent,false);
+        CartItemsBinding binding = CartItemsBinding.inflate(LayoutInflater.from(context), parent, false);
         return new CartProductViewHolder(binding);
     }
 
@@ -37,7 +38,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
     public void onBindViewHolder(@NonNull CartProductViewHolder holder, int position) {
         Cart cart = list.get(position);
         holder.binding.cartProductName.setText(cart.getName());
-        holder.binding.cartProductPrice.setText("Price : "+cart.getPrice());
+        holder.binding.cartProductPrice.setText("Price : " + cart.getPrice());
         Picasso.get().load(cart.getImageUrl()).placeholder(R.drawable.logo_white).into(holder.binding.cartProductImage);
     }
 
@@ -46,9 +47,10 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         return list.size();
     }
 
-    public class CartProductViewHolder extends RecyclerView.ViewHolder{
+    public class CartProductViewHolder extends RecyclerView.ViewHolder {
         CartItemsBinding binding;
-        public CartProductViewHolder(CartItemsBinding binding){
+
+        public CartProductViewHolder(CartItemsBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
 
@@ -56,9 +58,9 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION && listenerRemove != null){
+                    if (position != RecyclerView.NO_POSITION && listenerRemove != null) {
                         Cart cart = list.get(position);
-                        listenerRemove.onItemClick(cart,position);
+                        listenerRemove.onItemClick(cart, position);
                     }
                 }
             });
@@ -67,7 +69,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION && listener != null){
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
                         Cart cart = list.get(position);
                         listener.onItemClick(cart, position);
                     }
@@ -76,13 +78,16 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         }
 
     }
-    public interface OnRecyclerViewItemClick{
+
+    public interface OnRecyclerViewItemClick {
         public void onItemClick(Cart cart, int position);
     }
-    public void setOnItemClick(OnRecyclerViewItemClick listener){
+
+    public void setOnItemClick(OnRecyclerViewItemClick listener) {
         this.listener = listener;
     }
-    public void setOnRemoveItemClick(OnRecyclerViewItemClick listenerRemove){
+
+    public void setOnRemoveItemClick(OnRecyclerViewItemClick listenerRemove) {
         this.listenerRemove = listenerRemove;
     }
 
