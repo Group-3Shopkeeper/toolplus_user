@@ -9,8 +9,14 @@ import java.io.Serializable;
 public class Cart implements Serializable {
     @SerializedName("qtyInStock")
     @Expose
-    private Long qtyInStock;
+    private int qtyInStock;
 
+    @SerializedName("qty")
+    @Expose
+    private int qty;
+    @SerializedName("total")
+    @Expose
+    private long total;
     @SerializedName("cartId")
     @Expose
     private String cartId;
@@ -45,7 +51,23 @@ public class Cart implements Serializable {
     public Cart() {
     }
 
-    public Cart(Long qtyInStock, String cartId, String userId, String categoryId, String productId, String name, Long price, String brand, String imageUrl, String description, String shopKeeperId) {
+    public Cart(int qtyInStock, int qty, long total, String cartId, String userId, String categoryId, String productId, String name, Long price, String brand, String imageUrl, String description, String shopKeeperId) {
+        this.qtyInStock = qtyInStock;
+        this.qty = qty;
+        this.total = total;
+        this.cartId = cartId;
+        this.userId = userId;
+        this.categoryId = categoryId;
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+        this.brand = brand;
+        this.imageUrl = imageUrl;
+        this.description = description;
+        this.shopKeeperId = shopKeeperId;
+    }
+
+    public Cart(int qtyInStock, String cartId, String userId, String categoryId, String productId, String name, Long price, String brand, String imageUrl, String description, String shopKeeperId) {
         this.qtyInStock = qtyInStock;
         this.cartId = cartId;
         this.userId = userId;
@@ -59,11 +81,27 @@ public class Cart implements Serializable {
         this.shopKeeperId = shopKeeperId;
     }
 
-    public Long getQtyInStock() {
+    public int getQtyInStock() {
         return qtyInStock;
     }
 
-    public void setQtyInStock(Long qtyInStock) {
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+
+    public long getTotal() {
+        return total;
+    }
+
+    public void setTotal(long total) {
+        this.total = total;
+    }
+
+    public void setQtyInStock(int qtyInStock) {
         this.qtyInStock = qtyInStock;
     }
 

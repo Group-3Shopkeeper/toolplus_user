@@ -9,6 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.e.toolplus.api.UserService;
+import com.e.toolplus.beans.User;
 import com.e.toolplus.databinding.ActivityHomeBinding;
 import com.e.toolplus.fragments.CartFragment;
 import com.e.toolplus.fragments.FavouriteFragment;
@@ -27,7 +30,12 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -37,7 +45,6 @@ public class HomeActivity extends AppCompatActivity {
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     ChipNavigationBar chipNavigationBar;
-    int Buy = 0;
 
 
     @Override
@@ -45,17 +52,10 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityHomeBinding.inflate(LayoutInflater.from(HomeActivity.this));
         setContentView(binding.getRoot());
-        try {
-            Intent in = getIntent();
-            Buy = (int) in.getIntExtra("Buy", 0);
-            if (Buy == 11) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new ManageOrderFragment()).commit();
-            }
-        } catch (NullPointerException e) {
-            Log.e("empty Intent", "" + e);
-        }
 
         initComponent();
+
+        checkUserProfile();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new HomeFragment()).commit();
         bottomMenu();
@@ -90,7 +90,7 @@ public class HomeActivity extends AppCompatActivity {
                     drawerLayout.closeDrawers();
                     binding.searchBar.setVisibility(View.GONE);
                 } else if (itemId == R.id.nav_viewProfile) {
-
+                    startActivity(new Intent(getApplicationContext(),ViewProfile.class));
                 } else if (itemId == R.id.nav_logOut) {
                     AuthUI.getInstance()
                             .signOut(HomeActivity.this).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -155,8 +155,81 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
+    private void sendUserToAddUserActivity() {
+        startActivity(new Intent(HomeActivity.this, AddUser.class));
+    }
+
+
     private void sendUserToLoginScreen() {
-        Intent in = new Intent(HomeActivity.this, LoginActivity.class);
-        startActivity(in);
+        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+    }
+
+
+    private void checkUserProfile() {
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final SharedPreferences sp = getSharedPreferences("User", MODE_PRIVATE);
+        String id = sp.getString("userId", "Not found");
+
+        if (!id.equals("Not found")) {
+            if (!id.equals(currentUserId)) {
+                UserService.UserAPI api = UserService.getUserAPIInstance();
+                Call<User> call = api.getUserById(currentUserId);
+                call.enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        if (response.code() == 200) {
+                            User user = response.body();
+                            SharedPreferences.Editor editor = sp.edit();
+
+                            editor.putString("name", user.getName());
+                            editor.putString("address", user.getAddress());
+                            editor.putString("mobile", user.getMobile());
+                            editor.putString("email", user.getEmail());
+                            editor.putString("token", user.getToken());
+                            editor.putString("imageUrl", user.getImageUrl());
+                            editor.putString("userId", user.getUserId());
+                            editor.commit();
+                        } else if (response.code() == 404) {
+                            sendUserToAddUserActivity();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+
+                    }
+                });
+            }
+        } else {
+            UserService.UserAPI api = UserService.getUserAPIInstance();
+            Call<User> call = api.getUserById(currentUserId);
+            call.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    if (response.code() == 200) {
+                        User user = response.body();
+                        SharedPreferences.Editor editor = sp.edit();
+
+                        editor.putString("name", user.getName());
+                        editor.putString("address", user.getAddress());
+                        editor.putString("mobile", user.getMobile());
+                        editor.putString("email", user.getEmail());
+                        editor.putString("token", user.getToken());
+                        editor.putString("imageUrl", user.getImageUrl());
+                        editor.putString("userId", user.getUserId());
+                        editor.commit();
+                    }
+                    if (response.code() == 404) {
+                        sendUserToAddUserActivity();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+
+                }
+            });
+        }
+
     }
 }

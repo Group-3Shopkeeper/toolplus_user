@@ -37,11 +37,11 @@
             <LinearLayout
                 android:id="@+id/llOfProductName"
                 android:layout_width="0dp"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="7dp"
                 android:layout_weight="0.5"
                 android:orientation="vertical"
-                android:paddingRight="15dp">
+                android:paddingRight="5dp">
 
                 <TextView
                     android:id="@+id/cartProductName"
@@ -53,6 +53,34 @@
                     android:maxLines="2"
                     android:text="Product Name"
                     android:textSize="14sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/availableStock"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@id/tvPrice"
+                        android:text="Available Stock"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:textColor="@color/colorAccent"
+                        />
+                    <TextView
+                        android:id="@+id/tvPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_alignParentBottom="true"
+                        android:fontFamily="serif"
+                        android:text="Price"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+                </RelativeLayout>
 
             </LinearLayout>
 
@@ -115,10 +143,7 @@
             android:layout_gravity="bottom|right"
             android:layout_marginRight="70dp"
             android:layout_marginBottom="17dp"
-            android:fontFamily="serif"
-            android:text="Price"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+             />
 
     </androidx.cardview.widget.CardView>
 

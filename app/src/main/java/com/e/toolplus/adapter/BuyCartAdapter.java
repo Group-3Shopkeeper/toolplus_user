@@ -26,10 +26,10 @@ import java.util.ArrayList;
 
 public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartViewHolder> {
 
-    ArrayList<OrderItem> list;
+    ArrayList<Cart> list;
     Context context;
 
-    public BuyCartAdapter(Context context, ArrayList<OrderItem> list) {
+    public BuyCartAdapter(Context context, ArrayList<Cart> list) {
         this.list = list;
         this.context = context;
     }
@@ -44,18 +44,20 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull final BuyCartViewHolder holder, int position) {
-        final OrderItem orderItem = list.get(position);
-        Picasso.get().load(orderItem.getImageUrl()).placeholder(R.drawable.logo_white).into(holder.binding.cartProductImage);
-        holder.binding.cartProductName.setText(orderItem.getProductName());
-        holder.binding.cartProductPrice.setText("Price : " + orderItem.getPrice());
+        final Cart cart = list.get(position);
+        cart.setQty(1);
+        Picasso.get().load(cart.getImageUrl()).placeholder(R.drawable.logo_white).into(holder.binding.cartProductImage);
+        holder.binding.cartProductName.setText(cart.getName());
+        holder.binding.cartProductPrice.setText("Price : " + cart.getPrice());
+        holder.binding.availableStock.setText("Available Stock : "+cart.getQtyInStock());
         holder.binding.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int num = Integer.parseInt(holder.binding.qtyOfStock.getText().toString());
-                if (num <= 20) {
+                if (num < cart.getQtyInStock()) {
                     num++;
                     holder.binding.qtyOfStock.setText(String.valueOf(num));
-                    orderItem.setQty((long) num);
+                    cart.setQty(num);
                     notifyDataSetChanged();
 
                 } else {
@@ -71,7 +73,7 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
                 if (num > 1) {
                     num--;
                     holder.binding.qtyOfStock.setText(String.valueOf(num));
-                    orderItem.setQty((long) num);
+                    cart.setQty(num);
                     notifyDataSetChanged();
                 }
             }
