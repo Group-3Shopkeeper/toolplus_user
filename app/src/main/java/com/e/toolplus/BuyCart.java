@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.e.toolplus.adapter.BuyCartAdapter;
 import com.e.toolplus.api.OrderService;
+import com.e.toolplus.beans.BuyCartList;
 import com.e.toolplus.beans.Cart;
 import com.e.toolplus.beans.Order;
 import com.e.toolplus.beans.OrderItem;
@@ -35,8 +36,9 @@ import retrofit2.Response;
 
 public class BuyCart extends AppCompatActivity {
     BuyCartAdapter adapter;
-    ArrayList<OrderItem> orderItems = new ArrayList<>();
     ActivityBuyCartBinding binding;
+    ArrayList<Cart> withStock;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,100 +47,58 @@ public class BuyCart extends AppCompatActivity {
 
         Intent intent = getIntent();
         ArrayList<Cart> list = (ArrayList<Cart>) intent.getSerializableExtra("list");
-        for (Cart cart : list){
 
-            OrderItem orderItem = new OrderItem();
+        BuyCartList list1 = new BuyCartList();
+        list1.setList(list);
 
-            orderItem.setImageUrl(cart.getImageUrl());
-            orderItem.setPrice(cart.getPrice());
-            orderItem.setProductName(cart.getName());
-            orderItem.setProductId(cart.getProductId());
-            orderItem.setShopKeeperId(cart.getShopKeeperId());
-            orderItem.setOrderItemId(cart.getUserId());
-            orderItem.setQty((long) 1);
-
-            orderItems.add(orderItem);
-        }
-        adapter = new BuyCartAdapter(BuyCart.this, orderItems);
-        binding.rvOrderItem.setAdapter(adapter);
-        binding.rvOrderItem.setLayoutManager(new LinearLayoutManager(BuyCart.this));
-        calculateTotalPrice();
-
-        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        OrderService.OrderAPI api = OrderService.getOrderAPIInstance();
+        Call<BuyCartList> listCall = api.setQtyOfProduct(list1);
+        listCall.enqueue(new Callback<BuyCartList>() {
             @Override
-            public void onChanged() {
-                super.onChanged();
-                calculateTotalPrice();
-            }
-        });
-
-        binding.btnCartDetailBuy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = binding.name.getText().toString();
-                String address = binding.address.getText().toString();
-                String mobile = binding.contactNumber.getText().toString();
-
-                if (TextUtils.isEmpty(name)){
-                    binding.name.setError("Enter Name");
+            public void onResponse(Call<BuyCartList> call, Response<BuyCartList> response) {
+                BuyCartList cartList = response.body();
+                withStock = cartList.getList();
+                for (Cart cart : withStock){
+                    cart.setQty(1);
                 }
-                if (TextUtils.isEmpty(address)){
-                    binding.name.setError("Enter Current Address");
-                }
-                if (TextUtils.isEmpty(mobile)){
-                    binding.name.setError("Enter Mobile Number");
-                }
+                adapter = new BuyCartAdapter(BuyCart.this,withStock);
+                binding.rvOrderItem.setAdapter(adapter);
+                binding.rvOrderItem.setLayoutManager(new LinearLayoutManager(BuyCart.this));
 
-                Order order = new Order();
-                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
-                String dateAndTime = sdf.format(new Date());
-
-                String shippingStatus = ("Placed");
-
-                long amount = 0;
-                for (OrderItem orderItem : orderItems) {
-                    amount = amount + (orderItem.getPrice() * orderItem.getQty());
-                }
-                order.setUserId(userId);
-                order.setDate(dateAndTime);
-                order.setContactNumber(mobile);
-                order.setDeliveryAddress(address);
-                order.setName(name);
-                order.setShippingStatus(shippingStatus);
-
-                order.setTotalAmount(amount);
-                order.setOrderItem(orderItems);
-                order.setDeliveryOption("Fast");
-
-                OrderService.OrderAPI orderAPI = OrderService.getOrderAPIInstance();
-                Call<Order> orderCall = orderAPI.saveOrder(order);
-                orderCall.enqueue(new Callback<Order>() {
+                calculateGrandTotalPrice();
+                adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
                     @Override
-                    public void onResponse(Call<Order> call, Response<Order> response) {
-                        if (response.isSuccessful()){
-                            Intent in = new Intent(BuyCart.this,HomeActivity.class);
-                            in.putExtra("Buy", 11);
-                            Toast.makeText(BuyCart.this, "Order Placed Successful", Toast.LENGTH_SHORT).show();
-                            startActivity(in);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Order> call, Throwable t) {
-
+                    public void onChanged() {
+                        super.onChanged();
+                        calculateGrandTotalPrice();
                     }
                 });
             }
+
+            @Override
+            public void onFailure(Call<BuyCartList> call, Throwable t) {
+
+            }
+        });
+        binding.btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(BuyCart.this,NextBuyCart.class);
+                intent1.putExtra("list",withStock);
+                intent1.putExtra("grandTotal",binding.totalAmount.getText());
+                startActivity(intent1);
+            }
         });
 
     }
-    private void calculateTotalPrice(){
-        long totalPrice = 0;
-        for (OrderItem orderItem : orderItems) {
-            totalPrice = totalPrice + (orderItem.getPrice() * orderItem.getQty());
+    public void calculateGrandTotalPrice(){
+        long grandTotal = 0;
+        for (Cart cart : withStock){
+            grandTotal = grandTotal + (cart.getQty()*cart.getPrice());
+            cart.setTotal(cart.getQty()*cart.getPrice());
         }
-        binding.totalAmount.setText("Total Price : "+totalPrice);
+        binding.totalAmount.setText("Total Amount : "+grandTotal);
+
     }
+
 }

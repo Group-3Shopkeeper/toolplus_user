@@ -205,8 +205,6 @@ public class ProductDetailScreen extends AppCompatActivity {
                         cart.setUserId(userId);
                         cart.setShopKeeperId(product.getShopKeeperId());
 
-                        cart.setQtyInStock(product.getQtyInStock());
-
                         cart.setDescription(product.getDescription());
                         cart.setImageUrl(product.getImageUrl());
                         cart.setName(product.getName());

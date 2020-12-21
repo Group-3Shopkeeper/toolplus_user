@@ -19,119 +19,60 @@
             app:title="Buy" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/appBar">
 
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvOrderItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:fadeScrollbars="false"
+            android:overScrollMode="never"
+            android:padding="5dp"
+            android:scrollIndicators="none" />
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-            <EditText
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/border_white"
-                android:elevation="4dp"
-                android:hint="Name"
-                android:padding="10dp"
-                android:textColor="@color/colorPrimary"
-                android:textColorHint="#AEB9C5"
-                android:textSize="15sp" />
-
-            <EditText
-                android:id="@+id/contactNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/name"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/border_white"
-                android:elevation="4dp"
-                android:hint="Mobile Number"
-                android:padding="10dp"
-                android:textColor="@color/colorPrimary"
-                android:textColorHint="#AEB9C5"
-                android:textSize="15sp" />
-
-            <EditText
-                android:id="@+id/address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/contactNumber"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/border_white"
-                android:elevation="4dp"
-                android:hint="Address"
-                android:padding="10dp"
-                android:textColor="@color/colorPrimary"
-                android:textColorHint="#AEB9C5"
-                android:textSize="15sp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvOrderItem"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/address"
-                android:layout_margin="5dp"
-                android:scrollIndicators="none"
-                android:fadeScrollbars="false"
-                android:overScrollMode="never"
-                android:padding="5dp" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary">
 
             <TextView
                 android:id="@+id/totalAmount"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rvOrderItem"
+                android:layout_marginLeft="40dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:gravity="center_horizontal"
+                android:gravity="left"
+                android:layout_centerVertical="true"
                 android:text="Total Amount"
-                android:textColor="@color/colorPrimary"
-                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <RelativeLayout
-                android:id="@+id/btnCartDetailBuy"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/totalAmount"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginBottom="30dp"
-                android:background="@color/colorPrimary"
-                android:elevation="8dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp">
-
-                <TextView
+                android:layout_alignParentRight="true"
+                >
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btnNext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:drawableLeft="@drawable/buy"
-                    android:drawablePadding="7dp"
-                    android:gravity="center_vertical"
-                    android:text="Buy"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/next_shopping"
+                    app:backgroundTint="@color/white"
+                    app:useCompatPadding="true"
+                    android:scaleType="fitXY"
+                    />
             </RelativeLayout>
+
         </RelativeLayout>
-    </ScrollView>
+    </RelativeLayout>
 
 </RelativeLayout>
