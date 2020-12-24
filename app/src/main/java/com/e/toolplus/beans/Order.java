@@ -36,15 +36,15 @@ public class Order implements Serializable
     @SerializedName("shippingStatus")
     @Expose
     private String shippingStatus;
-    @SerializedName("orderItem")
+    @SerializedName("cartItem")
     @Expose
-    private List<OrderItem> orderItem;
+    private List<Cart> cartItem;
     private final static long serialVersionUID = -8183449698344537026L;
 
     public Order() {
     }
 
-    public Order(String orderId, String userId, String name, String date, String deliveryAddress, Long totalAmount, String contactNumber, String deliveryOption, String shippingStatus, List<OrderItem> orderItem) {
+    public Order(String orderId, String userId, String name, String date, String deliveryAddress, Long totalAmount, String contactNumber, String deliveryOption, String shippingStatus, List<Cart> cartItem) {
         super();
         this.orderId = orderId;
         this.userId = userId;
@@ -55,7 +55,7 @@ public class Order implements Serializable
         this.contactNumber = contactNumber;
         this.deliveryOption = deliveryOption;
         this.shippingStatus = shippingStatus;
-        this.orderItem = orderItem;
+        this.cartItem = cartItem;
     }
 
     public String getOrderId() {
@@ -130,12 +130,11 @@ public class Order implements Serializable
         this.shippingStatus = shippingStatus;
     }
 
-    public List<OrderItem> getOrderItem() {
-        return orderItem;
+    public List<Cart> getCartItem() {
+        return cartItem;
     }
 
-    public void setOrderItem(List<OrderItem> orderItem) {
-        this.orderItem = orderItem;
+    public void setCartItem(List<Cart> cartItem) {
+        this.cartItem = cartItem;
     }
-
 }

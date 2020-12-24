@@ -103,9 +103,12 @@ public class CartProductDetail extends AppCompatActivity {
                                             Toast.makeText(CartProductDetail.this, "Product Remove Successfully", Toast.LENGTH_SHORT).show();
                                             adapter.notifyDataSetChanged();
 
-                                            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                                            ft.replace(R.id.fragmentContainer, new CartFragment());
-                                            ft.commit();
+                                            Intent intent = new Intent(CartProductDetail.this,HomeActivity.class);
+                                            intent.putExtra("cartDetail",1);
+                                            startActivity(intent);
+
+                                            finish();
+
                                         }
                                     }
 

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BuyCart">
+    tools:context=".BuyCart"
+    android:background="#EFF0F4">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
@@ -24,55 +25,79 @@
         android:layout_height="match_parent"
         android:layout_below="@id/appBar">
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvOrderItem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:fadeScrollbars="false"
-            android:overScrollMode="never"
-            android:padding="5dp"
-            android:scrollIndicators="none" />
-
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@color/colorPrimary">
+            android:layout_height="match_parent"
+            android:layout_above="@id/cd4"
+            android:layout_margin="5dp"
+            android:padding="2.5dp">
 
-            <TextView
-                android:id="@+id/totalAmount"
-                android:layout_width="wrap_content"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvOrderItem"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:gravity="left"
-                android:layout_centerVertical="true"
-                android:text="Total Amount"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:fadeScrollbars="false"
+                android:overScrollMode="never"
+                android:padding="5dp"
+                android:scrollIndicators="none" />
+        </RelativeLayout>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cd4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_alignParentBottom="true"
+            android:elevation="5dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="5dp"
+            app:cardMaxElevation="8dp">
 
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                >
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/totalAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:gravity="left"
+                    android:text="Total Amount"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
                     android:id="@+id/btnNext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:src="@drawable/next_shopping"
-                    app:backgroundTint="@color/white"
-                    app:useCompatPadding="true"
-                    android:scaleType="fitXY"
-                    />
+                    android:layout_margin="10dp"
+                    android:background="@drawable/btn_buy_cart"
+                    android:elevation="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:drawableRight="@drawable/next_shopping"
+                        android:text="Proceed"
+                        android:drawablePadding="5dp"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
             </RelativeLayout>
 
-        </RelativeLayout>
-    </RelativeLayout>
+        </androidx.cardview.widget.CardView>
 
+
+
+    </RelativeLayout>
 </RelativeLayout>

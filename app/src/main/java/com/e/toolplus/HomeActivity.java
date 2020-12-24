@@ -9,6 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,7 @@ import com.e.toolplus.fragments.HomeFragment;
 import com.e.toolplus.fragments.ManageOrderFragment;
 import com.e.toolplus.utility.CustomAlertDialog;
 import com.e.toolplus.utility.InternetConnection;
+import com.e.toolplus.utility.InternetIntentFilter;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -52,20 +54,37 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityHomeBinding.inflate(LayoutInflater.from(HomeActivity.this));
         setContentView(binding.getRoot());
+        
+        InternetConnection internetConnection = new InternetConnection();
+        registerReceiver(internetConnection,InternetIntentFilter.getIntentFilter());
 
         initComponent();
 
         checkUserProfile();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new HomeFragment()).commit();
         bottomMenu();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new HomeFragment()).commit();
 
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         toggle.syncState();
         navigationDrawerMenu();
 
-        if (!InternetConnection.isConnected(HomeActivity.this)) {
-            CustomAlertDialog.internetWarning(HomeActivity.this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Intent intent = getIntent();
+        int cartDetail = intent.getIntExtra("cartDetail",0);
+        if (cartDetail == 1){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,new CartFragment()).commit();
+        }
+
+        int NextBuy = intent.getIntExtra("NextBuy",0);
+        if (NextBuy == 2){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,new ManageOrderFragment()).commit();
         }
 
     }
