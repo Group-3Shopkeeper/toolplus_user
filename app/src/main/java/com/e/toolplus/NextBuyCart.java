@@ -5,9 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -15,29 +14,39 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.e.toolplus.adapter.OrderSummaryAdapter;
 import com.e.toolplus.api.CartService;
 import com.e.toolplus.api.OrderService;
+import com.e.toolplus.api.StoreService;
 import com.e.toolplus.api.UserService;
 import com.e.toolplus.beans.Cart;
 import com.e.toolplus.beans.Order;
+import com.e.toolplus.beans.Store;
 import com.e.toolplus.beans.User;
 import com.e.toolplus.databinding.ActivityNextBuyCartBinding;
 import com.e.toolplus.databinding.BottomSheetContainerBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,9 +55,10 @@ import retrofit2.Response;
 public class NextBuyCart extends AppCompatActivity {
     ActivityNextBuyCartBinding binding;
     ArrayList<Cart> cartList;
+    ArrayList<String> tokenList;
     String userName, userAddress, userMobile, userEmail, userId, date;
     int flag1 = 0;
-    long grandTotal,timestamp;
+    long grandTotal, timestamp;
     User user;
     AlertDialog alertDialog;
     AlertDialog.Builder builderDialog;
@@ -60,6 +70,8 @@ public class NextBuyCart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityNextBuyCartBinding.inflate(LayoutInflater.from(NextBuyCart.this));
         setContentView(binding.getRoot());
+
+        tokenList = new ArrayList<>();
 
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -237,6 +249,11 @@ public class NextBuyCart extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                final ProgressDialog pd = new ProgressDialog(NextBuyCart.this, R.style.Theme_MyDialog);
+                pd.setTitle("Saving");
+                pd.setMessage("Please wait");
+                pd.show();
+
                 Order order = new Order();
                 order.setDeliveryOption(binding.tvDeliveryOption.getText().toString());
                 order.setTotalAmount(grandTotal);
@@ -253,41 +270,108 @@ public class NextBuyCart extends AppCompatActivity {
                 call1.enqueue(new Callback<Order>() {
                     @Override
                     public void onResponse(Call<Order> call, Response<Order> response) {
-                        if (response.isSuccessful()){
-
-                            for (Cart cart : cartList){
-                                String cartId = cart.getCartId();
-
-                                CartService.CartAPI api2 = CartService.getCartAPIInstance();
-                                Call<Cart> call2 = api2.deleteCartItem(cartId);
-                                call2.enqueue(new Callback<Cart>() {
+                        if (response.isSuccessful()) {
+                            for (Cart cart : cartList) {
+                                final ArrayList<String> to = new ArrayList<>();
+                                StoreService.StoreAPI storeAPI = StoreService.getStoreAPIInstance();
+                                Call<Store> storeCall = storeAPI.getStore(cart.getShopKeeperId());
+                                storeCall.enqueue(new Callback<Store>() {
                                     @Override
-                                    public void onResponse(Call<Cart> call, Response<Cart> response) {
-                                        if (response.isSuccessful()){
-                                            Intent intent1 = new Intent(NextBuyCart.this,HomeActivity.class);
-                                            intent1.putExtra("NextBuy",2);
-                                            startActivity(intent1);
-                                            finish();
-                                        }
+                                    public void onResponse(Call<Store> call, Response<Store> response) {
+                                        Store store = response.body();
+                                        tokenList.add(store.getToken());
+                                        Log.e("token of shopkeeper", "=====>" + store.getToken());
                                     }
 
                                     @Override
-                                    public void onFailure(Call<Cart> call, Throwable t) {
-
+                                    public void onFailure(Call<Store> call, Throwable t) {
+                                        pd.dismiss();
+                                        Log.e("errorOnStore", "=====>" + t);
                                     }
                                 });
                             }
-
-                            Toast.makeText(NextBuyCart.this, "Order Placed", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<Order> call, Throwable t) {
-                        Log.e("failure",""+t);
+                        Log.e("failure", "" + t);
                     }
                 });
 
+                for (String tok : tokenList) {
+                    String token = tok;
+                    Log.e("token in forloop", "======>" + token);
+
+                    String notificationTitle = "New Order";
+                    String notificationMessage = "Congratulations..... You have new Order.";
+
+                    JSONObject notificationJo = new JSONObject();
+                    JSONObject notificationBodyJo = new JSONObject();
+                    try {
+
+                        notificationBodyJo.put("notificationType", "New Order");
+                        notificationBodyJo.put("title", notificationTitle);
+                        notificationBodyJo.put("message", notificationMessage);
+
+                        notificationJo.put("to", token);
+                        notificationJo.put("body", notificationBodyJo);
+                        Log.e("upperlineof", "===========>json Object");
+
+                        JsonObjectRequest objectRequest = new JsonObjectRequest("https://fcm.googleapis.com/fcm/send", notificationJo, new com.android.volley.Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                Log.e("response", "====================>> Notification Send");
+                            }
+                        }, new com.android.volley.Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(NextBuyCart.this, "" + error, Toast.LENGTH_SHORT).show();
+                            }
+                        }) {
+                            @Override
+                            public Map<String, String> getHeaders() throws AuthFailureError {
+                                String serverKey = "key=AAAARt8QbzU:APA91bGg1p76ybHVjygsMelC9bRCsAq7gApvBeDVV3JYIJs5fvQ_NcJLsaXct2O0wx2W3KY6VLGZIOllfEcPQxpEbDWNS_ECjVWEMR0cUUaljqqY5LHkx6zcDoxL0ZbSrITrVNKhqx0m";
+                                Map<String, String> headers = new HashMap<>();
+                                headers.put("Content-Type", "application/json");
+                                headers.put("Authorization", serverKey);
+                                return headers;
+                            }
+                        };
+                        Volley.newRequestQueue(NextBuyCart.this).add(objectRequest);
+
+                    } catch (Exception e) {
+                        Toast.makeText(NextBuyCart.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                for (Cart cart : cartList) {
+                    String cartId = cart.getCartId();
+
+                    CartService.CartAPI api2 = CartService.getCartAPIInstance();
+                    Call<Cart> call2 = api2.deleteCartItem(cartId);
+                    call2.enqueue(new Callback<Cart>() {
+                        @Override
+                        public void onResponse(Call<Cart> call, Response<Cart> response) {
+                            if (response.isSuccessful()) {
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Cart> call, Throwable t) {
+                            pd.dismiss();
+                            Log.e("errorOnCart", "==========>" + t);
+                        }
+                    });
+                }
+                pd.dismiss();
+                Toast.makeText(NextBuyCart.this, "Order Placed", Toast.LENGTH_SHORT).show();
+
+                Intent intent1 = new Intent(NextBuyCart.this, HomeActivity.class);
+                intent1.putExtra("NextBuy", 2);
+                startActivity(intent1);
+                finish();
             }
         });
     }

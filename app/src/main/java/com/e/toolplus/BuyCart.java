@@ -14,6 +14,8 @@ import com.e.toolplus.api.OrderService;
 import com.e.toolplus.beans.BuyCartList;
 import com.e.toolplus.beans.Cart;
 import com.e.toolplus.databinding.ActivityBuyCartBinding;
+import com.e.toolplus.utility.InternetConnection;
+import com.e.toolplus.utility.InternetIntentFilter;
 
 import java.util.ArrayList;
 
@@ -32,6 +34,9 @@ public class BuyCart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityBuyCartBinding.inflate(LayoutInflater.from(BuyCart.this));
         setContentView(binding.getRoot());
+
+        InternetConnection internetConnection = new InternetConnection();
+        registerReceiver(internetConnection, InternetIntentFilter.getIntentFilter());
 
         Intent intent = getIntent();
         ArrayList<Cart> list = (ArrayList<Cart>) intent.getSerializableExtra("list");

@@ -1,0 +1,144 @@
+
+package com.e.toolplus.beans;
+
+import java.io.Serializable;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+public class Comment implements Serializable
+{
+
+    @SerializedName("shopKeeperId")
+    @Expose
+    private String shopKeeperId;
+    @SerializedName("userId")
+    @Expose
+    private String userId;
+    @SerializedName("commentId")
+    @Expose
+    private String commentId;
+    @SerializedName("userName")
+    @Expose
+    private String userName;
+    @SerializedName("timestamp")
+    @Expose
+    private Long timestamp;
+    @SerializedName("productId")
+    @Expose
+    private String productId;
+    @SerializedName("comment")
+    @Expose
+    private String comment;
+    @SerializedName("userImageUrl")
+    @Expose
+    private Object userImageUrl;
+    @SerializedName("rating")
+    @Expose
+    private Long rating;
+    private final static long serialVersionUID = 4704034520701746316L;
+
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Comment() {
+    }
+
+    /**
+     * 
+     * @param userImageUrl
+     * @param productId
+     * @param rating
+     * @param commentId
+     * @param comment
+     * @param shopKeeperId
+     * @param userName
+     * @param userId
+     * @param timestamp
+     */
+    public Comment(String shopKeeperId, String userId, String commentId, String userName, Long timestamp, String productId, String comment, Object userImageUrl, Long rating) {
+        super();
+        this.shopKeeperId = shopKeeperId;
+        this.userId = userId;
+        this.commentId = commentId;
+        this.userName = userName;
+        this.timestamp = timestamp;
+        this.productId = productId;
+        this.comment = comment;
+        this.userImageUrl = userImageUrl;
+        this.rating = rating;
+    }
+
+    public String getShopKeeperId() {
+        return shopKeeperId;
+    }
+
+    public void setShopKeeperId(String shopKeeperId) {
+        this.shopKeeperId = shopKeeperId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(String commentId) {
+        this.commentId = commentId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Object getUserImageUrl() {
+        return userImageUrl;
+    }
+
+    public void setUserImageUrl(Object userImageUrl) {
+        this.userImageUrl = userImageUrl;
+    }
+
+    public Long getRating() {
+        return rating;
+    }
+
+    public void setRating(Long rating) {
+        this.rating = rating;
+    }
+
+}

@@ -1,7 +1,6 @@
 package com.e.toolplus.api;
 
 import com.e.toolplus.beans.BuyCartList;
-import com.e.toolplus.beans.Cart;
 import com.e.toolplus.beans.Order;
 
 import java.util.ArrayList;

@@ -12,6 +12,7 @@ import com.e.toolplus.beans.Favorite;
 import com.e.toolplus.beans.Product;
 import com.e.toolplus.databinding.ActivityCartProductDetailBinding;
 import com.e.toolplus.utility.InternetConnection;
+import com.e.toolplus.utility.InternetIntentFilter;
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
@@ -25,33 +26,34 @@ public class FavoriteProductDetail extends AppCompatActivity {
         final ActivityCartProductDetailBinding binding = ActivityCartProductDetailBinding.inflate(LayoutInflater.from(FavoriteProductDetail.this));
         setContentView(binding.getRoot());
 
+        InternetConnection internetConnection = new InternetConnection();
+        registerReceiver(internetConnection, InternetIntentFilter.getIntentFilter());
+
         Intent in = getIntent();
         Favorite favorite = (Favorite) in.getSerializableExtra("favorite");
         String productId = favorite.getProductId();
 
-        if(InternetConnection.isConnected(FavoriteProductDetail.this)){
-            ProductService.ProductAPI productAPI = ProductService.getProductAPIInstance();
-            Call<Product> productCall = productAPI.getProductById(productId);
-            productCall.enqueue(new Callback<Product>() {
-                @Override
-                public void onResponse(Call<Product> call, Response<Product> response) {
-                    Product product = response.body();
 
-                    Picasso.get().load(product.getImageUrl()).into(binding.cartDetailImage);
-                    binding.cartDetailDescription.setText(product.getDescription());
-                    binding.cartDetailDiscount.setText("Discount : " + product.getDiscount());
-                    binding.cartDetailPrice.setText("Price : " + product.getPrice());
-                    binding.cartDetailName.setText(product.getName());
-                    binding.cartDetailStocks.setText("Stocks : " + product.getQtyInStock());
+        ProductService.ProductAPI productAPI = ProductService.getProductAPIInstance();
+        Call<Product> productCall = productAPI.getProductById(productId);
+        productCall.enqueue(new Callback<Product>() {
+            @Override
+            public void onResponse(Call<Product> call, Response<Product> response) {
+                Product product = response.body();
 
-                }
+                Picasso.get().load(product.getImageUrl()).into(binding.cartDetailImage);
+                binding.cartDetailDescription.setText(product.getDescription());
+                binding.cartDetailDiscount.setText("Discount : " + product.getDiscount());
+                binding.cartDetailPrice.setText("Price : " + product.getPrice());
+                binding.cartDetailName.setText(product.getName());
+                binding.cartDetailStocks.setText("Stocks : " + product.getQtyInStock());
 
-                @Override
-                public void onFailure(Call<Product> call, Throwable t) {
+            }
 
-                }
-            });
-        }
+            @Override
+            public void onFailure(Call<Product> call, Throwable t) {
 
+            }
+        });
     }
 }
