@@ -6,11 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
-import android.view.View;
 
 import com.e.toolplus.databinding.ActivityMainBinding;
-import com.e.toolplus.utility.CustomAlertDialog;
 import com.e.toolplus.utility.InternetConnection;
+import com.e.toolplus.utility.InternetIntentFilter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -28,11 +27,8 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(LayoutInflater.from(MainActivity.this));
         setContentView(binding.getRoot());
 
-        if (!InternetConnection.isConnected(MainActivity.this)) {
-
-            CustomAlertDialog.internetWarning(MainActivity.this);
-
-        }
+        InternetConnection internetConnection = new InternetConnection();
+        registerReceiver(internetConnection, InternetIntentFilter.getIntentFilter());
 
         mAuth = FirebaseAuth.getInstance().getCurrentUser();
         if (InternetConnection.isConnected(MainActivity.this)) {

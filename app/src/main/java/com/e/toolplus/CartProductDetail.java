@@ -23,6 +23,7 @@ import com.e.toolplus.databinding.CustomAlertDialogBinding;
 import com.e.toolplus.fragments.CartFragment;
 import com.e.toolplus.utility.CustomAlertDialog;
 import com.e.toolplus.utility.InternetConnection;
+import com.e.toolplus.utility.InternetIntentFilter;
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
@@ -38,6 +39,9 @@ public class CartProductDetail extends AppCompatActivity {
         final ActivityCartProductDetailBinding binding = ActivityCartProductDetailBinding.inflate(LayoutInflater.from(CartProductDetail.this));
         setContentView(binding.getRoot());
 
+        InternetConnection internetConnection = new InternetConnection();
+        registerReceiver(internetConnection, InternetIntentFilter.getIntentFilter());
+
         setSupportActionBar(binding.toolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
@@ -46,88 +50,81 @@ public class CartProductDetail extends AppCompatActivity {
         final Cart cart = (Cart) in.getSerializableExtra("cart");
         String productId = cart.getProductId();
 
-        if (InternetConnection.isConnected(CartProductDetail.this)) {
-            ProductService.ProductAPI productAPI = ProductService.getProductAPIInstance();
-            Call<Product> productCall = productAPI.getProductById(productId);
-            productCall.enqueue(new Callback<Product>() {
-                @Override
-                public void onResponse(Call<Product> call, Response<Product> response) {
 
-                    Product product = response.body();
+        ProductService.ProductAPI productAPI = ProductService.getProductAPIInstance();
+        Call<Product> productCall = productAPI.getProductById(productId);
+        productCall.enqueue(new Callback<Product>() {
+            @Override
+            public void onResponse(Call<Product> call, Response<Product> response) {
 
-                    Picasso.get().load(product.getImageUrl()).into(binding.cartDetailImage);
-                    binding.cartDetailDescription.setText(product.getDescription());
-                    binding.cartDetailDiscount.setText("Discount : " + product.getDiscount());
-                    binding.cartDetailPrice.setText("Price : " + product.getPrice());
-                    binding.cartDetailName.setText(product.getName());
-                    binding.cartDetailStocks.setText("Stocks : " + product.getQtyInStock());
+                Product product = response.body();
 
-                }
+                Picasso.get().load(product.getImageUrl()).into(binding.cartDetailImage);
+                binding.cartDetailDescription.setText(product.getDescription());
+                binding.cartDetailDiscount.setText("Discount : " + product.getDiscount());
+                binding.cartDetailPrice.setText("Price : " + product.getPrice());
+                binding.cartDetailName.setText(product.getName());
+                binding.cartDetailStocks.setText("Stocks : " + product.getQtyInStock());
 
-                @Override
-                public void onFailure(Call<Product> call, Throwable t) {
+            }
 
-                }
-            });
-        }
-        if (InternetConnection.isConnected(CartProductDetail.this)) {
-            binding.btnCartDetailRemove.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            @Override
+            public void onFailure(Call<Product> call, Throwable t) {
 
-                    AlertDialog.Builder alert = new AlertDialog.Builder(CartProductDetail.this);
+            }
+        });
 
-                    CustomAlertDialogBinding customBinding = CustomAlertDialogBinding.inflate(LayoutInflater.from(getApplicationContext()));
-                    alert.setView(customBinding.getRoot());
 
-                    final AlertDialog alertDialog = alert.create();
-                    alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        binding.btnCartDetailRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                    customBinding.negative.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            alertDialog.dismiss();
-                        }
-                    });
+                AlertDialog.Builder alert = new AlertDialog.Builder(CartProductDetail.this);
 
-                    customBinding.positive.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (InternetConnection.isConnected(CartProductDetail.this)) {
-                                CartService.CartAPI cartAPI = CartService.getCartAPIInstance();
-                                Call<Cart> cartCall = cartAPI.deleteCartItem(cart.getCartId());
-                                cartCall.enqueue(new Callback<Cart>() {
-                                    @Override
-                                    public void onResponse(Call<Cart> call, Response<Cart> response) {
-                                        if (response.isSuccessful()) {
-                                            Toast.makeText(CartProductDetail.this, "Product Remove Successfully", Toast.LENGTH_SHORT).show();
-                                            adapter.notifyDataSetChanged();
+                CustomAlertDialogBinding customBinding = CustomAlertDialogBinding.inflate(LayoutInflater.from(getApplicationContext()));
+                alert.setView(customBinding.getRoot());
 
-                                            Intent intent = new Intent(CartProductDetail.this,HomeActivity.class);
-                                            intent.putExtra("cartDetail",1);
-                                            startActivity(intent);
+                final AlertDialog alertDialog = alert.create();
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                                            finish();
+                customBinding.negative.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                    }
+                });
 
-                                        }
+                customBinding.positive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (InternetConnection.isConnected(CartProductDetail.this)) {
+                            CartService.CartAPI cartAPI = CartService.getCartAPIInstance();
+                            Call<Cart> cartCall = cartAPI.deleteCartItem(cart.getCartId());
+                            cartCall.enqueue(new Callback<Cart>() {
+                                @Override
+                                public void onResponse(Call<Cart> call, Response<Cart> response) {
+                                    if (response.isSuccessful()) {
+                                        Toast.makeText(CartProductDetail.this, "Product Remove Successfully", Toast.LENGTH_SHORT).show();
+                                        adapter.notifyDataSetChanged();
                                     }
+                                }
 
-                                    @Override
-                                    public void onFailure(Call<Cart> call, Throwable t) {
+                                @Override
+                                public void onFailure(Call<Cart> call, Throwable t) {
 
-                                    }
-                                });
-                            }
+                                }
+                            });
                         }
-                    });
+                        Intent intent = new Intent(CartProductDetail.this, HomeActivity.class);
+                        intent.putExtra("cartDetail", 1);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
 
-                    alertDialog.show();
-                }
-            });
-        }
-        if(!InternetConnection.isConnected(CartProductDetail.this)){
-            CustomAlertDialog.internetWarning(CartProductDetail.this);
-        }
+                alertDialog.show();
+            }
+        });
     }
     //end of on create
 }

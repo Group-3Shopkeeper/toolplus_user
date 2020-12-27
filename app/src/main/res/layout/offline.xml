@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:background="@color/colorPrimary">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:gravity="center">
 
         <ImageView
             android:id="@+id/iv"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:src="@drawable/wifi_off" />
+            android:src="@drawable/wifi_off"
+            />
 
         <TextView
             android:id="@+id/tv1"
@@ -49,6 +51,7 @@
             android:textStyle="bold" />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/tryAgain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv2"

@@ -1,0 +1,154 @@
+package com.e.toolplus;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.RatingBar;
+import android.widget.RelativeLayout;
+
+import com.e.toolplus.adapter.HistoryOrderItemAdapter;
+import com.e.toolplus.adapter.OrderSummaryAdapter;
+import com.e.toolplus.api.CommentService;
+import com.e.toolplus.api.UserService;
+import com.e.toolplus.beans.Cart;
+import com.e.toolplus.beans.Comment;
+import com.e.toolplus.beans.User;
+import com.e.toolplus.databinding.ActivityOrderItemBinding;
+import com.e.toolplus.databinding.OrderItemHistoryBinding;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class OrderItemActivity extends AppCompatActivity {
+    HistoryOrderItemAdapter adapter;
+    ActivityOrderItemBinding binding;
+    User user;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = ActivityOrderItemBinding.inflate(LayoutInflater.from(OrderItemActivity.this));
+        setContentView(binding.getRoot());
+
+        Intent intent = getIntent();
+        ArrayList<Cart> list = (ArrayList<Cart>) intent.getSerializableExtra("orderItems");
+
+        adapter = new HistoryOrderItemAdapter(OrderItemActivity.this,list);
+        binding.rvHistoryOrderItem.setAdapter(adapter);
+        binding.rvHistoryOrderItem.setLayoutManager(new LinearLayoutManager(OrderItemActivity.this ));
+
+        adapter.setOnClickListener(new HistoryOrderItemAdapter.OnRecyclerCommentClickListener() {
+            @Override
+            public void onItemClick(final Cart cart, int position) {
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(OrderItemActivity.this, R.style.BottomSheetDialogTheme);
+                View bottomSheetView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bottom_sheet_comment, null);
+
+                final RatingBar ratingBar = bottomSheetView.findViewById(R.id.ratingBar);
+                final EditText etComment = bottomSheetView.findViewById(R.id.etComment);
+                RecyclerView rvAllComment = bottomSheetView.findViewById(R.id.rvForAllComment);
+                final RelativeLayout rlAllComment = bottomSheetView.findViewById(R.id.rlAllComments);
+                RelativeLayout btnPostComment = bottomSheetView.findViewById(R.id.btnPostComment);
+
+                CommentService.CommentAPI commentList = CommentService.getCommentAPIInstance();
+                Call<ArrayList<Comment>> listCall = commentList.getListOfComment(cart.getProductId());
+                listCall.enqueue(new Callback<ArrayList<Comment>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<Comment>> call, Response<ArrayList<Comment>> response) {
+                        ArrayList<Comment> commentArrayList = response.body();
+                        if (commentArrayList == null){
+                            rlAllComment.setVisibility(View.INVISIBLE);
+                        } else {
+                            
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArrayList<Comment>> call, Throwable t) {
+
+                    }
+                });
+
+                btnPostComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        final ProgressDialog pd = new ProgressDialog(OrderItemActivity.this, R.style.Theme_MyDialog);
+                        pd.setTitle("Saving");
+                        pd.setMessage("Please wait");
+                        pd.show();
+
+                        Comment comment = new Comment();
+                        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                        UserService.UserAPI api = UserService.getUserAPIInstance();
+                        Call<User> userCall = api.getUserById(userId);
+                        userCall.enqueue(new Callback<User>() {
+                            @Override
+                            public void onResponse(Call<User> call, Response<User> response) {
+                                user = response.body();
+                            }
+
+                            @Override
+                            public void onFailure(Call<User> call, Throwable t) {
+
+                            }
+                        });
+
+                        Long timestamp = Calendar.getInstance().getTimeInMillis();
+
+                        String review = etComment.getText().toString();
+                        if (ratingBar.getNumStars() <= 1){
+                            if (review == null){
+                                etComment.setError("Please give your review, It will help us to improve quality and service");
+                            }
+                        }
+                        comment.setComment(""+review);
+                        comment.setProductId(cart.getProductId());
+                        comment.setRating((long) ratingBar.getNumStars());
+                        comment.setShopKeeperId(cart.getShopKeeperId());
+                        comment.setUserId(userId);
+                        comment.setTimestamp(timestamp);
+                        comment.setUserName(user.getName());
+                        comment.setUserImageUrl(user.getImageUrl());
+
+                        CommentService.CommentAPI commentAPI = CommentService.getCommentAPIInstance();
+                        Call<Comment> call = commentAPI.postComment(comment);
+                        call.enqueue(new Callback<Comment>() {
+                            @Override
+                            public void onResponse(Call<Comment> call, Response<Comment> response) {
+                                if (response.isSuccessful()){
+                                    pd.dismiss();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Comment> call, Throwable t) {
+                                pd.dismiss();
+                                Log.e("error","==========>"+t);
+                            }
+                        });
+                    }
+                });
+
+                bottomSheetDialog.setContentView(bottomSheetView);
+                bottomSheetDialog.show();
+            }
+        });
+    }
+}

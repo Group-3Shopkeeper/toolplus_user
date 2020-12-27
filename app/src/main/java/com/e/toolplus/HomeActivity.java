@@ -54,9 +54,9 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityHomeBinding.inflate(LayoutInflater.from(HomeActivity.this));
         setContentView(binding.getRoot());
-        
+
         InternetConnection internetConnection = new InternetConnection();
-        registerReceiver(internetConnection,InternetIntentFilter.getIntentFilter());
+        this.registerReceiver(internetConnection,InternetIntentFilter.getIntentFilter());
 
         initComponent();
 
@@ -69,6 +69,8 @@ public class HomeActivity extends AppCompatActivity {
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         toggle.syncState();
         navigationDrawerMenu();
+
+
 
     }
 
