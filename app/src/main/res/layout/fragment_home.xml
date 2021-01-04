@@ -110,13 +110,43 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recentlyAdded"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:spanCount="2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvProductNew"
                     android:horizontalSpacing="10dp"
-                    android:verticalSpacing="10dp" />
+                    android:verticalSpacing="10dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:spanCount="2" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlAllCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rvBelowG"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/tvCategories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Categories" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvCategories"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rounde_corner_spinner">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvAllCategories"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+                </RelativeLayout>
 
             </RelativeLayout>
 

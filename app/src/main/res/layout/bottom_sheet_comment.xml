@@ -30,7 +30,7 @@
             android:padding="5dp"
             android:text="R a t i n g"
             android:textColor="@color/black"
-            android:textSize="28sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <RatingBar
@@ -39,10 +39,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tvRating"
             android:layout_centerHorizontal="true"
-            android:elevation="10dp"
             android:numStars="5"
-            android:paddingTop="10dp"
-            android:theme="@style/RatingBar" />
+            android:theme="@style/RatingBar"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:layout_marginTop="10dp"
+            />
     </RelativeLayout>
 
     <RelativeLayout
@@ -96,35 +98,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Post Comment"
+                android:text="Post"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
         </RelativeLayout>
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rlAllComments"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rlComment">
-
-        <TextView
-            android:id="@+id/tvAllComments"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:padding="5dp"
-            android:text="Comments"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvForAllComment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvAllComments"
-            android:padding="15dp" />
     </RelativeLayout>
 
 </RelativeLayout>

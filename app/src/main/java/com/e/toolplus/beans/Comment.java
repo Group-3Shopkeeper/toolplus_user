@@ -31,32 +31,16 @@ public class Comment implements Serializable
     private String comment;
     @SerializedName("userImageUrl")
     @Expose
-    private Object userImageUrl;
+    private String userImageUrl;
     @SerializedName("rating")
     @Expose
     private Long rating;
     private final static long serialVersionUID = 4704034520701746316L;
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
     public Comment() {
     }
 
-    /**
-     * 
-     * @param userImageUrl
-     * @param productId
-     * @param rating
-     * @param commentId
-     * @param comment
-     * @param shopKeeperId
-     * @param userName
-     * @param userId
-     * @param timestamp
-     */
-    public Comment(String shopKeeperId, String userId, String commentId, String userName, Long timestamp, String productId, String comment, Object userImageUrl, Long rating) {
+    public Comment(String shopKeeperId, String userId, String commentId, String userName, Long timestamp, String productId, String comment, String userImageUrl, Long rating) {
         super();
         this.shopKeeperId = shopKeeperId;
         this.userId = userId;
@@ -125,11 +109,11 @@ public class Comment implements Serializable
         this.comment = comment;
     }
 
-    public Object getUserImageUrl() {
+    public String getUserImageUrl() {
         return userImageUrl;
     }
 
-    public void setUserImageUrl(Object userImageUrl) {
+    public void setUserImageUrl(String userImageUrl) {
         this.userImageUrl = userImageUrl;
     }
 

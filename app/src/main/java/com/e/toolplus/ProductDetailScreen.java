@@ -2,6 +2,7 @@ package com.e.toolplus;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,10 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import com.e.toolplus.adapter.CommentsAdapter;
 import com.e.toolplus.api.CartService;
+import com.e.toolplus.api.CommentService;
 import com.e.toolplus.api.FavoriteService;
 import com.e.toolplus.beans.Cart;
 import com.e.toolplus.beans.Category;
+import com.e.toolplus.beans.Comment;
 import com.e.toolplus.beans.Favorite;
 import com.e.toolplus.beans.Product;
 import com.e.toolplus.databinding.ActivityProductDetailScreenBinding;
@@ -36,6 +40,7 @@ public class ProductDetailScreen extends AppCompatActivity {
     String userId;
     ArrayList<Cart> list;
     ArrayList<Favorite> favList;
+    CommentsAdapter adapter;
     int flag = 0;
     int flag2 = 0;
 
@@ -65,6 +70,38 @@ public class ProductDetailScreen extends AppCompatActivity {
         binding.productDetailCategory.setText("Category : " + category.getCategoryName());
         binding.productDetailDescription.setText(product.getDescription());
         Picasso.get().load(product.getImageUrl()).into(binding.productDetailImage);
+
+        CommentService.CommentAPI commentAPI = CommentService.getCommentAPIInstance();
+        Call<ArrayList<Comment>> commentList =commentAPI.getListOfComment(product.getProductId());
+        commentList.enqueue(new Callback<ArrayList<Comment>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Comment>> call, Response<ArrayList<Comment>> response) {
+                final ArrayList<Comment> commentArrayList = response.body();
+                if (commentArrayList == null){
+                    binding.ratingLl.setVisibility(View.GONE);
+                    binding.tvRating.setVisibility(View.GONE);
+                    binding.ratingBar.setVisibility(View.GONE);
+                    binding.tvComment.setVisibility(View.GONE);
+                    binding.rvComments.setVisibility(View.GONE);
+                } else {
+                    binding.tvComment.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            binding.rvComments.setVisibility(View.VISIBLE);
+                            adapter = new CommentsAdapter(ProductDetailScreen.this,commentArrayList);
+                            binding.rvComments.setAdapter(adapter);
+                            binding.rvComments.setLayoutManager(new LinearLayoutManager(ProductDetailScreen.this));
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Comment>> call, Throwable t) {
+
+            }
+        });
 
 
         CartService.CartAPI cartAPI = CartService.getCartAPIInstance();
