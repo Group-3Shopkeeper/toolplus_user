@@ -13,12 +13,14 @@ import android.view.ViewGroup;
 
 import com.e.toolplus.ProductDetailScreen;
 import com.e.toolplus.ProductScreen;
+import com.e.toolplus.adapter.CategoryWithProductAdapter;
 import com.e.toolplus.adapter.DiscountedProductAdapter;
 import com.e.toolplus.adapter.RecentlyAddedProductAdapter;
 import com.e.toolplus.api.CategoryService;
 import com.e.toolplus.adapter.CategoryAdapter;
 import com.e.toolplus.api.ProductService;
 import com.e.toolplus.beans.Category;
+import com.e.toolplus.beans.CategoryWithProductList;
 import com.e.toolplus.beans.Product;
 import com.e.toolplus.databinding.FragmentHomeBinding;
 import com.e.toolplus.utility.CustomAlertDialog;
@@ -40,6 +42,7 @@ public class HomeFragment extends Fragment {
     DiscountedProductAdapter discountedAdapter;
     RecentlyAddedProductAdapter recentlyAdapter;
     ArrayList<Category> categoryArrayList;
+    CategoryWithProductAdapter categoryWithProductAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,7 +79,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
         ProductService.ProductAPI productAPI = ProductService.getProductAPIInstance();
         Call<ArrayList<Product>> listCall = productAPI.getDiscountedProducts();
         listCall.enqueue(new Callback<ArrayList<Product>>() {
@@ -109,7 +111,6 @@ public class HomeFragment extends Fragment {
             public void onFailure(Call<ArrayList<Product>> call, Throwable t) {
             }
         });
-
 
         ProductService.ProductAPI productAPI2 = ProductService.getProductAPIInstance();
         Call<ArrayList<Product>> list = productAPI2.getRecentlyAddedProduct();
@@ -146,6 +147,30 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
+        ProductService.ProductAPI productAPI1 = ProductService.getProductAPIInstance();
+        Call<ArrayList<CategoryWithProductList>> listCall1 = productAPI1.getCategoryWithProductList(categoryArrayList);
+        listCall1.enqueue(new Callback<ArrayList<CategoryWithProductList>>() {
+            @Override
+            public void onResponse(Call<ArrayList<CategoryWithProductList>> call, Response<ArrayList<CategoryWithProductList>> response) {
+                if (response.isSuccessful()){
+                    ArrayList<CategoryWithProductList> lists = response.body();
+
+                    categoryWithProductAdapter = new CategoryWithProductAdapter(getContext(),lists);
+                    binding.rvAllCategories.setAdapter(categoryWithProductAdapter);
+                    binding.rvAllCategories.setLayoutManager(new LinearLayoutManager(getContext()));
+
+                }else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<CategoryWithProductList>> call, Throwable t) {
+
+            }
+        });
+
         return binding.getRoot();
     }
 

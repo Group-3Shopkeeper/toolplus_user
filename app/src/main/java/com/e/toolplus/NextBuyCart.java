@@ -45,7 +45,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -81,11 +80,10 @@ public class NextBuyCart extends AppCompatActivity {
 
         binding.grandTotal.setText("Amount : " + grandTotal);
 
-        Calendar cdate = Calendar.getInstance();
+        Calendar cDate = Calendar.getInstance();
         SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
-        date = sd.format(cdate.getTime());
+        date = sd.format(cDate.getTime());
         timestamp = Calendar.getInstance().getTimeInMillis();
-
 
         UserService.UserAPI api = UserService.getUserAPIInstance();
         Call<User> call = api.getUserById(userId);
@@ -102,7 +100,6 @@ public class NextBuyCart extends AppCompatActivity {
                 binding.buyerAddress.setText(userAddress);
                 binding.buyerMobile.setText(userMobile);
                 binding.buyerEmail.setText(userEmail);
-
             }
 
             @Override
@@ -172,7 +169,6 @@ public class NextBuyCart extends AppCompatActivity {
                 });
             }
         });
-
 
         binding.changeDetails.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -272,7 +268,6 @@ public class NextBuyCart extends AppCompatActivity {
                     public void onResponse(Call<Order> call, Response<Order> response) {
                         if (response.isSuccessful()) {
                             for (Cart cart : cartList) {
-                                final ArrayList<String> to = new ArrayList<>();
                                 StoreService.StoreAPI storeAPI = StoreService.getStoreAPIInstance();
                                 Call<Store> storeCall = storeAPI.getStore(cart.getShopKeeperId());
                                 storeCall.enqueue(new Callback<Store>() {
@@ -281,6 +276,8 @@ public class NextBuyCart extends AppCompatActivity {
                                         Store store = response.body();
                                         tokenList.add(store.getToken());
                                         Log.e("token of shopkeeper", "=====>" + store.getToken());
+
+                                        sendingNotification(tokenList);
                                     }
 
                                     @Override
@@ -298,52 +295,6 @@ public class NextBuyCart extends AppCompatActivity {
                         Log.e("failure", "" + t);
                     }
                 });
-
-                for (String tok : tokenList) {
-                    String token = tok;
-                    Log.e("token in forloop", "======>" + token);
-
-                    String notificationTitle = "New Order";
-                    String notificationMessage = "Congratulations..... You have new Order.";
-
-                    JSONObject notificationJo = new JSONObject();
-                    JSONObject notificationBodyJo = new JSONObject();
-                    try {
-
-                        notificationBodyJo.put("notificationType", "New Order");
-                        notificationBodyJo.put("title", notificationTitle);
-                        notificationBodyJo.put("message", notificationMessage);
-
-                        notificationJo.put("to", token);
-                        notificationJo.put("body", notificationBodyJo);
-                        Log.e("upperlineof", "===========>json Object");
-
-                        JsonObjectRequest objectRequest = new JsonObjectRequest("https://fcm.googleapis.com/fcm/send", notificationJo, new com.android.volley.Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                Log.e("response", "====================>> Notification Send");
-                            }
-                        }, new com.android.volley.Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(NextBuyCart.this, "" + error, Toast.LENGTH_SHORT).show();
-                            }
-                        }) {
-                            @Override
-                            public Map<String, String> getHeaders() throws AuthFailureError {
-                                String serverKey = "key=AAAARt8QbzU:APA91bGg1p76ybHVjygsMelC9bRCsAq7gApvBeDVV3JYIJs5fvQ_NcJLsaXct2O0wx2W3KY6VLGZIOllfEcPQxpEbDWNS_ECjVWEMR0cUUaljqqY5LHkx6zcDoxL0ZbSrITrVNKhqx0m";
-                                Map<String, String> headers = new HashMap<>();
-                                headers.put("Content-Type", "application/json");
-                                headers.put("Authorization", serverKey);
-                                return headers;
-                            }
-                        };
-                        Volley.newRequestQueue(NextBuyCart.this).add(objectRequest);
-
-                    } catch (Exception e) {
-                        Toast.makeText(NextBuyCart.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
 
                 for (Cart cart : cartList) {
                     String cartId = cart.getCartId();
@@ -374,5 +325,51 @@ public class NextBuyCart extends AppCompatActivity {
                 finish();
             }
         });
+    }
+    public void sendingNotification(ArrayList<String> list){
+        for (String tok : list) {
+            String token = tok;
+            Log.e("token in forloop", "======>" + token);
+
+            String notificationTitle = "New Order";
+            String notificationMessage = "Congratulations..... You have new Order.";
+
+            JSONObject notificationJo = new JSONObject();
+            JSONObject notificationBodyJo = new JSONObject();
+            try {
+
+                notificationBodyJo.put("title", notificationTitle);
+                notificationBodyJo.put("message", notificationMessage);
+
+                notificationJo.put("to", token);
+                notificationJo.put("body", notificationBodyJo);
+                Log.e("upperlineof", "===========>json Object");
+
+                JsonObjectRequest objectRequest = new JsonObjectRequest("https://fcm.googleapis.com/fcm/send", notificationJo, new com.android.volley.Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.e("response", "====================>> Notification Send");
+                    }
+                }, new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(NextBuyCart.this, "" + error, Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        String serverKey = "key=AAAARt8QbzU:APA91bGg1p76ybHVjygsMelC9bRCsAq7gApvBeDVV3JYIJs5fvQ_NcJLsaXct2O0wx2W3KY6VLGZIOllfEcPQxpEbDWNS_ECjVWEMR0cUUaljqqY5LHkx6zcDoxL0ZbSrITrVNKhqx0m";
+                        Map<String, String> headers = new HashMap<>();
+                        headers.put("Content-Type", "application/json");
+                        headers.put("Authorization", serverKey);
+                        return headers;
+                    }
+                };
+                Volley.newRequestQueue(NextBuyCart.this).add(objectRequest);
+
+            } catch (Exception e) {
+                Toast.makeText(NextBuyCart.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

@@ -4,9 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +26,9 @@ import com.e.toolplus.beans.Cart;
 import com.e.toolplus.beans.Comment;
 import com.e.toolplus.beans.User;
 import com.e.toolplus.databinding.ActivityOrderItemBinding;
+import com.e.toolplus.databinding.CustomAlertDialogBinding;
 import com.e.toolplus.databinding.OrderItemHistoryBinding;
+import com.e.toolplus.databinding.ReveivThankBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,40 +55,20 @@ public class OrderItemActivity extends AppCompatActivity {
         Intent intent = getIntent();
         ArrayList<Cart> list = (ArrayList<Cart>) intent.getSerializableExtra("orderItems");
 
-        adapter = new HistoryOrderItemAdapter(OrderItemActivity.this,list);
+        adapter = new HistoryOrderItemAdapter(OrderItemActivity.this, list);
         binding.rvHistoryOrderItem.setAdapter(adapter);
-        binding.rvHistoryOrderItem.setLayoutManager(new LinearLayoutManager(OrderItemActivity.this ));
+        binding.rvHistoryOrderItem.setLayoutManager(new LinearLayoutManager(OrderItemActivity.this));
 
         adapter.setOnClickListener(new HistoryOrderItemAdapter.OnRecyclerCommentClickListener() {
             @Override
             public void onItemClick(final Cart cart, int position) {
-                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(OrderItemActivity.this, R.style.BottomSheetDialogTheme);
+                final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(OrderItemActivity.this, R.style.BottomSheetDialogTheme);
                 View bottomSheetView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bottom_sheet_comment, null);
 
                 final RatingBar ratingBar = bottomSheetView.findViewById(R.id.ratingBar);
                 final EditText etComment = bottomSheetView.findViewById(R.id.etComment);
-                RecyclerView rvAllComment = bottomSheetView.findViewById(R.id.rvForAllComment);
-                final RelativeLayout rlAllComment = bottomSheetView.findViewById(R.id.rlAllComments);
+
                 RelativeLayout btnPostComment = bottomSheetView.findViewById(R.id.btnPostComment);
-
-                CommentService.CommentAPI commentList = CommentService.getCommentAPIInstance();
-                Call<ArrayList<Comment>> listCall = commentList.getListOfComment(cart.getProductId());
-                listCall.enqueue(new Callback<ArrayList<Comment>>() {
-                    @Override
-                    public void onResponse(Call<ArrayList<Comment>> call, Response<ArrayList<Comment>> response) {
-                        ArrayList<Comment> commentArrayList = response.body();
-                        if (commentArrayList == null){
-                            rlAllComment.setVisibility(View.INVISIBLE);
-                        } else {
-                            
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ArrayList<Comment>> call, Throwable t) {
-
-                    }
-                });
 
                 btnPostComment.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -93,15 +79,78 @@ public class OrderItemActivity extends AppCompatActivity {
                         pd.setMessage("Please wait");
                         pd.show();
 
-                        Comment comment = new Comment();
-                        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                        UserService.UserAPI api = UserService.getUserAPIInstance();
+                        final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                        final UserService.UserAPI api = UserService.getUserAPIInstance();
                         Call<User> userCall = api.getUserById(userId);
                         userCall.enqueue(new Callback<User>() {
                             @Override
                             public void onResponse(Call<User> call, Response<User> response) {
                                 user = response.body();
+
+                                Comment comment = new Comment();
+
+                                Long timestamp = Calendar.getInstance().getTimeInMillis();
+
+                                String review = etComment.getText().toString();
+                                if (review.isEmpty()) {
+                                    comment.setComment(null);
+                                }
+                                comment.setComment(review);
+                                comment.setComment("" + review);
+                                comment.setProductId(cart.getProductId());
+                                comment.setRating((long) ratingBar.getRating());
+                                comment.setShopKeeperId(cart.getShopKeeperId());
+                                comment.setUserId(userId);
+                                comment.setTimestamp(timestamp);
+                                comment.setUserName(user.getName());
+                                comment.setUserImageUrl(user.getImageUrl());
+
+                                CommentService.CommentAPI commentAPI = CommentService.getCommentAPIInstance();
+                                Call<Comment> call2 = commentAPI.postComment(comment);
+                                call2.enqueue(new Callback<Comment>() {
+                                    @Override
+                                    public void onResponse(Call<Comment> call, Response<Comment> response) {
+                                        if (response.isSuccessful()) {
+                                            pd.dismiss();
+                                            bottomSheetDialog.dismiss();
+
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(OrderItemActivity.this);
+
+                                            ReveivThankBinding binding = ReveivThankBinding.inflate(LayoutInflater.from(OrderItemActivity.this));
+
+                                            builder.setView(binding.getRoot());
+
+                                            final AlertDialog alertDialog = builder.create();
+                                            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                                            binding.cd.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    alertDialog.dismiss();
+                                                    bottomSheetDialog.show();
+                                                }
+                                            });
+                                            binding.done.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    alertDialog.dismiss();
+                                                    bottomSheetDialog.dismiss();
+                                                }
+                                            });
+
+                                            alertDialog.show();
+
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Comment> call, Throwable t) {
+                                        pd.dismiss();
+                                        Log.e("error", "==========>" + t);
+                                    }
+                                });
                             }
 
                             @Override
@@ -110,39 +159,7 @@ public class OrderItemActivity extends AppCompatActivity {
                             }
                         });
 
-                        Long timestamp = Calendar.getInstance().getTimeInMillis();
 
-                        String review = etComment.getText().toString();
-                        if (ratingBar.getNumStars() <= 1){
-                            if (review == null){
-                                etComment.setError("Please give your review, It will help us to improve quality and service");
-                            }
-                        }
-                        comment.setComment(""+review);
-                        comment.setProductId(cart.getProductId());
-                        comment.setRating((long) ratingBar.getNumStars());
-                        comment.setShopKeeperId(cart.getShopKeeperId());
-                        comment.setUserId(userId);
-                        comment.setTimestamp(timestamp);
-                        comment.setUserName(user.getName());
-                        comment.setUserImageUrl(user.getImageUrl());
-
-                        CommentService.CommentAPI commentAPI = CommentService.getCommentAPIInstance();
-                        Call<Comment> call = commentAPI.postComment(comment);
-                        call.enqueue(new Callback<Comment>() {
-                            @Override
-                            public void onResponse(Call<Comment> call, Response<Comment> response) {
-                                if (response.isSuccessful()){
-                                    pd.dismiss();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<Comment> call, Throwable t) {
-                                pd.dismiss();
-                                Log.e("error","==========>"+t);
-                            }
-                        });
                     }
                 });
 

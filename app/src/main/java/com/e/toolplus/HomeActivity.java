@@ -60,7 +60,7 @@ public class HomeActivity extends AppCompatActivity {
 
         initComponent();
 
-        checkUserProfile();
+        //checkUserProfile();
 
         bottomMenu();
 

@@ -3,22 +3,17 @@ package com.e.toolplus.adapter;
 
 import android.content.Context;
 import android.os.Build;
-import android.text.Editable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.e.toolplus.BuyCart;
 import com.e.toolplus.R;
 import com.e.toolplus.beans.Cart;
-import com.e.toolplus.beans.OrderItem;
 import com.e.toolplus.databinding.OrderitemsBinding;
 import com.squareup.picasso.Picasso;
 
