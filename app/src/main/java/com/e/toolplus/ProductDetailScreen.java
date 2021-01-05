@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.e.toolplus.adapter.CommentsAdapter;
+import com.e.toolplus.adapter.SliderAdapterExample;
 import com.e.toolplus.api.CartService;
 import com.e.toolplus.api.CommentService;
 import com.e.toolplus.api.FavoriteService;
@@ -20,14 +22,20 @@ import com.e.toolplus.beans.Category;
 import com.e.toolplus.beans.Comment;
 import com.e.toolplus.beans.Favorite;
 import com.e.toolplus.beans.Product;
+import com.e.toolplus.beans.SliderItem;
 import com.e.toolplus.databinding.ActivityProductDetailScreenBinding;
 import com.e.toolplus.utility.CustomAlertDialog;
 import com.e.toolplus.utility.InternetConnection;
 import com.e.toolplus.utility.InternetIntentFilter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.IndicatorView.draw.controller.DrawController;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,6 +49,7 @@ public class ProductDetailScreen extends AppCompatActivity {
     ArrayList<Cart> list;
     ArrayList<Favorite> favList;
     CommentsAdapter adapter;
+    private SliderAdapterExample adapter1;
     int flag = 0;
     int flag2 = 0;
 
@@ -69,8 +78,24 @@ public class ProductDetailScreen extends AppCompatActivity {
         binding.productDetailStocks.setText("Stock Availability : " + product.getQtyInStock());
         binding.productDetailCategory.setText("Category : " + category.getCategoryName());
         binding.productDetailDescription.setText(product.getDescription());
-        Picasso.get().load(product.getImageUrl()).into(binding.productDetailImage);
 
+        adapter1 = new SliderAdapterExample(this);
+        binding.iv.setSliderAdapter(adapter1);
+        binding.iv.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+        binding.iv.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+        binding.iv.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
+        binding.iv.setIndicatorSelectedColor(Color.BLUE);
+        binding.iv.setIndicatorMargin(12);
+        binding.iv.setIndicatorUnselectedColor(Color.GRAY);
+        binding.iv.setScrollTimeInSec(3);
+        binding.iv.setOnIndicatorClickListener(new DrawController.ClickListener() {
+            @Override
+            public void onIndicatorClicked(int position) {
+
+            }
+        });
+
+        renewItems(binding.getRoot());
         CommentService.CommentAPI commentAPI = CommentService.getCommentAPIInstance();
         Call<ArrayList<Comment>> commentList =commentAPI.getListOfComment(product.getProductId());
         commentList.enqueue(new Callback<ArrayList<Comment>>() {
@@ -273,5 +298,20 @@ public class ProductDetailScreen extends AppCompatActivity {
 
             }
         });
+    }
+    public void renewItems(View view) {
+        List<SliderItem> sliderItemList = new ArrayList<>();
+        for (int i = 1; i < 4; i++) {
+            SliderItem sliderItem = new SliderItem();
+            if (i == 1) {
+                sliderItem.setImageUrl(product.getImageUrl());
+            } else if (i == 2) {
+                sliderItem.setImageUrl(product.getSecondImageUrl());
+            } else if (i == 3) {
+                sliderItem.setImageUrl(product.getThirdImageurl());
+            }
+            sliderItemList.add(sliderItem);
+        }
+        adapter1.renewItems(sliderItemList);
     }
 }
