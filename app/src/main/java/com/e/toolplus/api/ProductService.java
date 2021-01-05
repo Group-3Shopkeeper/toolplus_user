@@ -1,7 +1,5 @@
 package com.e.toolplus.api;
 
-import com.e.toolplus.beans.Category;
-import com.e.toolplus.beans.CategoryWithProductList;
 import com.e.toolplus.beans.Product;
 
 import java.util.ArrayList;
@@ -9,7 +7,6 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
@@ -38,8 +35,5 @@ public class ProductService {
 
         @GET("product/{productId}")
         public Call<Product> getProductById(@Path("productId") String productId);
-
-        @GET("product/categoryWithProductList")
-        Call<ArrayList<CategoryWithProductList>> getCategoryWithProductList(@Body ArrayList<Category> list);
     }
 }

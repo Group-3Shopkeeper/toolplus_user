@@ -9,6 +9,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -28,6 +29,9 @@ public class UserService {
     }
     public interface UserAPI{
         @Multipart
+        @Headers({"Content-Type: multipart/form-data",
+                "Accept: application/json",
+                "Accept-Encoding: gzip, deflate"})
         @POST("user/save")
         Call<User> saveUser(@Part MultipartBody.Part file,
                             @Part("name") RequestBody name,

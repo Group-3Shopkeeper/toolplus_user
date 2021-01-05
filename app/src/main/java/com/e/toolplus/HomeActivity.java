@@ -59,8 +59,7 @@ public class HomeActivity extends AppCompatActivity {
         this.registerReceiver(internetConnection,InternetIntentFilter.getIntentFilter());
 
         initComponent();
-
-        //checkUserProfile();
+        checkUserProfile();
 
         bottomMenu();
 
