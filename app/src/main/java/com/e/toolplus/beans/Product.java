@@ -35,6 +35,12 @@ public class Product implements Serializable {
     @SerializedName("imageUrl")
     @Expose
     private String imageUrl;
+    @SerializedName("secondImageUrl")
+    @Expose
+    private String secondImageUrl;
+    @SerializedName("thirdImageurl")
+    @Expose
+    private String thirdImageurl;
     @SerializedName("description")
     @Expose
     private String description;
@@ -45,7 +51,9 @@ public class Product implements Serializable {
     public Product() {
     }
 
-    public Product(String productId, String categoryId, String shopKeeperId, String name, Long price, Long discount, String brand, Long qtyInStock, String imageUrl, String description, Long timestamp) {
+    public Product(String secondImageUrl,String thirdImageurl,String productId, String categoryId, String shopKeeperId, String name, Long price, Long discount, String brand, Long qtyInStock, String imageUrl, String description, Long timestamp) {
+        this.secondImageUrl=secondImageUrl;
+        this.thirdImageurl=thirdImageurl;
         this.productId = productId;
         this.categoryId = categoryId;
         this.shopKeeperId = shopKeeperId;
@@ -57,6 +65,22 @@ public class Product implements Serializable {
         this.imageUrl = imageUrl;
         this.description = description;
         this.timestamp = timestamp;
+    }
+
+    public String getSecondImageUrl() {
+        return secondImageUrl;
+    }
+
+    public void setSecondImageUrl(String secondImageUrl) {
+        this.secondImageUrl = secondImageUrl;
+    }
+
+    public String getThirdImageurl() {
+        return thirdImageurl;
+    }
+
+    public void setThirdImageurl(String thirdImageurl) {
+        this.thirdImageurl = thirdImageurl;
     }
 
     public String getProductId() {
