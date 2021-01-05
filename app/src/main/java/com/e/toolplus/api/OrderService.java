@@ -2,6 +2,7 @@ package com.e.toolplus.api;
 
 import com.e.toolplus.beans.BuyCartList;
 import com.e.toolplus.beans.Order;
+import com.e.toolplus.beans.OrderCartList;
 
 import java.util.ArrayList;
 
@@ -27,6 +28,9 @@ public class OrderService {
     public interface OrderAPI{
         @POST("order/")
         Call<Order> saveOrder(@Body Order order);
+
+        @POST("order/cartList")
+        Call<OrderCartList> saveOrderByCart(@Body OrderCartList order);
 
         @GET("order/placed/{currentUserId}")
         Call<ArrayList<Order>> getPlacedOrder(@Path("currentUserId") String currentUserId);

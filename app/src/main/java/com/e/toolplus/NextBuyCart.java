@@ -31,6 +31,7 @@ import com.e.toolplus.api.StoreService;
 import com.e.toolplus.api.UserService;
 import com.e.toolplus.beans.Cart;
 import com.e.toolplus.beans.Order;
+import com.e.toolplus.beans.OrderCartList;
 import com.e.toolplus.beans.Store;
 import com.e.toolplus.beans.User;
 import com.e.toolplus.databinding.ActivityNextBuyCartBinding;
@@ -250,7 +251,7 @@ public class NextBuyCart extends AppCompatActivity {
                 pd.setMessage("Please wait");
                 pd.show();
 
-                Order order = new Order();
+                OrderCartList order = new OrderCartList();
                 order.setDeliveryOption(binding.tvDeliveryOption.getText().toString());
                 order.setTotalAmount(grandTotal);
                 order.setShippingStatus("Placed");
@@ -259,13 +260,13 @@ public class NextBuyCart extends AppCompatActivity {
                 order.setContactNumber(userMobile);
                 order.setDate(date);
                 order.setUserId(userId);
-                order.setCartItem(cartList);
+                order.setOrderItem(cartList);
 
-                OrderService.OrderAPI api1 = OrderService.getOrderAPIInstance();
-                Call<Order> call1 = api1.saveOrder(order);
-                call1.enqueue(new Callback<Order>() {
+                OrderService.OrderAPI apio = OrderService.getOrderAPIInstance();
+                Call<OrderCartList> call1 = apio.saveOrderByCart(order);
+                call1.enqueue(new Callback<OrderCartList>() {
                     @Override
-                    public void onResponse(Call<Order> call, Response<Order> response) {
+                    public void onResponse(Call<OrderCartList> call, Response<OrderCartList> response) {
                         if (response.isSuccessful()) {
                             for (Cart cart : cartList) {
                                 StoreService.StoreAPI storeAPI = StoreService.getStoreAPIInstance();
@@ -291,8 +292,8 @@ public class NextBuyCart extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<Order> call, Throwable t) {
-                        Log.e("failure", "" + t);
+                    public void onFailure(Call<OrderCartList> call, Throwable t) {
+
                     }
                 });
 
@@ -305,7 +306,6 @@ public class NextBuyCart extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<Cart> call, Response<Cart> response) {
                             if (response.isSuccessful()) {
-
                             }
                         }
 

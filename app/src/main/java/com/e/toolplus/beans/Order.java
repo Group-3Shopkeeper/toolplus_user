@@ -38,13 +38,13 @@ public class Order implements Serializable
     private String shippingStatus;
     @SerializedName("cartItem")
     @Expose
-    private List<Cart> cartItem;
+    private List<OrderItem> cartItem;
     private final static long serialVersionUID = -8183449698344537026L;
 
     public Order() {
     }
 
-    public Order(String orderId, String userId, String name, String date, String deliveryAddress, Long totalAmount, String contactNumber, String deliveryOption, String shippingStatus, List<Cart> cartItem) {
+    public Order(String orderId, String userId, String name, String date, String deliveryAddress, Long totalAmount, String contactNumber, String deliveryOption, String shippingStatus, List<OrderItem> cartItem) {
         super();
         this.orderId = orderId;
         this.userId = userId;
@@ -130,11 +130,11 @@ public class Order implements Serializable
         this.shippingStatus = shippingStatus;
     }
 
-    public List<Cart> getCartItem() {
+    public List<OrderItem> getCartItem() {
         return cartItem;
     }
 
-    public void setCartItem(List<Cart> cartItem) {
+    public void setCartItem(List<OrderItem> cartItem) {
         this.cartItem = cartItem;
     }
 }

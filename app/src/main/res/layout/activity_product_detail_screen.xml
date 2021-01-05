@@ -59,33 +59,43 @@
                 android:id="@+id/ratingLl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:layout_below="@+id/cv_slider_mainActivity"
                 android:orientation="horizontal"
                 android:layout_margin="5dp"
+                android:orientation="horizontal"
                 android:weightSum="2">
 
                 <TextView
                     android:id="@+id/tvRating"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_weight="0.8"
+                    android:gravity="center_vertical"
                     android:padding="8dp"
                     android:text="Ratings of this Product"
-                    android:textColor="@color/black"
-                    />
-                <RatingBar
-                    android:id="@+id/ratingBar"
+                    android:textColor="@color/black" />
+
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
                     android:layout_weight="1.2"
-                    android:numStars="5"
-                    android:scaleX="0.7"
-                    android:scaleY="0.7"
-                    android:theme="@style/RatingBar" />
+                    android:gravity="center"
+                    android:layout_gravity="center">
+
+                    <RatingBar
+                        android:id="@+id/ratingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:numStars="5"
+                        android:scaleX="0.7"
+                        android:scaleY="0.7"
+                        style="@style/Widget.AppCompat.RatingBar.Indicator"
+                        android:theme="@style/RatingBar" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -291,12 +301,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
-                    android:padding="8dp"
-                    android:gravity="center_vertical"
-                    android:text="View Comment"
                     android:drawableLeft="@drawable/review"
                     android:drawablePadding="10dp"
-                    android:textColor="@color/colorPrimary"/>
+                    android:gravity="center_vertical"
+                    android:padding="8dp"
+                    android:text="View Comment"
+                    android:textColor="@color/colorPrimary" />
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -306,7 +316,7 @@
                     android:layout_below="@id/tvComment"
                     android:layout_margin="10dp"
                     android:padding="5dp"
-                    android:visibility="invisible"/>
+                    android:visibility="invisible" />
             </RelativeLayout>
 
         </RelativeLayout>
