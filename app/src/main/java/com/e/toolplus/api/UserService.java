@@ -29,9 +29,6 @@ public class UserService {
     }
     public interface UserAPI{
         @Multipart
-        @Headers({"Content-Type: multipart/form-data",
-                "Accept: application/json",
-                "Accept-Encoding: gzip, deflate"})
         @POST("user/save")
         Call<User> saveUser(@Part MultipartBody.Part file,
                             @Part("name") RequestBody name,
