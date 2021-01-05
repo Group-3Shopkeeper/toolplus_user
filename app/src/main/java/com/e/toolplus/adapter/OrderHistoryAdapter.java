@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.e.toolplus.OrderItemActivity;
 import com.e.toolplus.beans.Cart;
 import com.e.toolplus.beans.Order;
+import com.e.toolplus.beans.OrderItem;
 import com.e.toolplus.databinding.OrderHistoryBinding;
 
 
@@ -42,7 +43,7 @@ public class OrderHistoryAdapter  extends RecyclerView.Adapter<OrderHistoryAdapt
         holder.binding.more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Cart> carts = (ArrayList<Cart>) order.getCartItem();
+                ArrayList<OrderItem> carts = (ArrayList<OrderItem>) order.getCartItem();
                 Intent intent = new Intent(context, OrderItemActivity.class);
                 intent.putExtra("orderItems",carts);
                 context.startActivity(intent);
