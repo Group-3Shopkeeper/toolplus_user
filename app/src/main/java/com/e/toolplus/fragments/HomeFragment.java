@@ -13,22 +13,16 @@ import android.view.ViewGroup;
 
 import com.e.toolplus.ProductDetailScreen;
 import com.e.toolplus.ProductScreen;
-import com.e.toolplus.adapter.CategoryWithProductAdapter;
 import com.e.toolplus.adapter.DiscountedProductAdapter;
 import com.e.toolplus.adapter.RecentlyAddedProductAdapter;
 import com.e.toolplus.api.CategoryService;
 import com.e.toolplus.adapter.CategoryAdapter;
 import com.e.toolplus.api.ProductService;
 import com.e.toolplus.beans.Category;
-import com.e.toolplus.beans.CategoryWithProductList;
 import com.e.toolplus.beans.Product;
 import com.e.toolplus.databinding.FragmentHomeBinding;
-import com.e.toolplus.utility.CustomAlertDialog;
-import com.e.toolplus.utility.InternetConnection;
-import com.e.toolplus.utility.InternetIntentFilter;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.PulseRing;
-import com.github.ybq.android.spinkit.style.WanderingCubes;
 
 import java.util.ArrayList;
 
@@ -42,7 +36,6 @@ public class HomeFragment extends Fragment {
     DiscountedProductAdapter discountedAdapter;
     RecentlyAddedProductAdapter recentlyAdapter;
     ArrayList<Category> categoryArrayList;
-    CategoryWithProductAdapter categoryWithProductAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -144,29 +137,6 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ArrayList<Product>> call, Throwable t) {
-
-            }
-        });
-
-        ProductService.ProductAPI productAPI1 = ProductService.getProductAPIInstance();
-        Call<ArrayList<CategoryWithProductList>> listCall1 = productAPI1.getCategoryWithProductList(categoryArrayList);
-        listCall1.enqueue(new Callback<ArrayList<CategoryWithProductList>>() {
-            @Override
-            public void onResponse(Call<ArrayList<CategoryWithProductList>> call, Response<ArrayList<CategoryWithProductList>> response) {
-                if (response.isSuccessful()){
-                    ArrayList<CategoryWithProductList> lists = response.body();
-
-                    categoryWithProductAdapter = new CategoryWithProductAdapter(getContext(),lists);
-                    binding.rvAllCategories.setAdapter(categoryWithProductAdapter);
-                    binding.rvAllCategories.setLayoutManager(new LinearLayoutManager(getContext()));
-
-                }else {
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<CategoryWithProductList>> call, Throwable t) {
 
             }
         });
