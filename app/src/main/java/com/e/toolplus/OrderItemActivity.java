@@ -24,6 +24,7 @@ import com.e.toolplus.api.CommentService;
 import com.e.toolplus.api.UserService;
 import com.e.toolplus.beans.Cart;
 import com.e.toolplus.beans.Comment;
+import com.e.toolplus.beans.OrderItem;
 import com.e.toolplus.beans.User;
 import com.e.toolplus.databinding.ActivityOrderItemBinding;
 import com.e.toolplus.databinding.CustomAlertDialogBinding;
@@ -53,7 +54,7 @@ public class OrderItemActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         Intent intent = getIntent();
-        ArrayList<Cart> list = (ArrayList<Cart>) intent.getSerializableExtra("orderItems");
+        ArrayList<OrderItem> list = (ArrayList<OrderItem>) intent.getSerializableExtra("orderItems");
 
         adapter = new HistoryOrderItemAdapter(OrderItemActivity.this, list);
         binding.rvHistoryOrderItem.setAdapter(adapter);
@@ -61,7 +62,7 @@ public class OrderItemActivity extends AppCompatActivity {
 
         adapter.setOnClickListener(new HistoryOrderItemAdapter.OnRecyclerCommentClickListener() {
             @Override
-            public void onItemClick(final Cart cart, int position) {
+            public void onItemClick(final OrderItem orderItem, int position) {
                 final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(OrderItemActivity.this, R.style.BottomSheetDialogTheme);
                 View bottomSheetView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bottom_sheet_comment, null);
 
@@ -73,7 +74,6 @@ public class OrderItemActivity extends AppCompatActivity {
                 btnPostComment.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         final ProgressDialog pd = new ProgressDialog(OrderItemActivity.this, R.style.Theme_MyDialog);
                         pd.setTitle("Saving");
                         pd.setMessage("Please wait");
@@ -99,9 +99,9 @@ public class OrderItemActivity extends AppCompatActivity {
                                 }
                                 comment.setComment(review);
                                 comment.setComment("" + review);
-                                comment.setProductId(cart.getProductId());
+                                comment.setProductId(orderItem.getProductId());
                                 comment.setRating((long) ratingBar.getRating());
-                                comment.setShopKeeperId(cart.getShopKeeperId());
+                                comment.setShopKeeperId(orderItem.getShopKeeperId());
                                 comment.setUserId(userId);
                                 comment.setTimestamp(timestamp);
                                 comment.setUserName(user.getName());
@@ -158,8 +158,6 @@ public class OrderItemActivity extends AppCompatActivity {
 
                             }
                         });
-
-
                     }
                 });
 

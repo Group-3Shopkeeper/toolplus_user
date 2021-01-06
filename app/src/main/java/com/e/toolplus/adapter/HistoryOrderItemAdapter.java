@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.e.toolplus.R;
 import com.e.toolplus.beans.Cart;
+import com.e.toolplus.beans.OrderItem;
 import com.e.toolplus.databinding.OrderItemHistoryBinding;
 import com.squareup.picasso.Picasso;
 
@@ -17,10 +18,10 @@ import java.util.ArrayList;
 
 public class HistoryOrderItemAdapter extends RecyclerView.Adapter<HistoryOrderItemAdapter.HistoryOrderItemViewHolder> {
     OnRecyclerCommentClickListener listener;
-    ArrayList<Cart> list;
+    ArrayList<OrderItem> list;
     Context context;
 
-    public HistoryOrderItemAdapter(Context context, ArrayList<Cart> list) {
+    public HistoryOrderItemAdapter(Context context, ArrayList<OrderItem> list) {
         this.context = context;
         this.list = list;
     }
@@ -34,9 +35,8 @@ public class HistoryOrderItemAdapter extends RecyclerView.Adapter<HistoryOrderIt
 
     @Override
     public void onBindViewHolder(@NonNull HistoryOrderItemViewHolder holder, int position) {
-        Cart cart = list.get(position);
-        holder.binding.tv1.setText(cart.getName());
-        holder.binding.tv2.setText("Brand   : " + cart.getBrand());
+        OrderItem cart = list.get(position);
+        holder.binding.tv1.setText(cart.getname());
         holder.binding.tv3.setText("Qty     : " + cart.getQty());
         holder.binding.tv4.setText("Price   : " + cart.getPrice());
         Picasso.get().load(cart.getImageUrl()).placeholder(R.drawable.logo_white).into(holder.binding.iv);
@@ -59,7 +59,7 @@ public class HistoryOrderItemAdapter extends RecyclerView.Adapter<HistoryOrderIt
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION && listener != null){
-                        Cart cart = list.get(position);
+                        OrderItem cart = list.get(position);
                         listener.onItemClick(cart,position);
                     }
                 }
@@ -68,7 +68,7 @@ public class HistoryOrderItemAdapter extends RecyclerView.Adapter<HistoryOrderIt
     }
 
     public interface OnRecyclerCommentClickListener {
-        void onItemClick(Cart cart, int position);
+        void onItemClick(OrderItem orderItem, int position);
     }
 
     public void setOnClickListener(OnRecyclerCommentClickListener listener) {

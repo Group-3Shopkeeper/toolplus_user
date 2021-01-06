@@ -11,11 +11,13 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.e.toolplus.R;
 import com.e.toolplus.databinding.CustomAlertDialogBinding;
@@ -47,8 +49,22 @@ public class InternetConnection extends BroadcastReceiver {
         if ((wifiConnect != null && wifiConnect.isConnected()) || (mobileConnect != null && mobileConnect.isConnected())) {
 
         } else {
-            Intent intent1 = new Intent(context,Offline.class);
-            context.startActivity(intent1);
+            AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.myFullscreenAlertDialogStyle);
+            builder
+                    .setTitle("Alert")
+                    .setMessage(("Internet Connection is not Connected"));
+
+            AlertDialog alertDialog = builder.create();
+            if (alertDialog.getWindow() != null) {
+                int type;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    type = WindowManager.LayoutParams.TYPE_TOAST;
+                } else {
+                    type = WindowManager.LayoutParams.TYPE_PHONE;
+                }
+                alertDialog.getWindow().setType(type);
+            }
+            alertDialog.show();
         }
 
     }

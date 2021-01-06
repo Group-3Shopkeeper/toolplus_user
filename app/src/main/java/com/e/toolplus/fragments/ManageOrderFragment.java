@@ -14,6 +14,7 @@ import com.e.toolplus.R;
 import com.e.toolplus.adapter.OrderHistoryAdapter;
 import com.e.toolplus.api.OrderService;
 import com.e.toolplus.beans.Order;
+import com.e.toolplus.beans.OrderCartList;
 import com.e.toolplus.databinding.FragmentManageOrderBinding;
 import com.e.toolplus.utility.CustomAlertDialog;
 import com.e.toolplus.utility.InternetConnection;
@@ -34,18 +35,19 @@ public class ManageOrderFragment extends Fragment {
         binding = FragmentManageOrderBinding.inflate(LayoutInflater.from(getContext()));
 
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        OrderService.OrderAPI api = OrderService.getOrderAPIInstance();
+
+
 
         OrderService.OrderAPI orderAPI = OrderService.getOrderAPIInstance();
-        Call<ArrayList<Order>> listCall = orderAPI.getPlacedOrder(currentUserId);
-        listCall.enqueue(new Callback<ArrayList<Order>>() {
+        Call<ArrayList<Order>> call = orderAPI.getPlacedOrder(currentUserId);
+        call.enqueue(new Callback<ArrayList<Order>>() {
             @Override
             public void onResponse(Call<ArrayList<Order>> call, Response<ArrayList<Order>> response) {
                 ArrayList<Order> list = response.body();
                 adapter = new OrderHistoryAdapter(getContext(),list);
                 binding.rvManagerOrder.setAdapter(adapter);
                 binding.rvManagerOrder.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
             }
 
             @Override
