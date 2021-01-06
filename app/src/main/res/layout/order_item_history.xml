@@ -13,8 +13,8 @@
 
         <ImageView
             android:id="@+id/iv"
-            android:layout_width="145dp"
-            android:layout_height="145dp"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="3dp"
             android:scaleType="centerCrop" />
@@ -33,21 +33,10 @@
             android:textColor="@color/black" />
 
         <TextView
-            android:id="@+id/tv2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv1"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="3dp"
-            android:layout_toRightOf="@+id/iv"
-            android:text="Product name"
-            android:textColor="@color/black" />
-
-        <TextView
             android:id="@+id/tv3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv2"
+            android:layout_below="@id/tv1"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="3dp"
             android:layout_toRightOf="@+id/iv"

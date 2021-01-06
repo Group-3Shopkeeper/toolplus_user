@@ -1,8 +1,9 @@
 package com.e.toolplus.beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class OrderCartList {
+public class OrderCartList implements Serializable {
 	private String orderId;
 	private String userId;
 	private String name;

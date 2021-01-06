@@ -2,6 +2,7 @@
 package com.e.toolplus.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -36,15 +37,15 @@ public class Order implements Serializable
     @SerializedName("shippingStatus")
     @Expose
     private String shippingStatus;
-    @SerializedName("cartItem")
+    @SerializedName("orderItem")
     @Expose
-    private List<OrderItem> cartItem;
+    private ArrayList<OrderItem> orderItem;
     private final static long serialVersionUID = -8183449698344537026L;
 
     public Order() {
     }
 
-    public Order(String orderId, String userId, String name, String date, String deliveryAddress, Long totalAmount, String contactNumber, String deliveryOption, String shippingStatus, List<OrderItem> cartItem) {
+    public Order(String orderId, String userId, String name, String date, String deliveryAddress, Long totalAmount, String contactNumber, String deliveryOption, String shippingStatus, ArrayList<OrderItem> orderItem) {
         super();
         this.orderId = orderId;
         this.userId = userId;
@@ -55,7 +56,7 @@ public class Order implements Serializable
         this.contactNumber = contactNumber;
         this.deliveryOption = deliveryOption;
         this.shippingStatus = shippingStatus;
-        this.cartItem = cartItem;
+        this.orderItem = orderItem;
     }
 
     public String getOrderId() {
@@ -130,11 +131,11 @@ public class Order implements Serializable
         this.shippingStatus = shippingStatus;
     }
 
-    public List<OrderItem> getCartItem() {
-        return cartItem;
+    public ArrayList<OrderItem> getOrderItem() {
+        return orderItem;
     }
 
-    public void setCartItem(List<OrderItem> cartItem) {
-        this.cartItem = cartItem;
+    public void setOrderItem(ArrayList<OrderItem> orderItem) {
+        this.orderItem = orderItem;
     }
 }

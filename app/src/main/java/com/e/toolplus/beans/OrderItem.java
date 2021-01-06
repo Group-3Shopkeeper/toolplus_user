@@ -17,9 +17,9 @@ public class OrderItem implements Serializable
     @SerializedName("shopKeeperId")
     @Expose
     private String shopKeeperId;
-    @SerializedName("productName")
+    @SerializedName("name")
     @Expose
-    private String productName;
+    private String name;
     @SerializedName("qty")
     @Expose
     private Long qty;
@@ -37,12 +37,12 @@ public class OrderItem implements Serializable
     public OrderItem() {
     }
 
-    public OrderItem(String orderItemId, String productId, String shopKeeperId, String productName, Long qty, String imageUrl, Long price, Long amount) {
+    public OrderItem(String orderItemId, String productId, String shopKeeperId, String name, Long qty, String imageUrl, Long price, Long amount) {
         super();
         this.orderItemId = orderItemId;
         this.productId = productId;
         this.shopKeeperId = shopKeeperId;
-        this.productName = productName;
+        this.name = name;
         this.qty = qty;
         this.imageUrl = imageUrl;
         this.price = price;
@@ -73,12 +73,12 @@ public class OrderItem implements Serializable
         this.shopKeeperId = shopKeeperId;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getname() {
+        return name;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setname(String name) {
+        this.name = name;
     }
 
     public Long getQty() {

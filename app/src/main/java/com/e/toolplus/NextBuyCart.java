@@ -62,7 +62,6 @@ public class NextBuyCart extends AppCompatActivity {
     User user;
     AlertDialog alertDialog;
     AlertDialog.Builder builderDialog;
-
     OrderSummaryAdapter adapter;
 
     @Override
