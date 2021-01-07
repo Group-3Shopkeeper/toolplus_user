@@ -39,8 +39,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        System.exit(0);
         super.onBackPressed();
+        System.exit(0);
     }
 
     @Override

@@ -49,22 +49,7 @@ public class InternetConnection extends BroadcastReceiver {
         if ((wifiConnect != null && wifiConnect.isConnected()) || (mobileConnect != null && mobileConnect.isConnected())) {
 
         } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.myFullscreenAlertDialogStyle);
-            builder
-                    .setTitle("Alert")
-                    .setMessage(("Internet Connection is not Connected"));
-
-            AlertDialog alertDialog = builder.create();
-            if (alertDialog.getWindow() != null) {
-                int type;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    type = WindowManager.LayoutParams.TYPE_TOAST;
-                } else {
-                    type = WindowManager.LayoutParams.TYPE_PHONE;
-                }
-                alertDialog.getWindow().setType(type);
-            }
-            alertDialog.show();
+            CustomAlertDialog.internetWarning(context);
         }
 
     }
