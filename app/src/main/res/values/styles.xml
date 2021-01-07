@@ -11,6 +11,7 @@
         <item name="android:popupMenuStyle">@style/PopupMenu</item>
 
     </style>
+
     <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
         <item name="android:popupBackground">@color/colorPrimary</item>
     </style>
@@ -20,7 +21,6 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="colorButtonNormal">@color/colorAccent</item>
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/white</item>
         <item name="colorControlHighlight">@color/white</item>
@@ -31,6 +31,18 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@color/colorPrimary</item>
+    </style>
+
+    <style name="FirebaseUI.Button.AccountChooser.EmailButton">
+        <item name="drawableStartCompat">@drawable/email1</item>
+        <item name="android:background">@drawable/login_border_gradiant</item>
+        <item name="android:layout_marginBottom">50dp</item>
+    </style>
+
+    <style name="FirebaseUI.Button.AccountChooser.PhoneButton">
+        <item name="drawableStartCompat">@drawable/phone_login</item>
+        <item name="android:background">@drawable/login_border_gradiant</item>
+        <item name="android:layout_marginBottom">25dp</item>
     </style>
 
     <style name="Theme.MyDialog" parent="@style/Theme.AppCompat.DayNight.Dialog">
@@ -50,12 +62,6 @@
 
     <dimen name="fab_margin">10dp</dimen>
     <dimen name="design_fab_image_size" tools:override="true">40dp</dimen>
-
-    <style name="myFullscreenAlertDialogStyle" parent="Theme.AppCompat.Light.NoActionBar">      //no actionbar, but status bar exists
-        <item name="android:windowFullscreen">true</item>                       //remove status bar
-        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>        //smooth animation
-        <item name="colorAccent">@color/colorAccent</item>                      //change button text color
-    </style>
 
     <style name="RatingBar" parent="Theme.AppCompat">
         <item name="colorControlNormal">#FFC107</item>
