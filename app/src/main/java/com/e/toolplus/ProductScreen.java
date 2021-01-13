@@ -31,17 +31,20 @@ public class ProductScreen extends AppCompatActivity {
 
     ProductScreenAdapter adapter;
     ArrayList<Product> list1;
+    ActivityProductScreenBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final ActivityProductScreenBinding binding = ActivityProductScreenBinding.inflate(LayoutInflater.from(ProductScreen.this));
+        binding = ActivityProductScreenBinding.inflate(LayoutInflater.from(ProductScreen.this));
         setContentView(binding.getRoot());
 
         InternetConnection internetConnection = new InternetConnection();
         registerReceiver(internetConnection, InternetIntentFilter.getIntentFilter());
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
+        initComponent();
 
         Intent intent = getIntent();
         final Category category = (Category) intent.getSerializableExtra("category");
@@ -75,5 +78,10 @@ public class ProductScreen extends AppCompatActivity {
                 Toast.makeText(ProductScreen.this, "" + t, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private void initComponent() {
+        setSupportActionBar(binding.toolbar);
+        binding.toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }
