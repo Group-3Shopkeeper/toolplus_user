@@ -23,6 +23,7 @@ import com.e.toolplus.beans.Product;
 import com.e.toolplus.databinding.FragmentHomeBinding;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.PulseRing;
+import com.github.ybq.android.spinkit.style.Wave;
 
 import java.util.ArrayList;
 
@@ -42,6 +43,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         binding = FragmentHomeBinding.inflate(LayoutInflater.from(getContext()));
+
         Sprite doubleBounce = new PulseRing();
         binding.spinKit.setIndeterminateDrawable(doubleBounce);
 

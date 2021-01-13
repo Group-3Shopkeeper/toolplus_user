@@ -35,9 +35,6 @@ public class ManageOrderFragment extends Fragment {
         binding = FragmentManageOrderBinding.inflate(LayoutInflater.from(getContext()));
 
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        OrderService.OrderAPI api = OrderService.getOrderAPIInstance();
-
-
 
         OrderService.OrderAPI orderAPI = OrderService.getOrderAPIInstance();
         Call<ArrayList<Order>> call = orderAPI.getPlacedOrder(currentUserId);

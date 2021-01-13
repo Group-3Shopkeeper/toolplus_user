@@ -43,7 +43,7 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
         cart.setQty(1);
         Picasso.get().load(cart.getImageUrl()).placeholder(R.drawable.logo_white).into(holder.binding.cartProductImage);
         holder.binding.cartProductName.setText(cart.getName());
-        holder.binding.cartProductPrice.setText("Price : " + cart.getPrice());
+        holder.binding.cartProductPrice.setText(" " + cart.getPrice());
         holder.binding.availableStock.setText("Available Stock : "+cart.getQtyInStock());
         holder.binding.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
