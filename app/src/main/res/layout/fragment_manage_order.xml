@@ -5,9 +5,51 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ManageOrderFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvManagerOrder"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="3dp" />
+        android:layout_height="match_parent">
+
+        <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/spinKit"
+            style="@style/SpinKitView.Large.Circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:elevation="20dp"
+            app:SpinKit_Color="@color/colorPrimaryDark" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvManagerOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible">
+
+            <ImageView
+                android:id="@+id/imageBag"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/bag" />
+
+            <TextView
+                android:id="@+id/alertTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageBag"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="20dp"
+                android:text="Your Cart is empty"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 </FrameLayout>

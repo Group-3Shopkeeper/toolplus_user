@@ -7,25 +7,31 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.e.toolplus.adapter.ProductScreenAdapter;
+import com.e.toolplus.api.CategoryService;
+import com.e.toolplus.api.ProductService;
 import com.e.toolplus.api.UserService;
+import com.e.toolplus.beans.Category;
+import com.e.toolplus.beans.Product;
 import com.e.toolplus.beans.User;
 import com.e.toolplus.databinding.ActivityHomeBinding;
 import com.e.toolplus.fragments.CartFragment;
 import com.e.toolplus.fragments.FavouriteFragment;
 import com.e.toolplus.fragments.HomeFragment;
 import com.e.toolplus.fragments.ManageOrderFragment;
-import com.e.toolplus.utility.CustomAlertDialog;
 import com.e.toolplus.utility.InternetConnection;
 import com.e.toolplus.utility.InternetIntentFilter;
 import com.firebase.ui.auth.AuthUI;
@@ -34,6 +40,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,6 +55,9 @@ public class HomeActivity extends AppCompatActivity {
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     ChipNavigationBar chipNavigationBar;
+    String name = "";
+    ProductScreenAdapter adapter;
+    Category category;
 
 
     @Override
@@ -63,13 +74,81 @@ public class HomeActivity extends AppCompatActivity {
 
         bottomMenu();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new HomeFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,new HomeFragment()).commit();
+        binding.bottomNavigation.setItemSelected(R.id.bottom_home,true);
 
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         toggle.syncState();
         navigationDrawerMenu();
 
+        binding.searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Fragment fragment = (Fragment) getSupportFragmentManager().getFragments();
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+
+                binding.rvForSearch.setVisibility(View.VISIBLE);
+                name = s.toString();
+                getProductName(name);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+    }
+
+    private void getProductName(String name) {
+        ProductService.ProductAPI ap = ProductService.getProductAPIInstance();
+        Call<ArrayList<Product>> listCall = ap.getProductByName(name);
+        listCall.enqueue(new Callback<ArrayList<Product>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
+                ArrayList<Product> list = response.body();
+                adapter = new ProductScreenAdapter(getApplicationContext(), list);
+                binding.rvForSearch.setAdapter(adapter);
+                binding.rvForSearch.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
+
+                adapter.setOnItemClick(new ProductScreenAdapter.OnRecyclerViewItemClick() {
+                    @Override
+                    public void onItemClick(Product product, int position) {
+                        String categoryId = product.getCategoryId();
+
+                        CategoryService.CategoryAPI api = CategoryService.getCategoryAPIInstance();
+                        Call<Category> categoryCall = api.getCategoryById(categoryId);
+                        categoryCall.enqueue(new Callback<Category>() {
+                            @Override
+                            public void onResponse(Call<Category> call, Response<Category> response) {
+                                category = response.body();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Category> call, Throwable t) {
+
+                            }
+                        });
+
+                        Intent intent1 = new Intent(getApplicationContext(), ProductDetailScreen.class);
+                        intent1.putExtra("product", product);
+                        intent1.putExtra("category", category);
+                        startActivity(intent1);
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Product>> call, Throwable t) {
+
+            }
+        });
 
     }
 
@@ -79,13 +158,16 @@ public class HomeActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         int cartDetail = intent.getIntExtra("cartDetail",0);
+
         if (cartDetail == 1){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,new CartFragment()).commit();
+            binding.bottomNavigation.setItemSelected(R.id.bottom_cart,true);
         }
 
         int NextBuy = intent.getIntExtra("NextBuy",0);
         if (NextBuy == 2){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,new ManageOrderFragment()).commit();
+            binding.bottomNavigation.setItemSelected(R.id.bottom_manageOrder,true);
         }
 
     }
@@ -136,21 +218,17 @@ public class HomeActivity extends AppCompatActivity {
                 Fragment fragment = null;
                 switch (i) {
                     case R.id.bottom_cart:
-                        binding.searchBar.setVisibility(View.GONE);
                         fragment = new CartFragment();
                         break;
                     case R.id.bottom_favourite:
                         fragment = new FavouriteFragment();
-                        binding.searchBar.setVisibility(View.GONE);
                         break;
                     case R.id.bottom_home:
                         fragment = new HomeFragment();
-                        binding.searchBar.setVisibility(View.VISIBLE);
                         break;
 
                     case R.id.bottom_manageOrder:
                         fragment = new ManageOrderFragment();
-                        binding.searchBar.setVisibility(View.GONE);
                         break;
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
@@ -179,11 +257,9 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(new Intent(HomeActivity.this, AddUser.class));
     }
 
-
     private void sendUserToLoginScreen() {
         startActivity(new Intent(HomeActivity.this, LoginActivity.class));
     }
-
 
     private void checkUserProfile() {
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();

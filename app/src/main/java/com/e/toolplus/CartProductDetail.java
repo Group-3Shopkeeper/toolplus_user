@@ -50,6 +50,9 @@ public class CartProductDetail extends AppCompatActivity {
         final Cart cart = (Cart) in.getSerializableExtra("cart");
         String productId = cart.getProductId();
 
+        binding.addToC.setText("Remove");
+        binding.addToC.setCompoundDrawablesWithIntrinsicBounds(R.drawable.reome,0,0,0);
+
 
         ProductService.ProductAPI productAPI = ProductService.getProductAPIInstance();
         Call<Product> productCall = productAPI.getProductById(productId);

@@ -22,6 +22,7 @@ import com.e.toolplus.beans.Category;
 import com.e.toolplus.beans.Product;
 import com.e.toolplus.databinding.FragmentHomeBinding;
 import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.Circle;
 import com.github.ybq.android.spinkit.style.PulseRing;
 import com.github.ybq.android.spinkit.style.Wave;
 
@@ -44,7 +45,7 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(LayoutInflater.from(getContext()));
 
-        Sprite doubleBounce = new PulseRing();
+        Sprite doubleBounce = new Circle();
         binding.spinKit.setIndeterminateDrawable(doubleBounce);
 
         CategoryService.CategoryAPI categoryAPI = CategoryService.getCategoryAPIInstance();
@@ -118,6 +119,9 @@ public class HomeFragment extends Fragment {
                 binding.recentlyAdded.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                 binding.recentlyAdded.setItemViewCacheSize(2);
                 binding.spinKit.setVisibility(View.INVISIBLE);
+                binding.rlForCategory1.setVisibility(View.VISIBLE);
+                binding.rvBelowGv1.setVisibility(View.VISIBLE);
+                binding.rvBelowG.setVisibility(View.VISIBLE);
 
                 recentlyAdapter.setOnItemClick(new RecentlyAddedProductAdapter.OnRecyclerItemClick() {
                     @Override

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Toast;
 
 import com.e.toolplus.adapter.ProductScreenAdapter;
@@ -20,6 +21,9 @@ import com.e.toolplus.databinding.ActivityProductScreenBinding;
 import com.e.toolplus.utility.CustomAlertDialog;
 import com.e.toolplus.utility.InternetConnection;
 import com.e.toolplus.utility.InternetIntentFilter;
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.Circle;
+import com.github.ybq.android.spinkit.style.PulseRing;
 
 import java.util.ArrayList;
 
@@ -49,6 +53,8 @@ public class ProductScreen extends AppCompatActivity {
         Intent intent = getIntent();
         final Category category = (Category) intent.getSerializableExtra("category");
 
+        Sprite doubleBounce = new Circle();
+        binding.spinKit.setIndeterminateDrawable(doubleBounce);
 
         ProductService.ProductAPI productAPI = ProductService.getProductAPIInstance();
         Call<ArrayList<Product>> list = productAPI.getProductByCategory(category.getCategoryId());
@@ -61,6 +67,7 @@ public class ProductScreen extends AppCompatActivity {
                 binding.rvProductScreen.setAdapter(adapter);
                 binding.rvProductScreen.setLayoutManager(new GridLayoutManager(ProductScreen.this, 2));
 
+                binding.spinKit.setVisibility(View.INVISIBLE);
 
                 adapter.setOnItemClick(new ProductScreenAdapter.OnRecyclerViewItemClick() {
                     @Override

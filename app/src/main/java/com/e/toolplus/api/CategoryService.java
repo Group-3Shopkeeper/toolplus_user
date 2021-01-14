@@ -8,6 +8,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 public class CategoryService {
     public static CategoryAPI categoryAPI;
@@ -21,7 +22,11 @@ public class CategoryService {
     }
 
     public interface CategoryAPI {
+
         @GET("category/list")
         public Call<ArrayList<Category>> getCategoryList();
+
+        @GET("category/{categoryId}")
+        Call<Category> getCategoryById(@Path("categoryId") String categoryId);
     }
 }

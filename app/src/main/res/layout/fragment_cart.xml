@@ -5,98 +5,128 @@
     android:layout_height="match_parent"
     tools:context=".fragments.CartFragment">
 
-    <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/spinKitCart"
-        style="@style/SpinKitView.Large.Circle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:elevation="20dp"
-        app:SpinKit_Color="@color/colorPrimaryDark" />
-
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
+        <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/spinKit"
+            style="@style/SpinKitView.Large.Circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:elevation="20dp"
+            app:SpinKit_Color="@color/colorPrimaryDark" />
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvCart"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp" />
+                android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/rlBottom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/rvCart"
-                android:padding="5dp"
-                android:weightSum="1">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvCart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp" />
 
-                <RelativeLayout
-                    android:id="@+id/btnRemoveAll"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:id="@+id/rlBottom"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_weight="0.5"
-                    android:background="@color/colorPrimary"
-                    android:elevation="7dp"
-                    android:gravity="center"
-                    android:paddingTop="7dp"
-                    android:paddingBottom="7dp">
+                    android:layout_below="@id/rvCart"
+                    android:layout_alignParentBottom="true"
+                    android:padding="5dp"
+                    android:weightSum="1">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:id="@+id/btnRemoveAll"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:drawableLeft="@drawable/cart_remove_item"
-                        android:drawablePadding="7dp"
-                        android:gravity="center_vertical"
-                        android:text="Remove all"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-                </RelativeLayout>
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_weight="0.5"
+                        android:background="@color/colorPrimary"
+                        android:elevation="7dp"
+                        android:gravity="center"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="7dp">
 
-                <RelativeLayout
-                    android:id="@+id/btnBuyAll"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_weight="0.5"
-                    android:background="@color/colorPrimary"
-                    android:elevation="7dp"
-                    android:gravity="center"
-                    android:paddingTop="7dp"
-                    android:paddingBottom="7dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:drawableLeft="@drawable/cart_remove_item"
+                            android:drawablePadding="7dp"
+                            android:gravity="center_vertical"
+                            android:text="Remove all"
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:id="@+id/btnBuyAll"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:drawableLeft="@drawable/buy"
-                        android:drawablePadding="7dp"
-                        android:gravity="center_vertical"
-                        android:text="Buy Cart"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_weight="0.5"
+                        android:background="@color/colorPrimary"
+                        android:elevation="7dp"
+                        android:gravity="center"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="7dp">
 
-                </RelativeLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:drawableLeft="@drawable/buy"
+                            android:drawablePadding="7dp"
+                            android:gravity="center_vertical"
+                            android:text="Buy Cart"
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
 
-            </LinearLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </RelativeLayout>
+        </ScrollView>
+        <RelativeLayout
+            android:id="@+id/rlforEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible">
+
+            <ImageView
+                android:id="@+id/imageBag"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/bag" />
+
+            <TextView
+                android:id="@+id/alertTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageBag"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="20dp"
+                android:text="Your Cart is empty"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
-    </ScrollView>
-
+    </RelativeLayout>
 </FrameLayout>
