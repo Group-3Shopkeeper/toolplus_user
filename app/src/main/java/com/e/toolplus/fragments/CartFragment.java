@@ -1,6 +1,9 @@
 package com.e.toolplus.fragments;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -16,14 +19,17 @@ import com.e.toolplus.CartProductDetail;
 import com.e.toolplus.adapter.CartProductAdapter;
 import com.e.toolplus.api.CartService;
 import com.e.toolplus.beans.Cart;
+import com.e.toolplus.databinding.CustomAlertDialogBinding;
 import com.e.toolplus.databinding.FragmentCartBinding;
 import com.e.toolplus.utility.CustomAlertDialog;
 import com.e.toolplus.utility.InternetConnection;
 import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.Circle;
 import com.github.ybq.android.spinkit.style.PulseRing;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,8 +46,8 @@ public class CartFragment extends Fragment {
         binding = FragmentCartBinding.inflate(LayoutInflater.from(getContext()));
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        Sprite doubleBounce = new PulseRing();
-        binding.spinKitCart.setIndeterminateDrawable(doubleBounce);
+        Sprite doubleBounce = new Circle();
+        binding.spinKit.setIndeterminateDrawable(doubleBounce);
 
         CartService.CartAPI cartAPI = CartService.getCartAPIInstance();
         Call<ArrayList<Cart>> listCall = cartAPI.getCartList(userId);
@@ -52,11 +58,12 @@ public class CartFragment extends Fragment {
                 final ArrayList<Cart> list = response.body();
                 if (list.size() == 0) {
                     binding.rlBottom.setVisibility(View.INVISIBLE);
+                    binding.rlforEmpty.setVisibility(View.VISIBLE);
                 }
                 adapter = new CartProductAdapter(getContext(), list);
                 binding.rvCart.setAdapter(adapter);
                 binding.rvCart.setLayoutManager(new LinearLayoutManager(getContext()));
-                binding.spinKitCart.setVisibility(View.INVISIBLE);
+                binding.spinKit.setVisibility(View.INVISIBLE);
                 adapter.setOnItemClick(new CartProductAdapter.OnRecyclerViewItemClick() {
                     @Override
                     public void onItemClick(Cart cart, int position) {
@@ -69,27 +76,50 @@ public class CartFragment extends Fragment {
 
                 adapter.setOnRemoveItemClick(new CartProductAdapter.OnRecyclerViewItemClick() {
                     @Override
-                    public void onItemClick(Cart cart, final int position) {
-                        if (InternetConnection.isConnected(getContext())) {
-                            String cartId = cart.getCartId();
-                            CartService.CartAPI cartAPI1 = CartService.getCartAPIInstance();
-                            Call<Cart> cartCall = cartAPI1.deleteCartItem(cartId);
-                            cartCall.enqueue(new Callback<Cart>() {
-                                @Override
-                                public void onResponse(Call<Cart> call, Response<Cart> response) {
-                                    if (response.isSuccessful()) {
-                                        list.remove(position);
-                                        adapter.notifyDataSetChanged();
-                                        Toast.makeText(getContext(), "Product Remove Successfully", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
+                    public void onItemClick(final Cart cart, final int position) {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
 
-                                @Override
-                                public void onFailure(Call<Cart> call, Throwable t) {
+                        CustomAlertDialogBinding customBinding = CustomAlertDialogBinding.inflate(LayoutInflater.from(getContext()));
+                        alert.setView(customBinding.getRoot());
 
+                        final AlertDialog alertDialog = alert.create();
+                        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                        customBinding.negative.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                alertDialog.dismiss();
+                            }
+                        });
+
+                        customBinding.positive.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (InternetConnection.isConnected(getContext())) {
+                                    String cartId = cart.getCartId();
+                                    CartService.CartAPI cartAPI1 = CartService.getCartAPIInstance();
+                                    Call<Cart> cartCall = cartAPI1.deleteCartItem(cartId);
+                                    cartCall.enqueue(new Callback<Cart>() {
+                                        @Override
+                                        public void onResponse(Call<Cart> call, Response<Cart> response) {
+                                            if (response.isSuccessful()) {
+                                                list.remove(position);
+                                                adapter.notifyDataSetChanged();
+                                                alertDialog.dismiss();
+                                                Toast.makeText(getContext(), "Product Remove Successfully", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<Cart> call, Throwable t) {
+
+                                        }
+                                    });
                                 }
-                            });
-                        }
+                            }
+                        });
+                        alertDialog.show();
+
                     }
                 });
             }

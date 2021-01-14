@@ -3,6 +3,7 @@ package com.e.toolplus.api;
 import com.e.toolplus.beans.Product;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -35,5 +36,8 @@ public class ProductService {
 
         @GET("product/{productId}")
         public Call<Product> getProductById(@Path("productId") String productId);
+
+        @GET("product/p/{name}")
+        public Call<ArrayList<Product>> getProductByName(@Path("name") String name);
     }
 }

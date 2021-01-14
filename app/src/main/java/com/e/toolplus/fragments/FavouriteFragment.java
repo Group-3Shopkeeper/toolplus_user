@@ -18,6 +18,7 @@ import com.e.toolplus.databinding.FragmentFavouriteBinding;
 import com.e.toolplus.utility.CustomAlertDialog;
 import com.e.toolplus.utility.InternetConnection;
 import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.Circle;
 import com.github.ybq.android.spinkit.style.PulseRing;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -38,9 +39,9 @@ public class FavouriteFragment extends Fragment {
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         binding = FragmentFavouriteBinding.inflate(LayoutInflater.from(getContext()));
 
-
-        Sprite doubleBounce = new PulseRing();
+        Sprite doubleBounce = new Circle();
         binding.spinKitFav.setIndeterminateDrawable(doubleBounce);
+
         FavoriteService.FavoriteAPI api = FavoriteService.getFavoriteAPIInstance();
         Call<ArrayList<Favorite>> list = api.getFavorite(currentUserId);
         list.enqueue(new Callback<ArrayList<Favorite>>() {
