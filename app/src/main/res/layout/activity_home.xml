@@ -31,11 +31,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="20dp"
                     android:src="@drawable/search" />
 
                 <EditText
-                    android:id="@+id/search_bar"
+                    android:id="@+id/searchBar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"

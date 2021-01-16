@@ -39,6 +39,9 @@ public class FavoriteProductDetail extends AppCompatActivity {
         final ActivityCartProductDetailBinding binding = ActivityCartProductDetailBinding.inflate(LayoutInflater.from(FavoriteProductDetail.this));
         setContentView(binding.getRoot());
 
+        setSupportActionBar(binding.toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         InternetConnection internetConnection = new InternetConnection();
         registerReceiver(internetConnection, InternetIntentFilter.getIntentFilter());
 

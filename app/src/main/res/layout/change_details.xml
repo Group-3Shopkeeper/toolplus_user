@@ -16,16 +16,28 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingBottom="15dp">
+            <TextView
+                android:id="@+id/textHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change Delivery Details"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                />
 
             <EditText
                 android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15sp"
                 android:layout_marginRight="15dp"
+                android:layout_below="@id/textHeading"
                 android:background="@drawable/border_white"
-                android:elevation="6dp"
+                android:elevation="4dp"
                 android:hint="Name"
                 android:inputType="text"
                 android:padding="8dp"
@@ -40,7 +52,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="15dp"
                 android:background="@drawable/border_white"
-                android:elevation="6dp"
+                android:elevation="4dp"
                 android:hint="Address"
                 android:inputType="text"
                 android:padding="8dp"
@@ -55,7 +67,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="15dp"
                 android:background="@drawable/border_white"
-                android:elevation="6dp"
+                android:elevation="4dp"
                 android:hint="Mobile Number"
                 android:inputType="text"
                 android:padding="8dp"
@@ -71,7 +83,7 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/border_white"
-                android:elevation="6dp"
+                android:elevation="4dp"
                 android:hint="Email"
                 android:inputType="text"
                 android:padding="8dp"
@@ -99,7 +111,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_margin="10dp"
                         android:background="@drawable/btn_buy_cart"
-                        android:elevation="5dp">
+                        android:elevation="4dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -112,8 +124,10 @@
                             android:drawableRight="@drawable/reome"
                             android:drawablePadding="5dp"
                             android:text="Cancel"
-                            android:textColor="@color/colorPrimary"
-                            android:textStyle="bold" />
+                            android:textColor="@color/colorAccent"
+                            android:textStyle="bold"
+                            android:gravity="center_vertical"
+                            />
 
                     </RelativeLayout>
 
@@ -124,7 +138,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_margin="10dp"
                         android:background="@drawable/btn_buy_cart"
-                        android:elevation="5dp">
+                        android:elevation="4dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -134,18 +148,17 @@
                             android:layout_marginTop="5dp"
                             android:layout_marginRight="10dp"
                             android:layout_marginBottom="5dp"
-                            android:drawableRight="@drawable/confirm"
+                            android:drawableRight="@drawable/green_check"
                             android:drawablePadding="5dp"
                             android:text="Change"
-                            android:textColor="@color/colorPrimary"
-                            android:textStyle="bold" />
-
+                            android:textColor="@color/green"
+                            android:textStyle="bold"
+                            android:gravity="center_vertical"
+                            />
                     </RelativeLayout>
                 </RelativeLayout>
-
             </androidx.cardview.widget.CardView>
         </RelativeLayout>
-
 
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

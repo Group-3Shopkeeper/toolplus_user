@@ -101,7 +101,7 @@
                     android:layout_height="0dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/rounded_corner"
+                    android:background="@drawable/rounded_corners_for_orderitems"
                     android:elevation="2dp"
                     android:padding="5dp"
                     android:src="@drawable/minus" />
@@ -128,7 +128,7 @@
                     android:layout_height="0dp"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/rounded_corner"
+                    android:background="@drawable/rounded_corners_for_orderitems"
                     android:elevation="2dp"
                     android:padding="5dp"
                     android:src="@drawable/add" />

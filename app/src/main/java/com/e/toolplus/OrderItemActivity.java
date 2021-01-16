@@ -53,6 +53,9 @@ public class OrderItemActivity extends AppCompatActivity {
         binding = ActivityOrderItemBinding.inflate(LayoutInflater.from(OrderItemActivity.this));
         setContentView(binding.getRoot());
 
+        setSupportActionBar(binding.toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Intent intent = getIntent();
         ArrayList<OrderItem> list = (ArrayList<OrderItem>) intent.getSerializableExtra("orderItems");
 
@@ -78,7 +81,6 @@ public class OrderItemActivity extends AppCompatActivity {
                         pd.setTitle("Saving");
                         pd.setMessage("Please wait");
                         pd.show();
-
 
                         final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 

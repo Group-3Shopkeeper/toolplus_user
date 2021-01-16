@@ -43,8 +43,7 @@ public class CartProductDetail extends AppCompatActivity {
         registerReceiver(internetConnection, InternetIntentFilter.getIntentFilter());
 
         setSupportActionBar(binding.toolbar);
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent in = getIntent();
         final Cart cart = (Cart) in.getSerializableExtra("cart");
