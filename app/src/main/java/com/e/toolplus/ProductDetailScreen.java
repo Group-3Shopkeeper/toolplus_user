@@ -51,13 +51,14 @@ public class ProductDetailScreen extends AppCompatActivity {
     ArrayList<Favorite> favList;
     CommentsAdapter adapter;
     private SliderAdapterExample adapter1;
+    ActivityProductDetailScreenBinding binding;
     int flag = 0;
     int flag2 = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final ActivityProductDetailScreenBinding binding = ActivityProductDetailScreenBinding.inflate(LayoutInflater.from(ProductDetailScreen.this));
+        binding = ActivityProductDetailScreenBinding.inflate(LayoutInflater.from(ProductDetailScreen.this));
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
@@ -76,6 +77,8 @@ public class ProductDetailScreen extends AppCompatActivity {
         binding.productDetailStocks.setText("Stock Availability : " + product.getQtyInStock());
         binding.productDetailCategory.setText("Category : " + category.getCategoryName());
         binding.productDetailDescription.setText(product.getDescription());
+
+        setRatingOnUi();
 
         if (product.getDiscount().equals(0.0)){
             binding.productMRP.setVisibility(View.GONE);
@@ -308,6 +311,51 @@ public class ProductDetailScreen extends AppCompatActivity {
             }
         });
     }
+
+    private void setRatingOnUi() {
+        CommentService.CommentAPI api = CommentService.getCommentAPIInstance();
+        Call<ArrayList<Comment>> commentList = api.getListOfComment(product.getProductId());
+        commentList.enqueue(new Callback<ArrayList<Comment>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Comment>> call, Response<ArrayList<Comment>> response) {
+                ArrayList<Comment> list = response.body();
+                if (list.size()==0){
+                    binding.ratingLl.setVisibility(View.GONE);
+                }
+                calculateAverageRating(list);
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Comment>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void calculateAverageRating(ArrayList<Comment> list) {
+        Long average, user1=0L, user2=0L, user3=0L, user4=0L, user5=0L;
+
+        for (Comment comment : list){
+            if (comment.getRating() == 5){
+                user5++;
+            }
+            if (comment.getRating() == 4){
+                user4++;
+            }
+            if (comment.getRating() == 3){
+                user3++;
+            }
+            if (comment.getRating() == 2){
+                user2++;
+            }
+            if (comment.getRating() == 1){
+                user1++;
+            }
+            average = ((user1*1)+(user2*2)+(user3*3)+(user4*4)+(user5*5))/(user1+user2+user3+user4+user5);
+            binding.ratingBar.setRating(average);
+        }
+    }
+
     public void renewItems(View view) {
         List<SliderItem> sliderItemList = new ArrayList<>();
         for (int i = 1; i < 4; i++) {

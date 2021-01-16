@@ -61,7 +61,6 @@
                 android:id="@+id/ratingLl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_below="@+id/cv_slider_mainActivity"
                 android:layout_margin="5dp"
                 android:orientation="horizontal"
