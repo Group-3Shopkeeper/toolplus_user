@@ -37,7 +37,7 @@
                 android:layout_marginRight="15dp"
                 android:layout_below="@id/textHeading"
                 android:background="@drawable/border_white"
-                android:elevation="4dp"
+                android:elevation="3dp"
                 android:hint="Name"
                 android:inputType="text"
                 android:padding="8dp"
@@ -52,7 +52,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="15dp"
                 android:background="@drawable/border_white"
-                android:elevation="4dp"
+                android:elevation="3dp"
                 android:hint="Address"
                 android:inputType="text"
                 android:padding="8dp"
@@ -67,7 +67,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="15dp"
                 android:background="@drawable/border_white"
-                android:elevation="4dp"
+                android:elevation="3dp"
                 android:hint="Mobile Number"
                 android:inputType="text"
                 android:padding="8dp"
@@ -83,26 +83,17 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/border_white"
-                android:elevation="4dp"
+                android:elevation="3dp"
                 android:hint="Email"
                 android:inputType="text"
                 android:padding="8dp"
                 android:textColor="@color/black" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cd4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/etEmail"
-                android:layout_margin="10dp"
-                android:elevation="5dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="5dp"
-                app:cardMaxElevation="8dp">
-
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/etEmail"
+                    android:layout_margin="10dp">
 
                     <RelativeLayout
                         android:id="@+id/btnCancel"
@@ -130,7 +121,6 @@
                             />
 
                     </RelativeLayout>
-
                     <RelativeLayout
                         android:id="@+id/btnChange"
                         android:layout_width="wrap_content"
@@ -157,8 +147,6 @@
                             />
                     </RelativeLayout>
                 </RelativeLayout>
-            </androidx.cardview.widget.CardView>
         </RelativeLayout>
-
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

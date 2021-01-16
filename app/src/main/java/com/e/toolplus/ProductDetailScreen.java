@@ -83,7 +83,7 @@ public class ProductDetailScreen extends AppCompatActivity {
             binding.productDetailPrice.setText("Price : " + product.getPrice());
         } else {
             Long actualPrice = (product.getDiscount()*product.getPrice())/100;
-            binding.productDetailPrice.setText("Price : "+actualPrice);
+            binding.productDetailPrice.setText("Price : "+(product.getPrice() - actualPrice));
             binding.productMRP.setText("MRP : "+product.getPrice());
             binding.productMRP.setPaintFlags(binding.productMRP.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             binding.productDetailDiscount.setText("Off : ("+product.getDiscount()+"%)");
