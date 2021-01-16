@@ -36,8 +36,11 @@ public class DiscountedProductAdapter extends RecyclerView.Adapter<DiscountedPro
         Product product = arrayList.get(position);
         Picasso.get().load(product.getImageUrl()).placeholder(R.drawable.logo_white).into(holder.binding.discountedProductImage);
         holder.binding.discountedProductName.setText(product.getName());
-        holder.binding.discountedProductPrice.setText("Price : "+product.getPrice());
-        holder.binding.discountedProductActualPrice.setText("Discount : "+product.getDiscount());
+
+        long discountedPrice = (product.getPrice()*product.getDiscount())/100;
+
+        holder.binding.discountedProductPrice.setText("Price : "+(product.getPrice()-discountedPrice));
+        holder.binding.discountedProductActualPrice.setText("Discount : "+product.getDiscount()+"%");
     }
 
     @Override

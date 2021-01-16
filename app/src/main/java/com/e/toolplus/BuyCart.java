@@ -54,19 +54,13 @@ public class BuyCart extends AppCompatActivity {
                 for (Cart cart : withStock){
                     cart.setQty(1);
                 }
-                adapter = new BuyCartAdapter(BuyCart.this,withStock);
+                adapter = new BuyCartAdapter(BuyCart.this,withStock, binding.totalAmount);
                 binding.rvOrderItem.setAdapter(adapter);
                 binding.rvOrderItem.setLayoutManager(new LinearLayoutManager(BuyCart.this));
-
-                calculateGrandTotalPrice();
-
-                adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-                    @Override
-                    public void onChanged() {
-                        super.onChanged();
-                        calculateGrandTotalPrice();
-                    }
-                });
+                for (Cart cart : withStock){
+                    grandTotal = grandTotal+cart.getPrice();
+                    binding.totalAmount.setText(""+grandTotal);
+                }
             }
 
             @Override
@@ -80,21 +74,10 @@ public class BuyCart extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent1 = new Intent(BuyCart.this,NextBuyCart.class);
                 intent1.putExtra("list",withStock);
-                intent1.putExtra("grandTotal",grandTotal);
+                Long amount = Long.parseLong(binding.totalAmount.getText().toString());
+                intent1.putExtra("grandTotal",amount);
                 startActivity(intent1);
             }
         });
-
-
-
     }
-    public void calculateGrandTotalPrice(){
-        grandTotal = 0;
-        for (Cart cart : withStock){
-            grandTotal = grandTotal + (cart.getQty()*cart.getPrice());
-            cart.setTotal(cart.getQty()*cart.getPrice());
-        }
-        binding.totalAmount.setText("Total Amount : "+grandTotal);
-    }
-
 }

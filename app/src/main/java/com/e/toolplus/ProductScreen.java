@@ -36,6 +36,7 @@ public class ProductScreen extends AppCompatActivity {
     ProductScreenAdapter adapter;
     ArrayList<Product> list1;
     ActivityProductScreenBinding binding;
+    Category category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +47,10 @@ public class ProductScreen extends AppCompatActivity {
         InternetConnection internetConnection = new InternetConnection();
         registerReceiver(internetConnection, InternetIntentFilter.getIntentFilter());
 
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+        Intent intent = getIntent();
+        category = (Category) intent.getSerializableExtra("category");
 
         initComponent();
-
-        Intent intent = getIntent();
-        final Category category = (Category) intent.getSerializableExtra("category");
 
         Sprite doubleBounce = new Circle();
         binding.spinKit.setIndeterminateDrawable(doubleBounce);
@@ -89,6 +88,7 @@ public class ProductScreen extends AppCompatActivity {
     private void initComponent() {
         setSupportActionBar(binding.toolbar);
         binding.toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        getSupportActionBar().setTitle(category.getCategoryName()+" Products");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }

@@ -6,6 +6,7 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,9 +24,12 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
 
     ArrayList<Cart> list;
     Context context;
+    TextView total;
+    long totalAmount;
 
-    public BuyCartAdapter(Context context, ArrayList<Cart> list) {
+    public BuyCartAdapter(Context context, ArrayList<Cart> list, TextView total) {
         this.list = list;
+        this.total = total;
         this.context = context;
     }
 
@@ -45,15 +49,20 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
         holder.binding.cartProductName.setText(cart.getName());
         holder.binding.cartProductPrice.setText(" " + cart.getPrice());
         holder.binding.availableStock.setText("Available Stock : "+cart.getQtyInStock());
+        //totalAmount = Long.parseLong(total.toString());
         holder.binding.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int num = Integer.parseInt(holder.binding.qtyOfStock.getText().toString());
                 if (num < cart.getQtyInStock()) {
+                    String a = total.getText().toString();
+                    totalAmount = Long.parseLong(a);
+                    totalAmount = totalAmount+cart.getPrice();
                     num++;
-                    holder.binding.qtyOfStock.setText(String.valueOf(num));
+                    holder.binding.qtyOfStock.setText(""+num);
                     cart.setQty(num);
-                    notifyDataSetChanged();
+                    total.setText(""+totalAmount);
+                    cart.setTotal(num*cart.getPrice());
 
                 } else {
                     Toast.makeText(context, "Out Of Stock", Toast.LENGTH_SHORT).show();
@@ -64,12 +73,16 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
         holder.binding.btnMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                totalAmount = totalAmount+cart.getPrice();
                 int num = Integer.parseInt(holder.binding.qtyOfStock.getText().toString());
                 if (num > 1) {
+                    String a = total.getText().toString();
+                    totalAmount = Long.parseLong(a);
                     num--;
-                    holder.binding.qtyOfStock.setText(String.valueOf(num));
+                    holder.binding.qtyOfStock.setText(""+num);
                     cart.setQty(num);
-                    notifyDataSetChanged();
+                    total.setText(""+totalAmount);
+                    cart.setTotal(num*cart.getPrice());
                 }
             }
         });
@@ -88,5 +101,4 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
             this.binding = binding;
         }
     }
-
 }

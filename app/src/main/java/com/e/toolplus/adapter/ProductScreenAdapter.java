@@ -63,7 +63,7 @@ public class ProductScreenAdapter extends RecyclerView.Adapter<ProductScreenAdap
             long price = product.getPrice();
             long discount = product.getDiscount();
             long discountedPrice = (price*discount)/100;
-            holder.binding.tvProductPrice.setText("Price : "+discountedPrice);
+            holder.binding.tvProductPrice.setText("Price : "+(price-discountedPrice));
         }
         if (product.getDiscount() == 0) {
             holder.binding.tvProductDiscount.setVisibility(View.INVISIBLE);
