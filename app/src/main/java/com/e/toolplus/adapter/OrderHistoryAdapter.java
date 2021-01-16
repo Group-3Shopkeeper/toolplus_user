@@ -48,7 +48,6 @@ public class OrderHistoryAdapter  extends RecyclerView.Adapter<OrderHistoryAdapt
             public void onClick(View v) {
                 ArrayList<OrderItem> carts = order.getOrderItem();
                 Intent intent = new Intent(context, OrderItemActivity.class);
-                Log.e("Size:---------------","======>"+carts.size());
                 intent.putExtra("orderItems",carts);
                 context.startActivity(intent);
             }

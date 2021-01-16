@@ -353,9 +353,9 @@
                         android:drawableRight="@drawable/confirm"
                         android:drawablePadding="5dp"
                         android:text="Confirm"
+                        android:gravity="center_vertical"
                         android:textColor="@color/colorPrimary"
                         android:textStyle="bold" />
-
                 </RelativeLayout>
             </RelativeLayout>
 

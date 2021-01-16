@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,8 +61,7 @@ public class ProductDetailScreen extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         InternetConnection internetConnection = new InternetConnection();
         registerReceiver(internetConnection, InternetIntentFilter.getIntentFilter());
@@ -73,12 +73,21 @@ public class ProductDetailScreen extends AppCompatActivity {
         category = (Category) in.getSerializableExtra("category");
 
         binding.productDetailName.setText(product.getName());
-        binding.productDetailPrice.setText("Price : " + product.getPrice());
-        binding.productDetailDiscount.setText("Discount : " + product.getDiscount());
         binding.productDetailStocks.setText("Stock Availability : " + product.getQtyInStock());
         binding.productDetailCategory.setText("Category : " + category.getCategoryName());
         binding.productDetailDescription.setText(product.getDescription());
 
+        if (product.getDiscount().equals(0.0)){
+            binding.productMRP.setVisibility(View.GONE);
+            binding.productDetailDiscount.setVisibility(View.GONE);
+            binding.productDetailPrice.setText("Price : " + product.getPrice());
+        } else {
+            Long actualPrice = (product.getDiscount()*product.getPrice())/100;
+            binding.productDetailPrice.setText("Price : "+actualPrice);
+            binding.productMRP.setText("MRP : "+product.getPrice());
+            binding.productMRP.setPaintFlags(binding.productMRP.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            binding.productDetailDiscount.setText("Off : ("+product.getDiscount()+"%)");
+        }
         adapter1 = new SliderAdapterExample(this);
         binding.iv.setSliderAdapter(adapter1);
         binding.iv.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!

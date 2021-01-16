@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -58,12 +59,19 @@ public class ProductScreenAdapter extends RecyclerView.Adapter<ProductScreenAdap
         holder.binding.tvProductName.setText(product.getName());
 
         if (product.getDiscount() != 0) {
-            holder.binding.tvProductDiscount.setText("Discount : " + product.getDiscount());
+            holder.binding.tvProductDiscount.setText("Discount : " + product.getDiscount()+"%");
+            long price = product.getPrice();
+            long discount = product.getDiscount();
+            long discountedPrice = (price*discount)/100;
+            holder.binding.tvProductPrice.setText("Price : "+discountedPrice);
         }
         if (product.getDiscount() == 0) {
             holder.binding.tvProductDiscount.setVisibility(View.INVISIBLE);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0,10,0,0);
+            holder.binding.tvProductPrice.setLayoutParams(params);
+            holder.binding.tvProductPrice.setText("Price : " + product.getPrice());
         }
-        holder.binding.tvProductPrice.setText("Price : " + product.getPrice());
         Picasso.get().load(product.getImageUrl()).placeholder(R.drawable.logo_white).into(holder.binding.ivProductImage);
 
         FavoriteService.FavoriteAPI api = FavoriteService.getFavoriteAPIInstance();

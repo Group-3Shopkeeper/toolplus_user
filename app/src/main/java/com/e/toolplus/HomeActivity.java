@@ -71,7 +71,6 @@ public class HomeActivity extends AppCompatActivity {
 
         initComponent();
         checkUserProfile();
-
         bottomMenu();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,new HomeFragment()).commit();
@@ -79,30 +78,46 @@ public class HomeActivity extends AppCompatActivity {
 
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         toggle.syncState();
+
         navigationDrawerMenu();
 
-        binding.searchBar.addTextChangedListener(new TextWatcher() {
+        binding.ivSearch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void onClick(View v) {
+                binding.searchBar.setVisibility(View.VISIBLE);
 
-            }
+                binding.searchBar.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Fragment fragment = (Fragment) getSupportFragmentManager().getFragments();
-                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                    }
 
-                binding.rvForSearch.setVisibility(View.VISIBLE);
-                name = s.toString();
-                getProductName(name);
-            }
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        Fragment fragment = (Fragment) getSupportFragmentManager().getFragments();
+                        getSupportFragmentManager().beginTransaction().remove(fragment).commit();
 
-            @Override
-            public void afterTextChanged(Editable s) {
+                        binding.rvForSearch.setVisibility(View.VISIBLE);
+                        name = s.toString();
+                        getProductName(name);
 
+                        if (name.isEmpty()){
+                            binding.searchBar.setVisibility(View.INVISIBLE);
+                            binding.rvForSearch.setVisibility(View.INVISIBLE);
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,new HomeFragment()).commit();
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+                binding.searchBar.setVisibility(View.INVISIBLE);
+                binding.rvForSearch.setVisibility(View.INVISIBLE);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,new HomeFragment()).commit();
             }
         });
-
     }
 
     private void getProductName(String name) {
