@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/rounde_corner_spinner"
+        >
+
+        <ImageView
+            android:id="@+id/ivStar"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/thankyouorderimage"
+            android:layout_marginTop="25dp"/>
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivStar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:text="Your Order has been Placed!"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center_horizontal"
+            android:text="Thank you for your purchase! Now we are preparing for the Shipment. If you would like to cancle this order, let us known within 48 hours."
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <RelativeLayout
+            android:id="@+id/btnViewOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:layout_below="@id/tv3"
+            android:background="@drawable/btn_buy_cart"
+            android:elevation="6dp"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:drawablePadding="5dp"
+                android:text="View Order"
+                android:textColor="@color/green"
+                android:textStyle="bold"
+                android:gravity="center_vertical"
+                />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnViewOrder"
+            android:layout_centerHorizontal="true"
+            android:text="Done"
+            android:padding="10dp"
+            android:textSize="15sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginBottom="30dp"/>
+    </RelativeLayout>
+</RelativeLayout>

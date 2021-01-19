@@ -255,12 +255,14 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="25dp"
                     android:layout_weight="0.5"
-                    android:background="@color/colorPrimary"
-                    android:elevation="8dp"
                     android:paddingLeft="5dp"
                     android:paddingTop="7dp"
                     android:paddingRight="5dp"
-                    android:paddingBottom="7dp">
+                    android:paddingBottom="7dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/btn_buy_cart"
+                    android:elevation="6dp">
 
                     <TextView
                         android:id="@+id/addToC"
@@ -272,7 +274,7 @@
                         android:drawablePadding="7dp"
                         android:gravity="center_vertical"
                         android:text="Add To Cart"
-                        android:textColor="@color/white"
+                        android:textColor="@color/colorPrimary"
                         android:textStyle="bold" />
                 </RelativeLayout>
 
@@ -285,12 +287,14 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="25dp"
                     android:layout_weight="0.5"
-                    android:background="@color/colorPrimary"
-                    android:elevation="8dp"
                     android:paddingLeft="5dp"
                     android:paddingTop="7dp"
                     android:paddingRight="5dp"
-                    android:paddingBottom="7dp">
+                    android:paddingBottom="7dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/btn_buy_cart"
+                    android:elevation="6dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -301,7 +305,7 @@
                         android:drawablePadding="7dp"
                         android:gravity="center_vertical"
                         android:text="Buy"
-                        android:textColor="@color/white"
+                        android:textColor="@color/green"
                         android:textStyle="bold" />
                 </RelativeLayout>
 
@@ -324,7 +328,6 @@
                     android:padding="8dp"
                     android:text="View Comment"
                     android:textColor="@color/colorPrimary" />
-
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvComments"

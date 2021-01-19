@@ -320,7 +320,7 @@ public class ProductDetailScreen extends AppCompatActivity {
             public void onResponse(Call<ArrayList<Comment>> call, Response<ArrayList<Comment>> response) {
                 ArrayList<Comment> list = response.body();
                 if (list.size()==0){
-                    binding.ratingLl.setVisibility(View.GONE);
+                    binding.ratingBar.setRating(3);
                 }
                 calculateAverageRating(list);
             }

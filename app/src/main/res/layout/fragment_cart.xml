@@ -51,11 +51,13 @@
                         android:layout_marginRight="20dp"
                         android:layout_marginBottom="15dp"
                         android:layout_weight="0.5"
-                        android:background="@color/colorPrimary"
-                        android:elevation="7dp"
                         android:gravity="center"
                         android:paddingTop="7dp"
-                        android:paddingBottom="7dp">
+                        android:paddingBottom="7dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn_buy_cart"
+                        android:elevation="4dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -66,7 +68,7 @@
                             android:drawablePadding="7dp"
                             android:gravity="center_vertical"
                             android:text="Remove all"
-                            android:textColor="@color/white"
+                            android:textColor="@color/colorAccent"
                             android:textStyle="bold" />
                     </RelativeLayout>
 
@@ -79,11 +81,13 @@
                         android:layout_marginRight="20dp"
                         android:layout_marginBottom="15dp"
                         android:layout_weight="0.5"
-                        android:background="@color/colorPrimary"
-                        android:elevation="7dp"
                         android:gravity="center"
                         android:paddingTop="7dp"
-                        android:paddingBottom="7dp">
+                        android:paddingBottom="7dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn_buy_cart"
+                        android:elevation="4dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -94,7 +98,7 @@
                             android:drawablePadding="7dp"
                             android:gravity="center_vertical"
                             android:text="Buy Cart"
-                            android:textColor="@color/white"
+                            android:textColor="@color/green"
                             android:textStyle="bold" />
 
                     </RelativeLayout>
