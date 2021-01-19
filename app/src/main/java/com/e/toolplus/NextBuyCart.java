@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -317,8 +318,6 @@ public class NextBuyCart extends AppCompatActivity {
                     });
                 }
                 pd.dismiss();
-                Toast.makeText(NextBuyCart.this, "Order Placed", Toast.LENGTH_SHORT).show();
-
                 Intent intent1 = new Intent(NextBuyCart.this, HomeActivity.class);
                 intent1.putExtra("NextBuy", 2);
                 startActivity(intent1);

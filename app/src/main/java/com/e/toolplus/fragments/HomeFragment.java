@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,6 +81,7 @@ public class HomeFragment extends Fragment {
         listCall.enqueue(new Callback<ArrayList<Product>>() {
             @Override
             public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
+                Log.e("Response Code","===========>"+response.code());
                 ArrayList<Product> discountedProduct = response.body();
 
                 discountedAdapter = new DiscountedProductAdapter(getContext(), discountedProduct);
@@ -105,6 +107,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ArrayList<Product>> call, Throwable t) {
+                Log.e("failure throwable","==========>"+t);
             }
         });
 

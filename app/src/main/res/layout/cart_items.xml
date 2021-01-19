@@ -16,7 +16,7 @@
             android:layout_margin="8dp"
             android:elevation="10dp"
             android:padding="5dp"
-            android:src="@drawable/cart_remove_item"
+            android:src="@drawable/remove_cartitem"
             app:civ_circle_background_color="@color/colorAccent" />
 
         <androidx.cardview.widget.CardView
@@ -66,7 +66,21 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
                         android:text="Product Name"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:ellipsize="end"
+                        android:maxLines="1"/>
+
+                    <TextView
+                        android:id="@+id/availableStock"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Available Stock"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/colorAccent"
+                        />
 
                 </LinearLayout>
 
@@ -83,6 +97,7 @@
                 android:fontFamily="serif"/>
 
             <Button
+                android:id="@+id/btnBuySingleProduct"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_gravity="bottom|right"
