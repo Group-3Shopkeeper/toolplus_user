@@ -278,7 +278,6 @@ public class NextBuyCart extends AppCompatActivity {
                                         Store store = response.body();
                                         tokenList.add(store.getToken());
                                         Log.e("token of shopkeeper", "=====>" + store.getToken());
-
                                         sendingNotification(tokenList);
                                     }
 
@@ -317,11 +316,38 @@ public class NextBuyCart extends AppCompatActivity {
                         }
                     });
                 }
+
                 pd.dismiss();
-                Intent intent1 = new Intent(NextBuyCart.this, HomeActivity.class);
-                intent1.putExtra("NextBuy", 2);
-                startActivity(intent1);
-                finish();
+
+                builderDialog = new AlertDialog.Builder(NextBuyCart.this);
+                View view = LayoutInflater.from(NextBuyCart.this).inflate(R.layout.order_thank, null);
+                builderDialog.setView(view);
+
+                RelativeLayout btnViewOrder = view.findViewById(R.id.btnViewOrder);
+                RelativeLayout btnDone = view.findViewById(R.id.done);
+
+                alertDialog = builderDialog.create();
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                alertDialog.getWindow().getAttributes().windowAnimations = R.style.Theme_MaterialComponents_Dialog_Alert;
+
+                btnViewOrder.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(NextBuyCart.this,HomeActivity.class));
+                    }
+                });
+                btnDone.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent1 = new Intent(NextBuyCart.this, HomeActivity.class);
+                        intent1.putExtra("NextBuy", 2);
+                        startActivity(intent1);
+                        finish();
+                    }
+                });
+
+
             }
         });
     }
