@@ -163,12 +163,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="25dp"
                     android:layout_weight="0.5"
-                    android:paddingLeft="5dp"
-                    android:paddingTop="7dp"
-                    android:paddingRight="5dp"
-                    android:paddingBottom="7dp"
                     android:layout_alignParentRight="true"
-                    android:layout_margin="10dp"
                     android:background="@drawable/btn_buy_cart"
                     android:elevation="6dp">
 
@@ -183,7 +178,11 @@
                         android:gravity="center_vertical"
                         android:text="Add To Cart"
                         android:textColor="@color/colorPrimary"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginBottom="7dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -195,12 +194,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="25dp"
                     android:layout_weight="0.5"
-                    android:paddingLeft="5dp"
-                    android:paddingTop="7dp"
-                    android:paddingRight="5dp"
-                    android:paddingBottom="7dp"
                     android:layout_alignParentRight="true"
-                    android:layout_margin="10dp"
                     android:background="@drawable/btn_buy_cart"
                     android:elevation="6dp">
 
@@ -214,7 +208,11 @@
                         android:gravity="center_vertical"
                         android:text="Buy"
                         android:textColor="@color/green"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginBottom="7dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"/>
                 </RelativeLayout>
 
             </LinearLayout>

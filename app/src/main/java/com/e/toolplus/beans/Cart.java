@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class Cart implements Serializable {
     @SerializedName("qtyInStock")
     @Expose
-    private int qtyInStock;
+    private long qtyInStock;
 
     @SerializedName("qty")
     @Expose
@@ -67,7 +67,7 @@ public class Cart implements Serializable {
         this.shopKeeperId = shopKeeperId;
     }
 
-    public Cart(int qtyInStock, String cartId, String userId, String categoryId, String productId, String name, Long price, String brand, String imageUrl, String description, String shopKeeperId) {
+    public Cart(long qtyInStock, String cartId, String userId, String categoryId, String productId, String name, Long price, String brand, String imageUrl, String description, String shopKeeperId) {
         this.qtyInStock = qtyInStock;
         this.cartId = cartId;
         this.userId = userId;
@@ -81,7 +81,7 @@ public class Cart implements Serializable {
         this.shopKeeperId = shopKeeperId;
     }
 
-    public int getQtyInStock() {
+    public long getQtyInStock() {
         return qtyInStock;
     }
 
@@ -101,7 +101,7 @@ public class Cart implements Serializable {
         this.total = total;
     }
 
-    public void setQtyInStock(int qtyInStock) {
+    public void setQtyInStock(long qtyInStock) {
         this.qtyInStock = qtyInStock;
     }
 
