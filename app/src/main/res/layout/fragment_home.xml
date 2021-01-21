@@ -40,7 +40,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/categoryHeading"
                     android:horizontalSpacing="10dp"
-                    android:numColumns="3" />
+                    android:numColumns="3"
+                    android:overScrollMode="never"/>
 
             </RelativeLayout>
 
@@ -74,7 +75,8 @@
                     android:layout_below="@+id/tvProduct"
                     android:horizontalSpacing="10dp"
                     android:numColumns="2"
-                    android:verticalSpacing="10dp" />
+                    android:verticalSpacing="10dp"
+                    android:overScrollMode="never"/>
 
             </RelativeLayout>
 
@@ -109,7 +111,8 @@
                     android:horizontalSpacing="10dp"
                     android:verticalSpacing="10dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:spanCount="2" />
+                    app:spanCount="2"
+                    android:overScrollMode="never"/>
 
             </RelativeLayout>
 

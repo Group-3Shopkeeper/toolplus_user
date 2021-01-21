@@ -1,6 +1,8 @@
 package com.e.toolplus;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.e.toolplus.api.CartService;
 import com.e.toolplus.api.ProductService;
@@ -65,7 +68,7 @@ public class FavoriteProductDetail extends AppCompatActivity {
                 binding.cartDetailName.setText(product.getName());
                 binding.cartDetailStocks.setText("Stocks : " + product.getQtyInStock());
 
-                if (product.getDiscount().equals(0.0)){
+                if (product.getDiscount() < 1){
                     binding.productMRP.setVisibility(View.GONE);
                     binding.productDetailDiscount.setVisibility(View.GONE);
                     binding.cartDetailPrice.setText("Price : " + product.getPrice());
@@ -95,7 +98,15 @@ public class FavoriteProductDetail extends AppCompatActivity {
                     if (pId.equals(cart.getProductId())) {
                         flag = 1;
                         binding.addToC.setText("Already Added");
-                        binding.btnCartDetailRemove.setBackgroundColor(getResources().getColor(R.color.buy));
+                        binding.addToC.setCompoundDrawableTintList(ColorStateList.valueOf(Color.WHITE));
+                        binding.addToC.setTextColor(Color.WHITE);
+
+                        final int sdk = android.os.Build.VERSION.SDK_INT;
+                        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                            binding.btnCartDetailRemove.setBackgroundDrawable(ContextCompat.getDrawable(FavoriteProductDetail.this, R.drawable.already_added) );
+                        } else {
+                            binding.btnCartDetailRemove.setBackground(ContextCompat.getDrawable(FavoriteProductDetail.this, R.drawable.already_added));
+                        }
                     }
                 }
             }
@@ -135,7 +146,15 @@ public class FavoriteProductDetail extends AppCompatActivity {
                             if (response.isSuccessful()) {
                                 Toast.makeText(FavoriteProductDetail.this, "Product Successfully Added In Cart", Toast.LENGTH_SHORT).show();
                                 binding.addToC.setText("Added To Cart");
-                                binding.btnCartDetailRemove.setBackgroundColor(getResources().getColor(R.color.buy));
+                                binding.addToC.setCompoundDrawableTintList(ColorStateList.valueOf(Color.WHITE));
+                                binding.addToC.setTextColor(Color.WHITE);
+
+                                final int sdk = android.os.Build.VERSION.SDK_INT;
+                                if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                                    binding.btnCartDetailRemove.setBackgroundDrawable(ContextCompat.getDrawable(FavoriteProductDetail.this, R.drawable.already_added) );
+                                } else {
+                                    binding.btnCartDetailRemove.setBackground(ContextCompat.getDrawable(FavoriteProductDetail.this, R.drawable.already_added));
+                                }
                                 flag = 1;
                             }
                         }

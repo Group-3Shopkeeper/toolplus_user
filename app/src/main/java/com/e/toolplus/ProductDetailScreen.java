@@ -2,9 +2,11 @@ package com.e.toolplus;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -80,7 +82,7 @@ public class ProductDetailScreen extends AppCompatActivity {
 
         setRatingOnUi();
 
-        if (product.getDiscount().equals(0.0)){
+        if (product.getDiscount() < 1){
             binding.productMRP.setVisibility(View.GONE);
             binding.productDetailDiscount.setVisibility(View.GONE);
             binding.productDetailPrice.setText("Price : " + product.getPrice());
@@ -108,6 +110,7 @@ public class ProductDetailScreen extends AppCompatActivity {
         });
 
         renewItems(binding.getRoot());
+
         CommentService.CommentAPI commentAPI = CommentService.getCommentAPIInstance();
         Call<ArrayList<Comment>> commentList =commentAPI.getListOfComment(product.getProductId());
         commentList.enqueue(new Callback<ArrayList<Comment>>() {
@@ -152,7 +155,14 @@ public class ProductDetailScreen extends AppCompatActivity {
                     if (pId.equals(cart.getProductId())) {
                         flag = 1;
                         binding.addToC.setText("Already Added");
-                        binding.btnProductDetailCart.setBackgroundColor(getResources().getColor(R.color.buy));
+                        binding.addToC.setCompoundDrawableTintList(ColorStateList.valueOf(Color.WHITE));
+                        binding.addToC.setTextColor(Color.WHITE);
+                        final int sdk = android.os.Build.VERSION.SDK_INT;
+                        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                            binding.btnProductDetailCart.setBackgroundDrawable(ContextCompat.getDrawable(ProductDetailScreen.this, R.drawable.already_added) );
+                        } else {
+                            binding.btnProductDetailCart.setBackground(ContextCompat.getDrawable(ProductDetailScreen.this, R.drawable.already_added));
+                        }
                     }
                 }
             }
@@ -280,12 +290,17 @@ public class ProductDetailScreen extends AppCompatActivity {
                     cart.setCategoryId(category.getCategoryId());
                     cart.setUserId(userId);
                     cart.setShopKeeperId(product.getShopKeeperId());
-
+                    cart.setQtyInStock(product.getQtyInStock());
                     cart.setDescription(product.getDescription());
                     cart.setImageUrl(product.getImageUrl());
                     cart.setName(product.getName());
-                    cart.setPrice(product.getPrice());
-
+                    if (product.getDiscount() < 1) {
+                        cart.setPrice(product.getPrice());
+                    }else {
+                        Long actualPrice = (product.getDiscount()*product.getPrice())/100;
+                        Long sendingPrice = product.getPrice() - actualPrice;
+                        cart.setPrice(sendingPrice);
+                    }
                     cart.setProductId(product.getProductId());
 
                     CartService.CartAPI cartAPI = CartService.getCartAPIInstance();
@@ -296,7 +311,16 @@ public class ProductDetailScreen extends AppCompatActivity {
                             if (response.isSuccessful()) {
                                 Toast.makeText(ProductDetailScreen.this, "Product Successfully Added In Cart", Toast.LENGTH_SHORT).show();
                                 binding.addToC.setText("Added To Cart");
-                                binding.btnProductDetailCart.setBackgroundColor(getResources().getColor(R.color.buy));
+                                binding.addToC.setCompoundDrawableTintList(ColorStateList.valueOf(Color.WHITE));
+                                binding.addToC.setTextColor(Color.WHITE);
+
+                                final int sdk = android.os.Build.VERSION.SDK_INT;
+                                if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                                    binding.btnProductDetailCart.setBackgroundDrawable(ContextCompat.getDrawable(ProductDetailScreen.this, R.drawable.already_added) );
+                                } else {
+                                    binding.btnProductDetailCart.setBackground(ContextCompat.getDrawable(ProductDetailScreen.this, R.drawable.already_added));
+                                }
+
                                 flag = 1;
                             }
                         }

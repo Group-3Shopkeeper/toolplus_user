@@ -67,7 +67,7 @@ public class CartProductDetail extends AppCompatActivity {
                 binding.cartDetailName.setText(product.getName());
                 binding.cartDetailStocks.setText("Stocks : " + product.getQtyInStock());
 
-                if (product.getDiscount().equals(0.0)){
+                if (product.getDiscount() < 1){
                     binding.productMRP.setVisibility(View.GONE);
                     binding.productDetailDiscount.setVisibility(View.GONE);
                     binding.cartDetailPrice.setText("Price : " + product.getPrice());
@@ -119,6 +119,11 @@ public class CartProductDetail extends AppCompatActivity {
                                     if (response.isSuccessful()) {
                                         Toast.makeText(CartProductDetail.this, "Product Remove Successfully", Toast.LENGTH_SHORT).show();
                                         adapter.notifyDataSetChanged();
+
+                                        Intent intent = new Intent(CartProductDetail.this, HomeActivity.class);
+                                        intent.putExtra("cartDetail", 1);
+                                        startActivity(intent);
+                                        finish();
                                     }
                                 }
 
@@ -128,13 +133,9 @@ public class CartProductDetail extends AppCompatActivity {
                                 }
                             });
                         }
-                        Intent intent = new Intent(CartProductDetail.this, HomeActivity.class);
-                        intent.putExtra("cartDetail", 1);
-                        startActivity(intent);
-                        finish();
+
                     }
                 });
-
                 alertDialog.show();
             }
         });

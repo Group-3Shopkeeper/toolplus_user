@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,9 +18,9 @@ import com.e.toolplus.beans.Favorite;
 import com.e.toolplus.beans.Product;
 import com.e.toolplus.databinding.ProductScreenItemBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -58,20 +57,22 @@ public class ProductScreenAdapter extends RecyclerView.Adapter<ProductScreenAdap
 
         holder.binding.tvProductName.setText(product.getName());
 
-        if (product.getDiscount() != 0) {
-            holder.binding.tvProductDiscount.setText("Discount : " + product.getDiscount()+"%");
+        if (product.getDiscount() >= 1) {
+            holder.binding.tvProductDiscount.setText("Discount : " + product.getDiscount() + "%");
             long price = product.getPrice();
             long discount = product.getDiscount();
-            long discountedPrice = (price*discount)/100;
-            holder.binding.tvProductPrice.setText("Price : "+(price-discountedPrice));
+            long discountedPrice = (price * discount) / 100;
+            holder.binding.tvProductPrice.setText("Price : " + (price - discountedPrice));
         }
-        if (product.getDiscount() == 0) {
+        if (product.getDiscount() < 1) {
             holder.binding.tvProductDiscount.setVisibility(View.INVISIBLE);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(0,10,0,0);
-            holder.binding.tvProductPrice.setLayoutParams(params);
             holder.binding.tvProductPrice.setText("Price : " + product.getPrice());
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0, 10, 0, 0);
+            holder.binding.tvProductPrice.setLayoutParams(params);
+
         }
+
         Picasso.get().load(product.getImageUrl()).placeholder(R.drawable.logo_white).into(holder.binding.ivProductImage);
 
         FavoriteService.FavoriteAPI api = FavoriteService.getFavoriteAPIInstance();
@@ -82,7 +83,6 @@ public class ProductScreenAdapter extends RecyclerView.Adapter<ProductScreenAdap
                 favList = response.body();
                 try {
                     if (favList.size() != 0) {
-
                         for (Favorite favorite : favList) {
                             String proId = favorite.getProductId();
                             String proId2 = product.getProductId();
@@ -103,7 +103,6 @@ public class ProductScreenAdapter extends RecyclerView.Adapter<ProductScreenAdap
 
             }
         });
-
 
         holder.binding.btnAddToFavourite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,17 +127,18 @@ public class ProductScreenAdapter extends RecyclerView.Adapter<ProductScreenAdap
                                     if (response.isSuccessful()) {
                                         holder.binding.imageFavoriteHeart.setImageResource(R.drawable.favourite_btn);
                                         holder.binding.imageFavoriteHeart.setTag("DELETE");
+                                        notifyDataSetChanged();
                                     }
                                 }
 
                                 @Override
                                 public void onFailure(Call<Favorite> call, Throwable t) {
-                                    Log.e("onFailure",""+t);
+                                    Log.e("onFailure", "" + t);
                                 }
                             });
                         }
 
-                        if(flag == 0)
+                        if (flag == 0)
                             break;
                     }
                 }
@@ -230,7 +230,6 @@ public class ProductScreenAdapter extends RecyclerView.Adapter<ProductScreenAdap
 
     public interface OnRecyclerViewItemClick {
         void onItemClick(Product product, int position);
-
     }
 
     public void setOnItemClick(OnRecyclerViewItemClick listener) {

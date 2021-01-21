@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="23dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
             android:elevation="5dp"
@@ -54,7 +54,7 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
+                    android:layout_height="match_parent"
                     android:layout_margin="7dp"
                     android:layout_weight="0.6"
                     android:paddingRight="15dp"
@@ -66,7 +66,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
                         android:text="Product Name"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:ellipsize="end"
                         android:maxLines="1"/>
 
@@ -74,39 +74,41 @@
                         android:id="@+id/availableStock"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Available Stock"
+                        android:text="Available in Stock"
                         android:layout_marginLeft="3dp"
                         android:layout_marginRight="3dp"
                         android:layout_marginBottom="3dp"
-                        android:layout_marginTop="10dp"
-                        android:textColor="@color/colorAccent"
+                        android:layout_marginTop="5dp"
+                        android:textColor="@color/green"
                         />
 
+                    <TextView
+                        android:id="@+id/cartProductPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Price"
+                        android:textStyle="bold"
+                        android:fontFamily="serif"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="6dp"
+                        android:textSize="16dp"
+                        />
+                    <Button
+                        android:id="@+id/btnBuySingleProduct"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom|right"
+                        android:layout_marginRight="-5dp"
+                        android:background="@drawable/btn_buy_cart"
+                        android:elevation="20sp"
+                        android:text="Buy"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorPrimary" />
                 </LinearLayout>
 
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/cartProductPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Price"
-                android:layout_marginBottom="17dp"
-                android:layout_gravity="bottom|center"
-                android:textStyle="bold"
-                android:fontFamily="serif"/>
-
-            <Button
-                android:id="@+id/btnBuySingleProduct"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_gravity="bottom|right"
-                android:layout_marginRight="12dp"
-                android:layout_marginBottom="12dp"
-                android:background="@color/white"
-                android:elevation="20dp"
-                android:text="Buy"
-                android:textColor="@color/colorPrimary" />
 
         </androidx.cardview.widget.CardView>
 
