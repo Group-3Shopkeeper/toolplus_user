@@ -1,6 +1,7 @@
 package com.e.toolplus;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,11 +62,20 @@ public class FavoriteProductDetail extends AppCompatActivity {
 
                 Picasso.get().load(product.getImageUrl()).into(binding.cartDetailImage);
                 binding.cartDetailDescription.setText(product.getDescription());
-                binding.cartDetailDiscount.setText("Discount : " + product.getDiscount());
-                binding.cartDetailPrice.setText("Price : " + product.getPrice());
                 binding.cartDetailName.setText(product.getName());
                 binding.cartDetailStocks.setText("Stocks : " + product.getQtyInStock());
 
+                if (product.getDiscount().equals(0.0)){
+                    binding.productMRP.setVisibility(View.GONE);
+                    binding.productDetailDiscount.setVisibility(View.GONE);
+                    binding.cartDetailPrice.setText("Price : " + product.getPrice());
+                } else {
+                    Long actualPrice = (product.getDiscount()*product.getPrice())/100;
+                    binding.cartDetailPrice.setText("Price : "+(product.getPrice() - actualPrice));
+                    binding.productMRP.setText("MRP : "+product.getPrice());
+                    binding.productMRP.setPaintFlags(binding.productMRP.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    binding.productDetailDiscount.setText("Off : ("+product.getDiscount()+"%)");
+                }
             }
 
             @Override
