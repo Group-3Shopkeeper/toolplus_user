@@ -62,11 +62,11 @@ public class ProductScreenAdapter extends RecyclerView.Adapter<ProductScreenAdap
             long price = product.getPrice();
             long discount = product.getDiscount();
             long discountedPrice = (price * discount) / 100;
-            holder.binding.tvProductPrice.setText("Price : " + (price - discountedPrice));
+            holder.binding.tvProductPrice.setText("Price : ₹ " + (price - discountedPrice));
         }
         if (product.getDiscount() < 1) {
             holder.binding.tvProductDiscount.setVisibility(View.INVISIBLE);
-            holder.binding.tvProductPrice.setText("Price : " + product.getPrice());
+            holder.binding.tvProductPrice.setText("Price : ₹ " + product.getPrice());
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             params.setMargins(0, 10, 0, 0);
             holder.binding.tvProductPrice.setLayoutParams(params);

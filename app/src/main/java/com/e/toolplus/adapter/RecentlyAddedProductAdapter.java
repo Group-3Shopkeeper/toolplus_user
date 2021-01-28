@@ -37,7 +37,7 @@ public class RecentlyAddedProductAdapter extends RecyclerView.Adapter<RecentlyAd
     Product product = list.get(position);
         Picasso.get().load(product.getImageUrl()).placeholder(R.drawable.logo_white).into(holder.binding.discountedProductImage);
         holder.binding.discountedProductName.setText(product.getName());
-        holder.binding.discountedProductPrice.setText("Price : "+product.getPrice());
+        holder.binding.discountedProductPrice.setText("Price : ₹ "+product.getPrice());
         holder.binding.discountedProductActualPrice.setText("Qty in Stock : "+product.getQtyInStock());
     }
 

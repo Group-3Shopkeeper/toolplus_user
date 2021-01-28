@@ -21,15 +21,12 @@ import com.e.toolplus.api.CartService;
 import com.e.toolplus.beans.Cart;
 import com.e.toolplus.databinding.CustomAlertDialogBinding;
 import com.e.toolplus.databinding.FragmentCartBinding;
-import com.e.toolplus.utility.CustomAlertDialog;
 import com.e.toolplus.utility.InternetConnection;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.Circle;
-import com.github.ybq.android.spinkit.style.PulseRing;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,6 +36,7 @@ public class CartFragment extends Fragment {
     String userId;
     FragmentCartBinding binding;
     CartProductAdapter adapter;
+    ArrayList<Cart> listOfAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,12 +53,12 @@ public class CartFragment extends Fragment {
         listCall.enqueue(new Callback<ArrayList<Cart>>() {
             @Override
             public void onResponse(Call<ArrayList<Cart>> call, Response<ArrayList<Cart>> response) {
-                final ArrayList<Cart> list = response.body();
-                if (list.size() == 0) {
+                listOfAdapter = response.body();
+                if (listOfAdapter.size() == 0) {
                     binding.rlBottom.setVisibility(View.INVISIBLE);
                     binding.rlforEmpty.setVisibility(View.VISIBLE);
                 }
-                adapter = new CartProductAdapter(getContext(), list);
+                adapter = new CartProductAdapter(getContext(), listOfAdapter);
                 binding.rvCart.setAdapter(adapter);
                 binding.rvCart.setLayoutManager(new LinearLayoutManager(getContext()));
                 binding.spinKit.setVisibility(View.INVISIBLE);
@@ -103,7 +101,7 @@ public class CartFragment extends Fragment {
                                         @Override
                                         public void onResponse(Call<Cart> call, Response<Cart> response) {
                                             if (response.isSuccessful()) {
-                                                list.remove(position);
+                                                listOfAdapter.remove(position);
                                                 adapter.notifyDataSetChanged();
                                                 alertDialog.dismiss();
                                                 Toast.makeText(getContext(), "Product Remove Successfully", Toast.LENGTH_SHORT).show();
@@ -155,6 +153,13 @@ public class CartFragment extends Fragment {
 
                     }
                 });
+
+            }
+        });
+
+        binding.btnRemoveAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
             }
         });

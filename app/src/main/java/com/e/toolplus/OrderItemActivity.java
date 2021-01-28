@@ -2,7 +2,6 @@ package com.e.toolplus;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -10,7 +9,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,22 +17,16 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 
 import com.e.toolplus.adapter.HistoryOrderItemAdapter;
-import com.e.toolplus.adapter.OrderSummaryAdapter;
 import com.e.toolplus.api.CommentService;
 import com.e.toolplus.api.UserService;
-import com.e.toolplus.beans.Cart;
 import com.e.toolplus.beans.Comment;
 import com.e.toolplus.beans.OrderItem;
 import com.e.toolplus.beans.User;
 import com.e.toolplus.databinding.ActivityOrderItemBinding;
-import com.e.toolplus.databinding.CustomAlertDialogBinding;
-import com.e.toolplus.databinding.OrderItemHistoryBinding;
 import com.e.toolplus.databinding.ReveivThankBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 

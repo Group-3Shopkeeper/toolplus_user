@@ -5,19 +5,14 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.e.toolplus.R;
 import com.e.toolplus.adapter.OrderHistoryAdapter;
 import com.e.toolplus.api.OrderService;
 import com.e.toolplus.beans.Order;
-import com.e.toolplus.beans.OrderCartList;
 import com.e.toolplus.databinding.FragmentManageOrderBinding;
-import com.e.toolplus.utility.CustomAlertDialog;
-import com.e.toolplus.utility.InternetConnection;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.Circle;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +26,7 @@ import retrofit2.Response;
 public class ManageOrderFragment extends Fragment {
     FragmentManageOrderBinding binding;
     OrderHistoryAdapter adapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,10 +42,14 @@ public class ManageOrderFragment extends Fragment {
             @Override
             public void onResponse(Call<ArrayList<Order>> call, Response<ArrayList<Order>> response) {
                 ArrayList<Order> list = response.body();
-                adapter = new OrderHistoryAdapter(getContext(),list);
-                binding.rvManagerOrder.setAdapter(adapter);
-                binding.rvManagerOrder.setLayoutManager(new LinearLayoutManager(getContext()));
-                binding.spinKit.setVisibility(View.INVISIBLE);
+                if (list != null) {
+                    adapter = new OrderHistoryAdapter(getContext(), list);
+                    binding.rvManagerOrder.setAdapter(adapter);
+                    binding.rvManagerOrder.setLayoutManager(new LinearLayoutManager(getContext()));
+                    binding.spinKit.setVisibility(View.INVISIBLE);
+                } else {
+
+                }
             }
 
             @Override

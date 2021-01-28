@@ -1,6 +1,5 @@
 package com.e.toolplus;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,7 +9,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -27,7 +25,6 @@ import com.e.toolplus.beans.Favorite;
 import com.e.toolplus.beans.Product;
 import com.e.toolplus.beans.SliderItem;
 import com.e.toolplus.databinding.ActivityProductDetailScreenBinding;
-import com.e.toolplus.utility.CustomAlertDialog;
 import com.e.toolplus.utility.InternetConnection;
 import com.e.toolplus.utility.InternetIntentFilter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,7 +32,6 @@ import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnima
 import com.smarteist.autoimageslider.IndicatorView.draw.controller.DrawController;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,11 +81,11 @@ public class ProductDetailScreen extends AppCompatActivity {
         if (product.getDiscount() < 1){
             binding.productMRP.setVisibility(View.GONE);
             binding.productDetailDiscount.setVisibility(View.GONE);
-            binding.productDetailPrice.setText("Price : " + product.getPrice());
+            binding.productDetailPrice.setText("Price : ₹ " + product.getPrice());
         } else {
             Long actualPrice = (product.getDiscount()*product.getPrice())/100;
-            binding.productDetailPrice.setText("Price : "+(product.getPrice() - actualPrice));
-            binding.productMRP.setText("MRP : "+product.getPrice());
+            binding.productDetailPrice.setText("Price : ₹ "+(product.getPrice() - actualPrice));
+            binding.productMRP.setText("MRP : ₹ "+product.getPrice());
             binding.productMRP.setPaintFlags(binding.productMRP.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             binding.productDetailDiscount.setText("Off : ("+product.getDiscount()+"%)");
         }

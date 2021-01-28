@@ -11,11 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.e.toolplus.OrderItemActivity;
-import com.e.toolplus.beans.Cart;
 import com.e.toolplus.beans.Order;
-import com.e.toolplus.beans.OrderCartList;
 import com.e.toolplus.beans.OrderItem;
-import com.e.toolplus.databinding.OrderHistoryBinding;
+import com.e.toolplus.databinding.HistoryOrderBinding;
 
 
 import java.util.ArrayList;
@@ -31,7 +29,7 @@ public class OrderHistoryAdapter  extends RecyclerView.Adapter<OrderHistoryAdapt
     @NonNull
     @Override
     public OrderHistoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        OrderHistoryBinding binding = OrderHistoryBinding.inflate(LayoutInflater.from(context));
+        HistoryOrderBinding binding = HistoryOrderBinding.inflate(LayoutInflater.from(context));
         return new OrderHistoryViewHolder(binding);
     }
 
@@ -40,8 +38,13 @@ public class OrderHistoryAdapter  extends RecyclerView.Adapter<OrderHistoryAdapt
         final Order order = list.get(position);
         holder.binding.orderId.setText(order.getOrderId());
         holder.binding.date.setText(order.getDate());
-        holder.binding.amount.setText(order.getTotalAmount()+"");
+        holder.binding.amount.setText("₹ "+order.getTotalAmount());
         Log.e("orderItems","===>"+order.getOrderItem());
+
+        int numberOfItems = order.getOrderItem().size();
+        holder.binding.itemsInOrder.setText(""+numberOfItems);
+
+        holder.binding.shippingStatus.setText(order.getShippingStatus());
 
         holder.binding.more.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,9 +64,9 @@ public class OrderHistoryAdapter  extends RecyclerView.Adapter<OrderHistoryAdapt
 
     public class OrderHistoryViewHolder extends RecyclerView.ViewHolder {
 
-        OrderHistoryBinding binding;
+        HistoryOrderBinding binding;
 
-        public OrderHistoryViewHolder(final OrderHistoryBinding binding) {
+        public OrderHistoryViewHolder(final HistoryOrderBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
