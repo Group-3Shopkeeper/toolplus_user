@@ -5,4 +5,8 @@
     <string name="open">open</string>
     <string name="close">close</string>
     <string name="login_sentence">Please enter Password for that account</string>
+
+    <string name="view_more_order_history">
+        <u>View More...</u>
+    </string>
 </resources>

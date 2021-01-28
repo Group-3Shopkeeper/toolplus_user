@@ -73,11 +73,11 @@ public class OrderItem implements Serializable
         this.shopKeeperId = shopKeeperId;
     }
 
-    public String getname() {
+    public String getName() {
         return name;
     }
 
-    public void setname(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 

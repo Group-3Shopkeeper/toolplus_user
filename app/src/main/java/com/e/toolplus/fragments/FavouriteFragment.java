@@ -15,11 +15,8 @@ import com.e.toolplus.adapter.FavoriteProductAdapter;
 import com.e.toolplus.api.FavoriteService;
 import com.e.toolplus.beans.Favorite;
 import com.e.toolplus.databinding.FragmentFavouriteBinding;
-import com.e.toolplus.utility.CustomAlertDialog;
-import com.e.toolplus.utility.InternetConnection;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.Circle;
-import com.github.ybq.android.spinkit.style.PulseRing;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -48,20 +45,24 @@ public class FavouriteFragment extends Fragment {
             @Override
             public void onResponse(Call<ArrayList<Favorite>> call, Response<ArrayList<Favorite>> response) {
                 ArrayList<Favorite> list1 = response.body();
+                if (list1 != null) {
 
-                adapter = new FavoriteProductAdapter(getContext(), list1);
-                binding.rvFavorite.setLayoutManager(new GridLayoutManager(getContext(), 2));
-                binding.rvFavorite.setAdapter(adapter);
-                binding.spinKitFav.setVisibility(View.INVISIBLE);
+                    adapter = new FavoriteProductAdapter(getContext(), list1);
+                    binding.rvFavorite.setLayoutManager(new GridLayoutManager(getContext(), 2));
+                    binding.rvFavorite.setAdapter(adapter);
+                    binding.spinKitFav.setVisibility(View.INVISIBLE);
 
-                adapter.setOnItemClick(new FavoriteProductAdapter.OnRecyclerViewItemClick() {
-                    @Override
-                    public void onItemClick(Favorite favorite, int position) {
-                        Intent in = new Intent(getContext(), FavoriteProductDetail.class);
-                        in.putExtra("favorite", favorite);
-                        startActivity(in);
-                    }
-                });
+                    adapter.setOnItemClick(new FavoriteProductAdapter.OnRecyclerViewItemClick() {
+                        @Override
+                        public void onItemClick(Favorite favorite, int position) {
+                            Intent in = new Intent(getContext(), FavoriteProductDetail.class);
+                            in.putExtra("favorite", favorite);
+                            startActivity(in);
+                        }
+                    });
+                } else {
+
+                }
             }
 
             @Override

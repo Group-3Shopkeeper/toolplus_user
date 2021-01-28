@@ -34,7 +34,7 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
         Cart cart = list.get(position);
         holder.binding.productName.setText(cart.getName());
         holder.binding.productQty.setText(""+cart.getQty());
-        holder.binding.productPrice.setText(""+cart.getPrice());
+        holder.binding.productPrice.setText(""+cart.getPrice()+" ₹");
 
     }
 

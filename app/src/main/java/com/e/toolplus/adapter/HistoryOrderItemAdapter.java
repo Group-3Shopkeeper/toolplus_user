@@ -1,6 +1,7 @@
 package com.e.toolplus.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,9 +37,10 @@ public class HistoryOrderItemAdapter extends RecyclerView.Adapter<HistoryOrderIt
     @Override
     public void onBindViewHolder(@NonNull HistoryOrderItemViewHolder holder, int position) {
         OrderItem cart = list.get(position);
-        holder.binding.tv1.setText(cart.getname());
+        holder.binding.tv1.setText(cart.getName());
+        Log.e("Item Name","=========>"+cart.getName());
         holder.binding.tv3.setText("Qty     : " + cart.getQty());
-        holder.binding.tv4.setText("Price   : " + cart.getPrice());
+        holder.binding.tv4.setText("Price   : ₹ " + cart.getPrice());
         Picasso.get().load(cart.getImageUrl()).placeholder(R.drawable.logo_white).into(holder.binding.iv);
     }
 

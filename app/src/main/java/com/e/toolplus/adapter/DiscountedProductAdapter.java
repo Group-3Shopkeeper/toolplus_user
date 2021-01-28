@@ -39,7 +39,7 @@ public class DiscountedProductAdapter extends RecyclerView.Adapter<DiscountedPro
 
         long discountedPrice = (product.getPrice()*product.getDiscount())/100;
 
-        holder.binding.discountedProductPrice.setText("Price : "+(product.getPrice()-discountedPrice));
+        holder.binding.discountedProductPrice.setText("Price : ₹ "+(product.getPrice()-discountedPrice));
         holder.binding.discountedProductActualPrice.setText("Discount : "+product.getDiscount()+"%");
     }
 

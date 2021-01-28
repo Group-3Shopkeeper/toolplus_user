@@ -1,7 +1,6 @@
 package com.e.toolplus;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.content.Intent;
@@ -18,12 +17,10 @@ import com.e.toolplus.beans.Category;
 import com.e.toolplus.beans.Product;
 
 import com.e.toolplus.databinding.ActivityProductScreenBinding;
-import com.e.toolplus.utility.CustomAlertDialog;
 import com.e.toolplus.utility.InternetConnection;
 import com.e.toolplus.utility.InternetIntentFilter;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.Circle;
-import com.github.ybq.android.spinkit.style.PulseRing;
 
 import java.util.ArrayList;
 

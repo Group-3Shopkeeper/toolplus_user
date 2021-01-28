@@ -18,7 +18,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -31,16 +30,12 @@ import com.e.toolplus.api.OrderService;
 import com.e.toolplus.api.StoreService;
 import com.e.toolplus.api.UserService;
 import com.e.toolplus.beans.Cart;
-import com.e.toolplus.beans.Order;
 import com.e.toolplus.beans.OrderCartList;
 import com.e.toolplus.beans.Store;
 import com.e.toolplus.beans.User;
 import com.e.toolplus.databinding.ActivityNextBuyCartBinding;
-import com.e.toolplus.databinding.BottomSheetContainerBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
 
@@ -268,8 +263,9 @@ public class NextBuyCart extends AppCompatActivity {
                 call1.enqueue(new Callback<OrderCartList>() {
                     @Override
                     public void onResponse(Call<OrderCartList> call, Response<OrderCartList> response) {
+                        Log.e("response code","seving order"+response.code());
                         if (response.isSuccessful()) {
-                            for (Cart cart : cartList) {
+                            for (final Cart cart : cartList) {
                                 StoreService.StoreAPI storeAPI = StoreService.getStoreAPIInstance();
                                 Call<Store> storeCall = storeAPI.getStore(cart.getShopKeeperId());
                                 storeCall.enqueue(new Callback<Store>() {
@@ -288,6 +284,24 @@ public class NextBuyCart extends AppCompatActivity {
                                     }
                                 });
                             }
+                            for(Cart cart : cartList){
+                                CartService.CartAPI api1 = CartService.getCartAPIInstance();
+                                Call<Cart> cartCall = api1.deleteCartItem(cart.getCartId());
+                                cartCall.enqueue(new Callback<Cart>() {
+                                    @Override
+                                    public void onResponse(Call<Cart> call, Response<Cart> response) {
+                                        if (response.isSuccessful()){
+
+                                        } else
+                                            Log.e("responseDeleteItem","====>"+response.code());
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Cart> call, Throwable t) {
+                                        Log.e("responseFailure","========>"+t);
+                                    }
+                                });
+                            }
                         }
                     }
 
@@ -296,58 +310,9 @@ public class NextBuyCart extends AppCompatActivity {
 
                     }
                 });
-
-                for (Cart cart : cartList) {
-                    String cartId = cart.getCartId();
-
-                    CartService.CartAPI api2 = CartService.getCartAPIInstance();
-                    Call<Cart> call2 = api2.deleteCartItem(cartId);
-                    call2.enqueue(new Callback<Cart>() {
-                        @Override
-                        public void onResponse(Call<Cart> call, Response<Cart> response) {
-                            if (response.isSuccessful()) {
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Cart> call, Throwable t) {
-                            pd.dismiss();
-                            Log.e("errorOnCart", "==========>" + t);
-                        }
-                    });
-                }
-
                 pd.dismiss();
-
-                builderDialog = new AlertDialog.Builder(NextBuyCart.this);
-                View view = LayoutInflater.from(NextBuyCart.this).inflate(R.layout.order_thank, null);
-                builderDialog.setView(view);
-
-                RelativeLayout btnViewOrder = view.findViewById(R.id.btnViewOrder);
-                RelativeLayout btnDone = view.findViewById(R.id.done);
-
-                alertDialog = builderDialog.create();
-                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-                alertDialog.getWindow().getAttributes().windowAnimations = R.style.Theme_MaterialComponents_Dialog_Alert;
-
-                btnViewOrder.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(NextBuyCart.this,HomeActivity.class));
-                    }
-                });
-                btnDone.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent1 = new Intent(NextBuyCart.this, HomeActivity.class);
-                        intent1.putExtra("NextBuy", 2);
-                        startActivity(intent1);
-                        finish();
-                    }
-                });
-
-
+                Intent intent1 = new Intent(NextBuyCart.this,HomeActivity.class);
+                startActivity(intent1);
             }
         });
     }

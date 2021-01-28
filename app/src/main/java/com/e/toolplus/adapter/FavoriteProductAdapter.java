@@ -43,7 +43,7 @@ public class FavoriteProductAdapter extends RecyclerView.Adapter<FavoriteProduct
         Favorite favorite = list.get(position);
 
         holder.binding.tvProductName.setText(favorite.getName());
-        holder.binding.tvProductPrice.setText("Price : "+favorite.getPrice());
+        holder.binding.tvProductPrice.setText("Price : ₹ "+favorite.getPrice());
         holder.binding.tvProductPrice.setForegroundGravity(Gravity.CENTER_HORIZONTAL);
         Picasso.get().load(favorite.getImageUrl()).placeholder(R.drawable.logo_white).into(holder.binding.ivProductImage);
     }

@@ -1,9 +1,7 @@
 package com.e.toolplus;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,8 +19,7 @@ import com.e.toolplus.beans.Cart;
 import com.e.toolplus.beans.Product;
 import com.e.toolplus.databinding.ActivityCartProductDetailBinding;
 import com.e.toolplus.databinding.CustomAlertDialogBinding;
-import com.e.toolplus.fragments.CartFragment;
-import com.e.toolplus.utility.CustomAlertDialog;
+
 import com.e.toolplus.utility.InternetConnection;
 import com.e.toolplus.utility.InternetIntentFilter;
 import com.squareup.picasso.Picasso;
@@ -70,11 +67,11 @@ public class CartProductDetail extends AppCompatActivity {
                 if (product.getDiscount() < 1){
                     binding.productMRP.setVisibility(View.GONE);
                     binding.productDetailDiscount.setVisibility(View.GONE);
-                    binding.cartDetailPrice.setText("Price : " + product.getPrice());
+                    binding.cartDetailPrice.setText("Price : ₹ " + product.getPrice());
                 } else {
                     Long actualPrice = (product.getDiscount()*product.getPrice())/100;
-                    binding.cartDetailPrice.setText("Price : "+(product.getPrice() - actualPrice));
-                    binding.productMRP.setText("MRP : "+product.getPrice());
+                    binding.cartDetailPrice.setText("Price : ₹ "+(product.getPrice() - actualPrice));
+                    binding.productMRP.setText("MRP : ₹ "+product.getPrice());
                     binding.productMRP.setPaintFlags(binding.productMRP.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     binding.productDetailDiscount.setText("Off : ("+product.getDiscount()+"%)");
                 }

@@ -78,6 +78,7 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
                 if (num > 1) {
                     String a = total.getText().toString();
                     totalAmount = Long.parseLong(a);
+                    totalAmount = totalAmount-cart.getPrice();
                     num--;
                     holder.binding.qtyOfStock.setText(""+num);
                     cart.setQty(num);

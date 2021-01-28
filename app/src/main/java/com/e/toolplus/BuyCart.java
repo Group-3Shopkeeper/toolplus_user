@@ -2,10 +2,10 @@ package com.e.toolplus;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -49,6 +49,7 @@ public class BuyCart extends AppCompatActivity {
         listCall.enqueue(new Callback<BuyCartList>() {
             @Override
             public void onResponse(Call<BuyCartList> call, Response<BuyCartList> response) {
+                Log.e("response of cartlist","========>"+response.code());
                 BuyCartList cartList = response.body();
                 withStock = cartList.getList();
                 for (Cart cart : withStock){

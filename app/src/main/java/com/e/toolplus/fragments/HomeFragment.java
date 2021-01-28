@@ -24,8 +24,6 @@ import com.e.toolplus.beans.Product;
 import com.e.toolplus.databinding.FragmentHomeBinding;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.Circle;
-import com.github.ybq.android.spinkit.style.PulseRing;
-import com.github.ybq.android.spinkit.style.Wave;
 
 import java.util.ArrayList;
 

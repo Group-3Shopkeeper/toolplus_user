@@ -38,7 +38,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
     public void onBindViewHolder(@NonNull CartProductViewHolder holder, int position) {
         Cart cart = list.get(position);
         holder.binding.cartProductName.setText(cart.getName());
-        holder.binding.cartProductPrice.setText("Price : " + cart.getPrice());
+        holder.binding.cartProductPrice.setText("Price : ₹ " + cart.getPrice());
         holder.binding.availableStock.setText("Available in Stocks : "+cart.getQtyInStock());
         Picasso.get().load(cart.getImageUrl()).placeholder(R.drawable.logo_white).into(holder.binding.cartProductImage);
     }
