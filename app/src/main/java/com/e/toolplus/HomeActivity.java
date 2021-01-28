@@ -1,12 +1,14 @@
 package com.e.toolplus;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.content.Intent;
@@ -341,5 +343,13 @@ public class HomeActivity extends AppCompatActivity {
             });
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 5){
+          getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,new ManageOrderFragment()).commit();
+        }
     }
 }
