@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -104,6 +105,8 @@ public class NextBuyCart extends AppCompatActivity {
 
             }
         });
+
+        gettingArrayListOfToken();
 
         binding.btnDeliveryOption.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,64 +261,109 @@ public class NextBuyCart extends AppCompatActivity {
                 order.setUserId(userId);
                 order.setOrderItem(cartList);
 
-                OrderService.OrderAPI apio = OrderService.getOrderAPIInstance();
-                Call<OrderCartList> call1 = apio.saveOrderByCart(order);
-                call1.enqueue(new Callback<OrderCartList>() {
+                OrderService.OrderAPI api1 = OrderService.getOrderAPIInstance();
+                Call<OrderCartList> cartListCall = api1.saveOrderByCart(order);
+                cartListCall.enqueue(new Callback<OrderCartList>() {
                     @Override
                     public void onResponse(Call<OrderCartList> call, Response<OrderCartList> response) {
-                        Log.e("response code","seving order"+response.code());
+                        if (response.code() != 200){
+                            pd.dismiss();
+                            Log.e("response code","========>"+response.code());
+                        }
                         if (response.isSuccessful()) {
-                            for (final Cart cart : cartList) {
-                                StoreService.StoreAPI storeAPI = StoreService.getStoreAPIInstance();
-                                Call<Store> storeCall = storeAPI.getStore(cart.getShopKeeperId());
-                                storeCall.enqueue(new Callback<Store>() {
-                                    @Override
-                                    public void onResponse(Call<Store> call, Response<Store> response) {
-                                        Store store = response.body();
-                                        tokenList.add(store.getToken());
-                                        Log.e("token of shopkeeper", "=====>" + store.getToken());
-                                        sendingNotification(tokenList);
-                                    }
+                            sendingNotification(tokenList);
 
-                                    @Override
-                                    public void onFailure(Call<Store> call, Throwable t) {
-                                        pd.dismiss();
-                                        Log.e("errorOnStore", "=====>" + t);
-                                    }
-                                });
-                            }
-                            for(Cart cart : cartList){
-                                CartService.CartAPI api1 = CartService.getCartAPIInstance();
-                                Call<Cart> cartCall = api1.deleteCartItem(cart.getCartId());
-                                cartCall.enqueue(new Callback<Cart>() {
-                                    @Override
-                                    public void onResponse(Call<Cart> call, Response<Cart> response) {
-                                        if (response.isSuccessful()){
+                            deletingItemsInCart();
 
-                                        } else
-                                            Log.e("responseDeleteItem","====>"+response.code());
-                                    }
+                            Toast.makeText(NextBuyCart.this, "Order Placed", Toast.LENGTH_SHORT).show();
+                            Log.e("orderStatus","========> Placed");
 
-                                    @Override
-                                    public void onFailure(Call<Cart> call, Throwable t) {
-                                        Log.e("responseFailure","========>"+t);
-                                    }
-                                });
-                            }
+                            pd.dismiss();
+
+                            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(NextBuyCart.this);
+                            View thankYou = LayoutInflater.from(NextBuyCart.this).inflate(R.layout.order_thank,null,false);
+                            setContentView(thankYou);
+
+                            RelativeLayout btnViewOrder = thankYou.findViewById(R.id.btnViewOrder);
+                            TextView done = thankYou.findViewById(R.id.done);
+
+                            AlertDialog dialog = alertBuilder.create();
+
+                            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            dialog.getWindow().getAttributes().windowAnimations = R.style.Theme_MaterialComponents_Dialog_Alert;
+
+                            btnViewOrder.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent1 = new Intent(NextBuyCart.this,HomeActivity.class);
+                                    setResult(5);
+                                    intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent1);
+                                    finish();
+                                }
+                            });
+
+                            done.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    startActivity(new Intent(NextBuyCart.this,HomeActivity.class));
+                                }
+                            });
+
+                            dialog.show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<OrderCartList> call, Throwable t) {
-
+                        pd.dismiss();
                     }
                 });
-                pd.dismiss();
-                Intent intent1 = new Intent(NextBuyCart.this,HomeActivity.class);
-                startActivity(intent1);
             }
         });
     }
+
+    public void deletingItemsInCart(){
+        for(Cart cart : cartList){
+            CartService.CartAPI api1 = CartService.getCartAPIInstance();
+            Call<Cart> cartCall = api1.deleteCartItem(cart.getCartId());
+            cartCall.enqueue(new Callback<Cart>() {
+                @Override
+                public void onResponse(Call<Cart> call, Response<Cart> response) {
+                    if (response.isSuccessful()){
+
+                    } else
+                        Log.e("responseDeleteItem","====>"+response.code());
+                }
+
+                @Override
+                public void onFailure(Call<Cart> call, Throwable t) {
+                    Log.e("responseFailure","========>"+t);
+                }
+            });
+        }
+    }
+
+    public void gettingArrayListOfToken(){
+        for (Cart cart : cartList) {
+            StoreService.StoreAPI storeAPI = StoreService.getStoreAPIInstance();
+            Call<Store> storeCall = storeAPI.getStore(cart.getShopKeeperId());
+            storeCall.enqueue(new Callback<Store>() {
+                @Override
+                public void onResponse(Call<Store> call, Response<Store> response) {
+                    Store store = response.body();
+                    tokenList.add(store.getToken());
+                    Log.e("token of shopkeeper", "=====>" + store.getToken());
+                }
+
+                @Override
+                public void onFailure(Call<Store> call, Throwable t) {
+                    Log.e("errorOnStore", "=====>" + t);
+                }
+            });
+        }
+    }
+
     public void sendingNotification(ArrayList<String> list){
         for (String tok : list) {
             String token = tok;

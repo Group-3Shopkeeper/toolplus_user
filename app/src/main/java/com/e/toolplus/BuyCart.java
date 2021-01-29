@@ -1,5 +1,6 @@
 package com.e.toolplus;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -80,5 +81,14 @@ public class BuyCart extends AppCompatActivity {
                 startActivity(intent1);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 5){
+            setResult(5);
+            finish();
+        }
     }
 }
