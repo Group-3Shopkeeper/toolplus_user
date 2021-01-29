@@ -261,12 +261,15 @@ public class NextBuyCart extends AppCompatActivity {
                 order.setUserId(userId);
                 order.setOrderItem(cartList);
 
-                OrderService.OrderAPI apio = OrderService.getOrderAPIInstance();
-                Call<OrderCartList> call1 = apio.saveOrderByCart(order);
-                call1.enqueue(new Callback<OrderCartList>() {
+                OrderService.OrderAPI api1 = OrderService.getOrderAPIInstance();
+                Call<OrderCartList> cartListCall = api1.saveOrderByCart(order);
+                cartListCall.enqueue(new Callback<OrderCartList>() {
                     @Override
                     public void onResponse(Call<OrderCartList> call, Response<OrderCartList> response) {
-                        Log.e("response code","saving order"+response.code());
+                        if (response.code() != 200){
+                            pd.dismiss();
+                            Log.e("response code","========>"+response.code());
+                        }
                         if (response.isSuccessful()) {
                             sendingNotification(tokenList);
 
@@ -287,7 +290,6 @@ public class NextBuyCart extends AppCompatActivity {
                             AlertDialog dialog = alertBuilder.create();
 
                             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
                             dialog.getWindow().getAttributes().windowAnimations = R.style.Theme_MaterialComponents_Dialog_Alert;
 
                             btnViewOrder.setOnClickListener(new View.OnClickListener() {
@@ -307,7 +309,7 @@ public class NextBuyCart extends AppCompatActivity {
                                     startActivity(new Intent(NextBuyCart.this,HomeActivity.class));
                                 }
                             });
-                            
+
                             dialog.show();
                         }
                     }
