@@ -260,21 +260,17 @@
                     android:elevation="6dp">
 
                     <TextView
+                        style="@style/ButtonText"
                         android:id="@+id/addToC"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:drawableLeft="@drawable/add_to_cart"
-                        android:drawablePadding="7dp"
-                        android:gravity="center_vertical"
                         android:text="Add To Cart"
                         android:textColor="@color/colorPrimary"
                         android:textStyle="bold"
-                        android:layout_marginTop="7dp"
-                        android:layout_marginBottom="7dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"/>
+                        />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -291,20 +287,16 @@
                     android:elevation="6dp">
 
                     <TextView
+                        style="@style/ButtonText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:drawableLeft="@drawable/buy"
-                        android:drawablePadding="7dp"
-                        android:gravity="center_vertical"
                         android:text="Buy"
                         android:textColor="@color/green"
                         android:textStyle="bold"
-                        android:layout_marginTop="7dp"
-                        android:layout_marginBottom="7dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"/>
+                        />
                 </RelativeLayout>
 
             </LinearLayout>

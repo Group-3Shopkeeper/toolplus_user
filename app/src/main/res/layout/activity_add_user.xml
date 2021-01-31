@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimaryDark"
-            app:title="Create Profile"/>
+            app:title="Create Profile" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/userImage"
@@ -29,75 +29,50 @@
 
         <EditText
             android:id="@+id/userName"
+            style="@style/EtAddingUserCredential"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/userImage"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/border_white"
-            android:elevation="6dp"
             android:drawableRight="@drawable/name"
-            android:drawablePadding="10dp"
             android:hint="Name"
-            android:padding="10dp"
             android:textColor="@color/colorPrimary"
             android:textColorHint="#AEB9C5"
             android:textSize="15sp" />
 
         <EditText
             android:id="@+id/userAddress"
+            style="@style/EtAddingUserCredential"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/userName"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/border_white"
-            android:elevation="6dp"
             android:drawableRight="@drawable/address"
             android:hint="Address"
-            android:padding="10dp"
             android:textColor="@color/colorPrimary"
             android:textColorHint="#AEB9C5"
             android:textSize="15sp" />
 
         <EditText
             android:id="@+id/userEmail"
+            style="@style/EtAddingUserCredential"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/userAddress"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/border_white"
-            android:elevation="6dp"
             android:drawableRight="@drawable/email"
             android:hint="Email"
             android:inputType="textEmailAddress"
-            android:padding="10dp"
             android:textColor="@color/colorPrimary"
             android:textColorHint="#AEB9C5"
             android:textSize="15sp" />
 
         <EditText
             android:id="@+id/userNumber"
+            style="@style/EtAddingUserCredential"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/userEmail"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/border_white"
-            android:elevation="6dp"
             android:drawableRight="@drawable/phone"
             android:hint="Phone Number"
             android:inputType="number"
-            android:padding="10dp"
             android:textColor="@color/colorPrimary"
             android:textColorHint="#AEB9C5"
             android:textSize="15sp" />
@@ -123,9 +98,7 @@
                 android:layout_margin="8dp"
                 android:text="Save Profile"
                 android:textColor="@color/white"
-                android:textStyle="bold"/>
-
-
+                android:textStyle="bold" />
         </RelativeLayout>
 
     </RelativeLayout>
