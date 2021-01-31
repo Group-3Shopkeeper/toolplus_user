@@ -16,137 +16,105 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingBottom="15dp">
+
             <TextView
                 android:id="@+id/textHeading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Change Delivery Details"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="10dp"
+                android:text="Change Delivery Details"
                 android:textColor="@color/colorPrimary"
                 android:textSize="15sp"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/etName"
+                style="@style/EtChangeDetailsBuyingProcess"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15sp"
-                android:layout_marginRight="15dp"
                 android:layout_below="@id/textHeading"
-                android:background="@drawable/border_white"
-                android:elevation="3dp"
                 android:hint="Name"
                 android:inputType="text"
-                android:padding="8dp"
                 android:textColor="@color/black" />
 
             <EditText
                 android:id="@+id/etAddress"
+                style="@style/EtChangeDetailsBuyingProcess"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/etName"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/border_white"
-                android:elevation="3dp"
                 android:hint="Address"
                 android:inputType="text"
-                android:padding="8dp"
                 android:textColor="@color/black" />
 
             <EditText
                 android:id="@+id/etMobile"
+                style="@style/EtChangeDetailsBuyingProcess"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/etAddress"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/border_white"
-                android:elevation="3dp"
                 android:hint="Mobile Number"
                 android:inputType="text"
-                android:padding="8dp"
                 android:textColor="@color/black" />
 
             <EditText
                 android:id="@+id/etEmail"
+                style="@style/EtChangeDetailsBuyingProcess"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/etMobile"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/border_white"
-                android:elevation="3dp"
                 android:hint="Email"
                 android:inputType="text"
-                android:padding="8dp"
                 android:textColor="@color/black" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etEmail"
+                android:layout_margin="10dp">
+
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:id="@+id/btnCancel"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/etEmail"
-                    android:layout_margin="10dp">
+                    android:layout_alignParentLeft="true"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/btn_buy_cart"
+                    android:elevation="4dp">
 
-                    <RelativeLayout
-                        android:id="@+id/btnCancel"
+                    <TextView
+                        style="@style/ButtonTextBuyingProcess"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/btn_buy_cart"
-                        android:elevation="4dp">
+                        android:layout_centerVertical="true"
+                        android:drawableRight="@drawable/reome"
+                        android:text="Cancel"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginBottom="5dp"
-                            android:drawableRight="@drawable/reome"
-                            android:drawablePadding="5dp"
-                            android:text="Cancel"
-                            android:textColor="@color/colorAccent"
-                            android:textStyle="bold"
-                            android:gravity="center_vertical"
-                            />
-
-                    </RelativeLayout>
-                    <RelativeLayout
-                        android:id="@+id/btnChange"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/btn_buy_cart"
-                        android:elevation="4dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginBottom="5dp"
-                            android:drawableRight="@drawable/green_check"
-                            android:drawablePadding="5dp"
-                            android:text="Change"
-                            android:textColor="@color/green"
-                            android:textStyle="bold"
-                            android:gravity="center_vertical"
-                            />
-                    </RelativeLayout>
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/btnChange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/btn_buy_cart"
+                    android:elevation="4dp">
+
+                    <TextView
+                        style="@style/ButtonTextBuyingProcess"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:drawableRight="@drawable/green_check"
+                        android:text="Change"
+                        android:textColor="@color/green"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+            </RelativeLayout>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

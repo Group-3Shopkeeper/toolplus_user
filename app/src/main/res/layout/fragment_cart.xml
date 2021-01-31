@@ -52,22 +52,18 @@
                         android:layout_marginRight="20dp"
                         android:layout_marginBottom="15dp"
                         android:layout_weight="0.5"
-                        android:gravity="center"
-                        android:paddingTop="7dp"
-                        android:paddingBottom="7dp"
                         android:layout_alignParentRight="true"
                         android:layout_margin="10dp"
                         android:background="@drawable/btn_buy_cart"
                         android:elevation="4dp">
 
                         <TextView
+                            style="@style/ButtonText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
                             android:drawableLeft="@drawable/cart_remove_item"
-                            android:drawablePadding="7dp"
-                            android:gravity="center_vertical"
                             android:text="Remove all"
                             android:textColor="@color/colorAccent"
                             android:textStyle="bold" />
@@ -83,21 +79,17 @@
                         android:layout_marginBottom="15dp"
                         android:layout_weight="0.5"
                         android:gravity="center"
-                        android:paddingTop="7dp"
-                        android:paddingBottom="7dp"
                         android:layout_alignParentRight="true"
                         android:layout_margin="10dp"
                         android:background="@drawable/btn_buy_cart"
                         android:elevation="4dp">
 
                         <TextView
+                            style="@style/ButtonText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
                             android:drawableLeft="@drawable/buy"
-                            android:drawablePadding="7dp"
-                            android:gravity="center_vertical"
                             android:text="Buy Cart"
                             android:textColor="@color/green"
                             android:textStyle="bold" />

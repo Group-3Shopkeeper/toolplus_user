@@ -73,27 +73,21 @@
                             android:text="Name" />
 
                         <TextView
+                            style="@style/TvDeliveryAddressText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="15dp"
                             android:text="Address" />
 
                         <TextView
+                            style="@style/TvDeliveryAddressText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="15dp"
                             android:text="Mobile" />
 
                         <TextView
+                            style="@style/TvDeliveryAddressText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="15dp"
                             android:layout_marginBottom="15dp"
                             android:text="Email" />
                     </LinearLayout>
@@ -114,30 +108,24 @@
                             android:text="Name" />
 
                         <TextView
+                            style="@style/TvDeliveryAddressText"
                             android:id="@+id/buyerAddress"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="15dp"
                             android:text="Address" />
 
                         <TextView
+                            style="@style/TvDeliveryAddressText"
                             android:id="@+id/buyerMobile"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="15dp"
                             android:text="Mobile" />
 
                         <TextView
+                            style="@style/TvDeliveryAddressText"
                             android:id="@+id/buyerEmail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="15dp"
                             android:layout_marginBottom="15dp"
                             android:text="Email" />
                     </LinearLayout>
@@ -203,17 +191,19 @@
                         android:padding="5dp"
                         android:text="Normal" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/btnDeliveryOption"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.1"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/drop_down"/>
+                        android:src="@drawable/drop_down" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -229,8 +219,8 @@
             android:layout_marginRight="10dp"
             android:gravity="right"
             android:text="Delivered within 5 days and charges 50"
-            android:visibility="invisible"
-            android:textColor="@color/colorCloudLight" />
+            android:textColor="@color/colorCloudLight"
+            android:visibility="invisible" />
 
         <RelativeLayout
             android:id="@+id/llpayment"
@@ -277,17 +267,19 @@
                         android:padding="5dp"
                         android:text="Cash On Delivery" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/btnPaymentOption"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.1"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/drop_down"/>
+                        android:src="@drawable/drop_down" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -343,22 +335,16 @@
                     android:elevation="5dp">
 
                     <TextView
+                        style="@style/ButtonTextBuyingProcess"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="5dp"
                         android:drawableRight="@drawable/confirm"
-                        android:drawablePadding="5dp"
                         android:text="Confirm"
-                        android:gravity="center_vertical"
                         android:textColor="@color/colorPrimary"
                         android:textStyle="bold" />
                 </RelativeLayout>
             </RelativeLayout>
-
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
