@@ -37,6 +37,9 @@ public class OrderService {
 
         @POST("order/setQtyOfStock")
         Call<BuyCartList> setQtyOfProduct(@Body BuyCartList list);
+
+        @GET("order/history/{currentUserId}")
+        Call<ArrayList<Order>> getOrders(@Path("currentUserId") String currentUserId);
     }
 
 }
