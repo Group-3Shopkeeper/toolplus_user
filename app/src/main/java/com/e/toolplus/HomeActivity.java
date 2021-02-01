@@ -16,6 +16,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -180,7 +181,7 @@ public class HomeActivity extends AppCompatActivity {
             binding.bottomNavigation.setItemSelected(R.id.bottom_cart,true);
         }
 
-        int NextBuy = intent.getIntExtra("NextBuy",0);
+        int NextBuy = intent.getIntExtra("NextBuyCart",420);
         if (NextBuy == 2){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,new ManageOrderFragment()).commit();
             binding.bottomNavigation.setItemSelected(R.id.bottom_manageOrder,true);
@@ -345,11 +346,4 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 5){
-          getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,new ManageOrderFragment()).commit();
-        }
-    }
 }

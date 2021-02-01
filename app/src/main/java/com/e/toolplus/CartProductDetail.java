@@ -29,7 +29,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CartProductDetail extends AppCompatActivity {
-    CartProductAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,10 +114,10 @@ public class CartProductDetail extends AppCompatActivity {
                                 public void onResponse(Call<Cart> call, Response<Cart> response) {
                                     if (response.isSuccessful()) {
                                         Toast.makeText(CartProductDetail.this, "Product Remove Successfully", Toast.LENGTH_SHORT).show();
-                                        adapter.notifyDataSetChanged();
 
                                         Intent intent = new Intent(CartProductDetail.this, HomeActivity.class);
                                         intent.putExtra("cartDetail", 1);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         startActivity(intent);
                                         finish();
                                     }
@@ -138,4 +137,5 @@ public class CartProductDetail extends AppCompatActivity {
         });
     }
     //end of on create
+
 }

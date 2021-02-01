@@ -49,7 +49,6 @@ public class CartFragment extends Fragment {
 
         CartService.CartAPI cartAPI = CartService.getCartAPIInstance();
         Call<ArrayList<Cart>> listCall = cartAPI.getCartList(userId);
-
         listCall.enqueue(new Callback<ArrayList<Cart>>() {
             @Override
             public void onResponse(Call<ArrayList<Cart>> call, Response<ArrayList<Cart>> response) {
@@ -65,7 +64,6 @@ public class CartFragment extends Fragment {
                 adapter.setOnItemClick(new CartProductAdapter.OnRecyclerViewItemClick() {
                     @Override
                     public void onItemClick(Cart cart, int position) {
-
                         Intent in = new Intent(getContext(), CartProductDetail.class);
                         in.putExtra("cart", cart);
                         startActivity(in);
@@ -165,5 +163,10 @@ public class CartFragment extends Fragment {
         });
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 }
