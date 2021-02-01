@@ -148,12 +148,24 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.5">
 
+                    <TextView
+                        android:id="@+id/more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:text="@string/view_more_order_history"
+                        android:layout_marginTop="5dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorCloudLight" />
+
                     <RelativeLayout
                         android:id="@+id/rlAmount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_below="@id/more"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:background="@drawable/rounde_corner_spinner"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
@@ -181,18 +193,28 @@
                             android:textStyle="bold" />
                     </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/more"
+                    <RelativeLayout
+                        android:id="@+id/btnNext"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/rlAmount"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="20dp"
-                        android:text="@string/view_more_order_history"
-                        android:layout_marginTop="25dp"
-                        android:layout_marginBottom="25dp"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorCloudLight" />
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/btn_buy_cart"
+                        android:elevation="5dp">
+
+                        <TextView
+                            style="@style/ButtonTextBuyingProcess"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:drawableRight="@drawable/reome"
+                            android:text="Cancel Order"
+                            android:textColor="@color/colorAccent"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
                 </RelativeLayout>
             </LinearLayout>
         </RelativeLayout>

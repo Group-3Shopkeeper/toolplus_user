@@ -17,9 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".HistoryActivity"></activity>
         <activity
             android:name=".OrderItemActivity"
-            android:parentActivityName=".HomeActivity"></activity>
+            android:parentActivityName=".HomeActivity" />
 
         <service
             android:name=".utility.FirebaseMessageService"
@@ -45,10 +46,8 @@
         <activity android:name=".ViewProfile" />
         <activity android:name=".AddUser" />
         <activity android:name=".BuyCart" />
-        <activity
-            android:name=".CartProductDetail" />
-        <activity
-            android:name=".FavoriteProductDetail" />
+        <activity android:name=".CartProductDetail" />
+        <activity android:name=".FavoriteProductDetail" />
         <activity
             android:name=".ProductDetailScreen"
             android:parentActivityName=".ProductScreen" />

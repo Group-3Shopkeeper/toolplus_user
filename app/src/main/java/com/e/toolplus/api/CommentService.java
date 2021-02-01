@@ -32,5 +32,11 @@ public class CommentService {
 
         @GET("comment/{productId}")
         Call<ArrayList<Comment>> getListOfComment(@Path("productId") String productId);
+
+        @GET("comment/{userId}/{productId}")
+        Call<Comment> getUserCommentOnParticularProduct(@Path("userId") String userId, @Path("productId") String productId);
+
+        @POST("comment/update/")
+        Call<Comment> updateComment(@Body Comment comment);
     }
 }

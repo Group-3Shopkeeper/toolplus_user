@@ -203,7 +203,7 @@ public class HomeActivity extends AppCompatActivity {
                     drawerLayout.closeDrawers();
                     binding.searchBar.setVisibility(View.GONE);
                 } else if (itemId == R.id.nav_history) {
-
+                    startActivity(new Intent(HomeActivity.this,HistoryActivity.class));
                 } else if (itemId == R.id.nav_ManageOrder) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new ManageOrderFragment()).commit();
                     drawerLayout.closeDrawers();
