@@ -296,8 +296,8 @@ public class NextBuyCart extends AppCompatActivity {
                                 @Override
                                 public void onClick(View v) {
                                     Intent intent1 = new Intent(NextBuyCart.this,HomeActivity.class);
-                                    setResult(5);
-                                    intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent1.putExtra("NextBuyCart",420);
+                                    intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP );
                                     startActivity(intent1);
                                     finish();
                                 }
