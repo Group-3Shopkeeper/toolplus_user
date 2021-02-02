@@ -40,6 +40,9 @@ public class OrderService {
 
         @GET("order/history/{currentUserId}")
         Call<ArrayList<Order>> getOrders(@Path("currentUserId") String currentUserId);
+
+        @POST("order/cancelOrder")
+        Call<Order> cancelOrder(@Body Order order);
     }
 
 }

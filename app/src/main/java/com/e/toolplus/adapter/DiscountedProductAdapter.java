@@ -54,6 +54,7 @@ public class DiscountedProductAdapter extends RecyclerView.Adapter<DiscountedPro
         public DiscountedProductViewHolder(DiscountedProductItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+
             binding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
