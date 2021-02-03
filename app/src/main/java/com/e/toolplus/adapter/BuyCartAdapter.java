@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.e.toolplus.R;
 import com.e.toolplus.beans.Cart;
+import com.e.toolplus.beans.OrderItem;
 import com.e.toolplus.databinding.OrderitemsBinding;
 import com.squareup.picasso.Picasso;
 
@@ -25,12 +26,21 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
     ArrayList<Cart> list;
     Context context;
     TextView total;
+    ArrayList<OrderItem> orderItems;
     long totalAmount;
+    int flag = 0;
 
     public BuyCartAdapter(Context context, ArrayList<Cart> list, TextView total) {
         this.list = list;
         this.total = total;
         this.context = context;
+    }
+
+    public BuyCartAdapter(Context context, ArrayList<OrderItem> orderItems, TextView total, int flag){
+        this.context = context;
+        this.orderItems = orderItems;
+        this.total = total;
+        this.flag = flag;
     }
 
     @NonNull
@@ -43,6 +53,9 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull final BuyCartViewHolder holder, int position) {
+        if (flag == 2){
+
+        }
         final Cart cart = list.get(position);
         cart.setQty(1);
         Picasso.get().load(cart.getImageUrl()).placeholder(R.drawable.logo_white).into(holder.binding.cartProductImage);

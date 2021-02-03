@@ -3,6 +3,7 @@ package com.e.toolplus;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,6 +52,17 @@ public class HistoryActivity extends AppCompatActivity {
                     binding.rvHistory.setAdapter(adapter);
                     binding.rvHistory.setLayoutManager(new LinearLayoutManager(HistoryActivity.this));
                     binding.spinKit.setVisibility(View.INVISIBLE);
+
+                    adapter.setOnItemClick(new OrderHistoryAdapter.OnRecyclerItemClick() {
+                        @Override
+                        public void onItemClick(Order order, int position) {
+                            Intent in = new Intent(HistoryActivity.this, BuyCart.class);
+                            in.putExtra("reOrder",order);
+                            in.putExtra("flag",2);
+                            startActivity(in);
+                        }
+                    });
+
                 } else {
                     binding.rlEmpty.setVisibility(View.VISIBLE);
                     binding.spinKit.setVisibility(View.INVISIBLE);

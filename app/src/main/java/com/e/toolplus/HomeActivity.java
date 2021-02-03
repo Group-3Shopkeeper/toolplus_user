@@ -72,7 +72,6 @@ public class HomeActivity extends AppCompatActivity {
         this.registerReceiver(internetConnection,InternetIntentFilter.getIntentFilter());
 
         initComponent();
-        checkUserProfile();
         bottomMenu();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,new HomeFragment()).commit();
@@ -173,6 +172,8 @@ public class HomeActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        checkUserProfile();
+
         Intent intent = getIntent();
         int cartDetail = intent.getIntExtra("cartDetail",0);
 
@@ -197,16 +198,22 @@ public class HomeActivity extends AppCompatActivity {
                 if (itemId == R.id.nav_Cart) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new CartFragment()).commit();
                     drawerLayout.closeDrawers();
+                    binding.bottomNavigation.setItemSelected(R.id.bottom_cart,true);
                     binding.searchBar.setVisibility(View.GONE);
+
                 } else if (itemId == R.id.nav_favourite) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new FavouriteFragment()).commit();
                     drawerLayout.closeDrawers();
+                    binding.bottomNavigation.setItemSelected(R.id.bottom_favourite,true);
                     binding.searchBar.setVisibility(View.GONE);
+
                 } else if (itemId == R.id.nav_history) {
                     startActivity(new Intent(HomeActivity.this,HistoryActivity.class));
+
                 } else if (itemId == R.id.nav_ManageOrder) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new ManageOrderFragment()).commit();
                     drawerLayout.closeDrawers();
+                    binding.bottomNavigation.setItemSelected(R.id.bottom_manageOrder,true);
                     binding.searchBar.setVisibility(View.GONE);
                 } else if (itemId == R.id.nav_viewProfile) {
                     startActivity(new Intent(getApplicationContext(),ViewProfile.class));

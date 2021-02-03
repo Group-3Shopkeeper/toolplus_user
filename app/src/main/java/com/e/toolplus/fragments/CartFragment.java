@@ -9,9 +9,12 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.e.toolplus.BuyCart;
@@ -19,6 +22,7 @@ import com.e.toolplus.CartProductDetail;
 import com.e.toolplus.adapter.CartProductAdapter;
 import com.e.toolplus.api.CartService;
 import com.e.toolplus.beans.Cart;
+import com.e.toolplus.databinding.CancleOrderAlertBinding;
 import com.e.toolplus.databinding.CustomAlertDialogBinding;
 import com.e.toolplus.databinding.FragmentCartBinding;
 import com.e.toolplus.utility.InternetConnection;
@@ -75,20 +79,22 @@ public class CartFragment extends Fragment {
                     public void onItemClick(final Cart cart, final int position) {
                         AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
 
-                        CustomAlertDialogBinding customBinding = CustomAlertDialogBinding.inflate(LayoutInflater.from(getContext()));
-                        alert.setView(customBinding.getRoot());
+                        CancleOrderAlertBinding custom = CancleOrderAlertBinding.inflate(LayoutInflater.from(getContext()));
+                        alert.setView(custom.getRoot());
+
+                        custom.youWantToCancel.setText("You want to delete this Product from your Cart");
+                        custom.youWantToCancel.setGravity(Gravity.CENTER_HORIZONTAL);
 
                         final AlertDialog alertDialog = alert.create();
                         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                        customBinding.negative.setOnClickListener(new View.OnClickListener() {
+                        custom.btnNO.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 alertDialog.dismiss();
                             }
                         });
-
-                        customBinding.positive.setOnClickListener(new View.OnClickListener() {
+                        custom.btnYES.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 if (InternetConnection.isConnected(getContext())) {
@@ -114,8 +120,8 @@ public class CartFragment extends Fragment {
                                 }
                             }
                         });
-                        alertDialog.show();
 
+                        alertDialog.show();
                     }
                 });
             }
@@ -136,14 +142,10 @@ public class CartFragment extends Fragment {
                     @Override
                     public void onResponse(Call<ArrayList<Cart>> call, Response<ArrayList<Cart>> response) {
                         ArrayList<Cart> list = response.body();
-                        if (list.size() == 0) {
-                            Toast.makeText(getContext(), "No Product Added", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Intent intent = new Intent(getContext(), BuyCart.class);
-                            intent.putExtra("list", list);
-                            startActivity(intent);
-                        }
 
+                        Intent intent = new Intent(getContext(), BuyCart.class);
+                        intent.putExtra("list", list);
+                        startActivity(intent);
                     }
 
                     @Override

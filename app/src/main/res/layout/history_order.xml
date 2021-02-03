@@ -206,6 +206,7 @@
                         android:elevation="5dp">
 
                         <TextView
+                            android:id="@+id/tvCancleOrder"
                             style="@style/ButtonTextBuyingProcess"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
