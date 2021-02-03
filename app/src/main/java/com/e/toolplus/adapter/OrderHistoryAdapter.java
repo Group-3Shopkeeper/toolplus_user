@@ -50,6 +50,12 @@ public class OrderHistoryAdapter  extends RecyclerView.Adapter<OrderHistoryAdapt
     @Override
     public void onBindViewHolder(@NonNull OrderHistoryViewHolder holder, final int position) {
         final Order order = list.get(position);
+
+        if (order.getShippingStatus().equals("Cancelled") || order.getShippingStatus().equals("Delivered")){
+            holder.binding.tvCancleOrder.setText("Re - Order");
+            holder.binding.tvCancleOrder.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.reorder,0);
+        }
+
         holder.binding.orderId.setText(order.getOrderId());
         holder.binding.date.setText(order.getDate());
         holder.binding.amount.setText("₹ "+order.getTotalAmount());

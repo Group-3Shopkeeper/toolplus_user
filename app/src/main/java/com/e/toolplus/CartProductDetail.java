@@ -1,5 +1,6 @@
 package com.e.toolplus;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -138,4 +140,16 @@ public class CartProductDetail extends AppCompatActivity {
     }
     //end of on create
 
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home){
+            finish();
+        }
+
+
+        return super.onOptionsItemSelected(item);
+
+    }
 }

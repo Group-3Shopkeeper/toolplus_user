@@ -121,12 +121,14 @@ public class NextBuyCart extends AppCompatActivity {
                             flag1 = 1;
                             grandTotal = grandTotal + 100;
                             binding.tvDeliveryOption.setText(item.getTitle());
+                            binding.grandTotal.setText("Amount : " + grandTotal);
                             binding.detailOfDeliveryOption.setVisibility(View.VISIBLE);
                             binding.detailOfDeliveryOption.setText("Delivered within 2 days and Charges 100");
                         }
                         if (item.getTitle().equals("Normal")) {
                             if (flag1 == 1) {
                                 grandTotal = grandTotal - 50;
+                                binding.grandTotal.setText("Amount : " + grandTotal);
                                 binding.tvDeliveryOption.setText(item.getTitle());
                                 binding.detailOfDeliveryOption.setVisibility(View.VISIBLE);
                                 binding.detailOfDeliveryOption.setText("Delivered within 5 days and charges 50");

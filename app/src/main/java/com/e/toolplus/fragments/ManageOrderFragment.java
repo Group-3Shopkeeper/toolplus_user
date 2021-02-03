@@ -57,7 +57,7 @@ public class ManageOrderFragment extends Fragment {
 
                     adapter.setOnItemClick(new OrderHistoryAdapter.OnRecyclerItemClick() {
                         @Override
-                        public void onItemClick(final Order order, int position) {
+                        public void onItemClick(final Order order, final int position) {
 
                             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
                             View alertView = LayoutInflater.from(getContext()).inflate(R.layout.cancle_order_alert,null,false);
@@ -85,6 +85,7 @@ public class ManageOrderFragment extends Fragment {
                                         public void onResponse(Call<Order> call, Response<Order> response) {
                                             Log.e("response code","=========>"+response.code());
                                             if (response.isSuccessful()){
+                                                list.remove(position);
                                                 adapter.notifyDataSetChanged();
                                                 pd.dismiss();
                                                 alertDialog.dismiss();

@@ -22,8 +22,7 @@
             android:name=".HistoryActivity"
             android:parentActivityName=".HomeActivity"></activity>
         <activity
-            android:name=".OrderItemActivity"
-            android:parentActivityName=".HomeActivity" />
+            android:name=".OrderItemActivity" />
 
         <service
             android:name=".utility.FirebaseMessageService"
@@ -45,12 +44,20 @@
         </receiver>
 
         <activity android:name=".NextBuyCart" />
-        <activity android:name=".EditProfileActivity" />
-        <activity android:name=".ViewProfile" />
+        <activity
+            android:name=".EditProfileActivity"
+            android:parentActivityName=".ViewProfile" />
+        <activity
+            android:name=".ViewProfile"
+            android:parentActivityName=".HomeActivity" />
+
         <activity android:name=".AddUser" />
         <activity android:name=".BuyCart" />
-        <activity android:name=".CartProductDetail" />
-        <activity android:name=".FavoriteProductDetail" />
+
+        <activity
+            android:name=".CartProductDetail" />
+        <activity
+            android:name=".FavoriteProductDetail" />
         <activity
             android:name=".ProductDetailScreen"
             android:parentActivityName=".ProductScreen" />
