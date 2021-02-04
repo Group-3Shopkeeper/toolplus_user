@@ -38,11 +38,11 @@ public class FavoriteProductDetail extends AppCompatActivity {
     Product product;
     String userId;
     int flag = 0;
-
+    ActivityCartProductDetailBinding binding;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final ActivityCartProductDetailBinding binding = ActivityCartProductDetailBinding.inflate(LayoutInflater.from(FavoriteProductDetail.this));
+        binding = ActivityCartProductDetailBinding.inflate(LayoutInflater.from(FavoriteProductDetail.this));
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
@@ -64,22 +64,24 @@ public class FavoriteProductDetail extends AppCompatActivity {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {
                 product = response.body();
+                if(product!=null) {
+                    Picasso.get().load(product.getImageUrl()).into(binding.cartDetailImage);
+                    binding.cartDetailDescription.setText(product.getDescription());
+                    binding.cartDetailName.setText(product.getName());
+                    binding.cartDetailStocks.setText("Stocks : " + product.getQtyInStock());
 
-                Picasso.get().load(product.getImageUrl()).into(binding.cartDetailImage);
-                binding.cartDetailDescription.setText(product.getDescription());
-                binding.cartDetailName.setText(product.getName());
-                binding.cartDetailStocks.setText("Stocks : " + product.getQtyInStock());
-
-                if (product.getDiscount() < 1){
-                    binding.productMRP.setVisibility(View.GONE);
-                    binding.productDetailDiscount.setVisibility(View.GONE);
-                    binding.cartDetailPrice.setText("Price : ₹ " + product.getPrice());
-                } else {
-                    Long actualPrice = (product.getDiscount()*product.getPrice())/100;
-                    binding.cartDetailPrice.setText("Price : ₹ "+(product.getPrice() - actualPrice));
-                    binding.productMRP.setText("MRP : ₹ "+product.getPrice());
-                    binding.productMRP.setPaintFlags(binding.productMRP.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                    binding.productDetailDiscount.setText("Off : ("+product.getDiscount()+"%)");
+                    if (product.getDiscount() < 1) {
+                        binding.productMRP.setVisibility(View.GONE);
+                        binding.productDetailDiscount.setVisibility(View.GONE);
+                        binding.cartDetailPrice.setText("Price : ₹ " + product.getPrice());
+                    } else {
+                        Long actualPrice = (product.getDiscount() * product.getPrice()) / 100;
+                        binding.cartDetailPrice.setText("Price : ₹ " + (product.getPrice() - actualPrice));
+                        binding.productMRP.setText("MRP : ₹ " + product.getPrice());
+                        binding.productMRP.setPaintFlags(binding.productMRP.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                        binding.productDetailDiscount.setText("Off : (" + product.getDiscount() + "%)");
+                    }
+                   checkProductInCart(product);
                 }
             }
 
@@ -89,35 +91,7 @@ public class FavoriteProductDetail extends AppCompatActivity {
             }
         });
 
-        CartService.CartAPI cartAPI = CartService.getCartAPIInstance();
-        Call<ArrayList<Cart>> listCall = cartAPI.getCartList(userId);
-        listCall.enqueue(new Callback<ArrayList<Cart>>() {
-            @Override
-            public void onResponse(Call<ArrayList<Cart>> call, Response<ArrayList<Cart>> response) {
-                list = response.body();
-                String pId = product.getProductId();
-                for (Cart cart : list) {
-                    if (pId.equals(cart.getProductId())) {
-                        flag = 1;
-                        binding.addToC.setText("Already Added");
-                        binding.addToC.setCompoundDrawableTintList(ColorStateList.valueOf(Color.WHITE));
-                        binding.addToC.setTextColor(Color.WHITE);
 
-                        final int sdk = android.os.Build.VERSION.SDK_INT;
-                        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                            binding.btnCartDetailRemove.setBackgroundDrawable(ContextCompat.getDrawable(FavoriteProductDetail.this, R.drawable.already_added) );
-                        } else {
-                            binding.btnCartDetailRemove.setBackground(ContextCompat.getDrawable(FavoriteProductDetail.this, R.drawable.already_added));
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<Cart>> call, Throwable t) {
-
-            }
-        });
 
         binding.btnCartDetailRemove.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,7 +145,38 @@ public class FavoriteProductDetail extends AppCompatActivity {
             }
         });
     }
+    private void checkProductInCart(final Product product){
+        CartService.CartAPI cartAPI = CartService.getCartAPIInstance();
+        Call<ArrayList<Cart>> listCall = cartAPI.getCartList(userId);
+        listCall.enqueue(new Callback<ArrayList<Cart>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Cart>> call, Response<ArrayList<Cart>> response) {
+                list = response.body();
+                String pId = product.getProductId();
+                for (Cart cart : list) {
+                    if (pId.equals(cart.getProductId())) {
+                        flag = 1;
+                        binding.addToC.setText("Already Added");
+                        binding.addToC.setCompoundDrawableTintList(ColorStateList.valueOf(Color.WHITE));
+                        binding.addToC.setTextColor(Color.WHITE);
 
+                        final int sdk = android.os.Build.VERSION.SDK_INT;
+                        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                            binding.btnCartDetailRemove.setBackgroundDrawable(ContextCompat.getDrawable(FavoriteProductDetail.this, R.drawable.already_added) );
+                        } else {
+                            binding.btnCartDetailRemove.setBackground(ContextCompat.getDrawable(FavoriteProductDetail.this, R.drawable.already_added));
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Cart>> call, Throwable t) {
+
+            }
+        });
+
+    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();

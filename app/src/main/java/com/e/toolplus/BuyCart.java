@@ -1,5 +1,6 @@
 package com.e.toolplus;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.e.toolplus.adapter.BuyCartAdapter;
@@ -40,6 +42,9 @@ public class BuyCart extends AppCompatActivity {
 
         InternetConnection internetConnection = new InternetConnection();
         registerReceiver(internetConnection, InternetIntentFilter.getIntentFilter());
+
+        setSupportActionBar(binding.toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
         ArrayList<Cart> list = (ArrayList<Cart>) intent.getSerializableExtra("list");
@@ -95,5 +100,14 @@ public class BuyCart extends AppCompatActivity {
             setResult(5);
             finish();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

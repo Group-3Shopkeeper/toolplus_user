@@ -140,16 +140,12 @@ public class CartProductDetail extends AppCompatActivity {
     }
     //end of on create
 
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home){
             finish();
         }
-
-
         return super.onOptionsItemSelected(item);
-
     }
 }

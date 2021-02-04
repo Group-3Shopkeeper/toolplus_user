@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,10 +23,12 @@ public class HistoryOrderItemAdapter extends RecyclerView.Adapter<HistoryOrderIt
     OnRecyclerCommentClickListener listener;
     ArrayList<OrderItem> list;
     Context context;
+    String shippingStatus;
 
-    public HistoryOrderItemAdapter(Context context, ArrayList<OrderItem> list) {
+    public HistoryOrderItemAdapter(Context context, ArrayList<OrderItem> list, String shippingStatus) {
         this.context = context;
         this.list = list;
+        this.shippingStatus = shippingStatus;
     }
 
     @NonNull
@@ -37,11 +41,17 @@ public class HistoryOrderItemAdapter extends RecyclerView.Adapter<HistoryOrderIt
     @Override
     public void onBindViewHolder(@NonNull HistoryOrderItemViewHolder holder, int position) {
         OrderItem cart = list.get(position);
+        if (shippingStatus.equals("Placed") || shippingStatus.equals("Cancelled")){
+            holder.binding.comment.setVisibility(View.GONE);
+            holder.binding.tv5.setVisibility(View.VISIBLE);
+            holder.binding.tv5.setText("Amount   : ₹ "+cart.getQty()*cart.getPrice());
+        }
         holder.binding.tv1.setText(cart.getName());
         Log.e("Item Name","=========>"+cart.getName());
         holder.binding.tv3.setText("Qty     : " + cart.getQty());
         holder.binding.tv4.setText("Price   : ₹ " + cart.getPrice());
         Picasso.get().load(cart.getImageUrl()).placeholder(R.drawable.logo_white).into(holder.binding.iv);
+
     }
 
     @Override

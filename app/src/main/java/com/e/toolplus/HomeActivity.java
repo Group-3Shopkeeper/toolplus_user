@@ -61,7 +61,6 @@ public class HomeActivity extends AppCompatActivity {
     ProductScreenAdapter adapter;
     Category category;
 
-
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -183,7 +182,7 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         int NextBuy = intent.getIntExtra("NextBuyCart",420);
-        if (NextBuy == 2){
+        if (NextBuy == 420){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,new ManageOrderFragment()).commit();
             binding.bottomNavigation.setItemSelected(R.id.bottom_manageOrder,true);
         }
