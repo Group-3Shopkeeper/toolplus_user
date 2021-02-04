@@ -82,6 +82,10 @@ public class EditProfileActivity extends AppCompatActivity {
                             binding.userNumber.setError("Enter Number");
                             return;
                         }
+                        if (number1.length() >10 || number1.length()<10){
+                            binding.userNumber.setError("Enter 10 digits number");
+                            return;
+                        }
                         currentUserId = sPref.getString("userId", "");
                         token1 = sPref.getString("token", "");
 
@@ -153,9 +157,14 @@ public class EditProfileActivity extends AppCompatActivity {
                                         progressDialog.dismiss();
                                         User user1 = response.body();
                                         SharedPreferences.Editor editor = sPref.edit();
-                                        Gson gson = new Gson();
-                                        String json = gson.toJson(user1);
-                                        editor.putString(currentUserId, json);
+                                        editor.putString("userId", user1.getUserId());
+                                        editor.putString("address", user1.getAddress());
+                                        editor.putString("email", user1.getEmail());
+                                        editor.putString("contact", user1.getMobile());
+                                        editor.putString("token", user1.getToken());
+                                        editor.putString("imageUrl", user1.getImageUrl());
+                                        editor.putString("name", user1.getName());
+
                                         editor.commit();
                                         finish();
                                     }

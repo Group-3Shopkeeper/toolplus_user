@@ -57,8 +57,9 @@ public class OrderItemActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         ArrayList<OrderItem> list = (ArrayList<OrderItem>) intent.getSerializableExtra("orderItems");
+        String shippingStatus = intent.getStringExtra("shippingStatus");
 
-        adapter = new HistoryOrderItemAdapter(OrderItemActivity.this, list);
+        adapter = new HistoryOrderItemAdapter(OrderItemActivity.this, list,shippingStatus);
         binding.rvHistoryOrderItem.setAdapter(adapter);
         binding.rvHistoryOrderItem.setLayoutManager(new LinearLayoutManager(OrderItemActivity.this));
 

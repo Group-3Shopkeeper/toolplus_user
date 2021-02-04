@@ -1,5 +1,6 @@
 package com.e.toolplus;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -71,6 +72,9 @@ public class NextBuyCart extends AppCompatActivity {
         tokenList = new ArrayList<>();
 
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        setSupportActionBar(binding.toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final Intent intent = getIntent();
         cartList = (ArrayList<Cart>) intent.getSerializableExtra("list");
@@ -169,6 +173,7 @@ public class NextBuyCart extends AppCompatActivity {
                         return true;
                     }
                 });
+                popup.show();
             }
         });
 
@@ -325,6 +330,15 @@ public class NextBuyCart extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void deletingItemsInCart(){
         for(Cart cart : cartList){
             CartService.CartAPI api1 = CartService.getCartAPIInstance();
@@ -412,4 +426,5 @@ public class NextBuyCart extends AppCompatActivity {
             }
         }
     }
+
 }

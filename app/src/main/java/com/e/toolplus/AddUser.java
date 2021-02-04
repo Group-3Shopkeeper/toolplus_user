@@ -93,6 +93,9 @@ public class AddUser extends AppCompatActivity {
                     binding.userNumber.setError("Enter Number");
                     return;
                 }
+                if (userNumber.length() >10 || userNumber.length()<10){
+                    binding.userNumber.setError("Enter 10 digits number");
+                }
 
                 String token2 = FirebaseInstanceId.getInstance().getToken();
                 if (imageUri != null) {

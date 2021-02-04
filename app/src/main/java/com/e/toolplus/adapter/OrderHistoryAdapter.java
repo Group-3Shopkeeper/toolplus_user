@@ -71,6 +71,7 @@ public class OrderHistoryAdapter  extends RecyclerView.Adapter<OrderHistoryAdapt
                 ArrayList<OrderItem> carts = order.getOrderItem();
                 Intent intent = new Intent(context, OrderItemActivity.class);
                 intent.putExtra("orderItems",carts);
+                intent.putExtra("shippingStatus",order.getShippingStatus());
                 context.startActivity(intent);
             }
         });
