@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,7 +83,7 @@ public class CartFragment extends Fragment {
                         CancleOrderAlertBinding custom = CancleOrderAlertBinding.inflate(LayoutInflater.from(getContext()));
                         alert.setView(custom.getRoot());
 
-                        custom.youWantToCancel.setText("You want to delete this Product from your Cart");
+                        custom.youWantToCancel.setText("You want to delete this Product \n from your Cart");
                         custom.youWantToCancel.setGravity(Gravity.CENTER_HORIZONTAL);
 
                         final AlertDialog alertDialog = alert.create();
@@ -132,7 +133,6 @@ public class CartFragment extends Fragment {
             }
         });
 
-
         binding.btnBuyAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,19 +147,57 @@ public class CartFragment extends Fragment {
                         intent.putExtra("list", list);
                         startActivity(intent);
                     }
-
                     @Override
                     public void onFailure(Call<ArrayList<Cart>> call, Throwable t) {
-
+                        Toast.makeText(getContext(), "Something went wrong.....", Toast.LENGTH_SHORT).show();
                     }
                 });
-
             }
         });
 
         binding.btnRemoveAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+
+                CancleOrderAlertBinding custom = CancleOrderAlertBinding.inflate(LayoutInflater.from(getContext()));
+                alert.setView(custom.getRoot());
+
+                custom.youWantToCancel.setText("You want to delete all  Product \n from your Cart");
+                custom.youWantToCancel.setGravity(Gravity.CENTER_HORIZONTAL);
+
+                final AlertDialog alertDialog = alert.create();
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                custom.btnNO.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                    }
+                });
+                custom.btnYES.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        CartService.CartAPI api = CartService.getCartAPIInstance();
+                        Call<ArrayList<Cart>> call = api.deleteAllCartItem(userId);
+                        call.enqueue(new Callback<ArrayList<Cart>>() {
+                            @Override
+                            public void onResponse(Call<ArrayList<Cart>> call, Response<ArrayList<Cart>> response) {
+                                if (response.isSuccessful()){
+                                    binding.rlBottom.setVisibility(View.INVISIBLE);
+                                    binding.rlforEmpty.setVisibility(View.VISIBLE);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ArrayList<Cart>> call, Throwable t) {
+
+                            }
+                        });
+                    }
+                });
+
+                alertDialog.show();
 
             }
         });
