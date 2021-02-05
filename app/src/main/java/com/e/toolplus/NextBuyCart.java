@@ -80,6 +80,12 @@ public class NextBuyCart extends AppCompatActivity {
         cartList = (ArrayList<Cart>) intent.getSerializableExtra("list");
         grandTotal = intent.getLongExtra("grandTotal", 0);
 
+        if (flag1 == 0) {
+            grandTotal = grandTotal + 50;
+            binding.tvDeliveryOption.setText("Normal");
+            binding.detailOfDeliveryOption.setVisibility(View.VISIBLE);
+            binding.detailOfDeliveryOption.setText("Delivered within 5 days and charges 50");
+        }
         binding.grandTotal.setText("Amount : " + grandTotal);
 
         Calendar cDate = Calendar.getInstance();
@@ -123,7 +129,7 @@ public class NextBuyCart extends AppCompatActivity {
                     public boolean onMenuItemClick(MenuItem item) {
                         if (item.getTitle().equals("Fast")) {
                             flag1 = 1;
-                            grandTotal = grandTotal + 100;
+                            grandTotal = grandTotal + 50;
                             binding.tvDeliveryOption.setText(item.getTitle());
                             binding.grandTotal.setText("Amount : " + grandTotal);
                             binding.detailOfDeliveryOption.setVisibility(View.VISIBLE);
@@ -137,12 +143,7 @@ public class NextBuyCart extends AppCompatActivity {
                                 binding.detailOfDeliveryOption.setVisibility(View.VISIBLE);
                                 binding.detailOfDeliveryOption.setText("Delivered within 5 days and charges 50");
                             }
-                            if (flag1 == 0) {
-                                grandTotal = grandTotal + 50;
-                                binding.tvDeliveryOption.setText(item.getTitle());
-                                binding.detailOfDeliveryOption.setVisibility(View.VISIBLE);
-                                binding.detailOfDeliveryOption.setText("Delivered within 5 days and charges 50");
-                            }
+
                         }
                         return true;
                     }

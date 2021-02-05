@@ -176,6 +176,15 @@ public class FavoriteProductDetail extends AppCompatActivity {
             }
         });
 
+        binding.btnCartDetailBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FavoriteProductDetail.this,SingleProductBuy.class);
+                intent.putExtra("product",product);
+                startActivity(intent);
+            }
+        });
+
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

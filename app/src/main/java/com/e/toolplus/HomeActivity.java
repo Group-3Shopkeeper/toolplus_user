@@ -187,6 +187,12 @@ public class HomeActivity extends AppCompatActivity {
             binding.bottomNavigation.setItemSelected(R.id.bottom_manageOrder,true);
         }
 
+        int single = intent.getIntExtra("SingleProductBuy",0);
+        if (single == 120){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,new ManageOrderFragment()).commit();
+            binding.bottomNavigation.setItemSelected(R.id.bottom_manageOrder,true);
+        }
+
     }
 
     private void navigationDrawerMenu() {
