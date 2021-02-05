@@ -35,5 +35,8 @@ public class CartService {
 
         @DELETE("cart/{cartId}")
         Call<Cart> deleteCartItem(@Path("cartId") String cartId);
+
+        @DELETE("cart/deleteAll/{userId}")
+        Call<ArrayList<Cart>> deleteAllCartItem(@Path("userId") String userId);
     }
 }

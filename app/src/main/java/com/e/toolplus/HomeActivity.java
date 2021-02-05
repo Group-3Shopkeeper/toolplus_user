@@ -181,7 +181,7 @@ public class HomeActivity extends AppCompatActivity {
             binding.bottomNavigation.setItemSelected(R.id.bottom_cart,true);
         }
 
-        int NextBuy = intent.getIntExtra("NextBuyCart",420);
+        int NextBuy = intent.getIntExtra("NextBuyCart",0);
         if (NextBuy == 420){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,new ManageOrderFragment()).commit();
             binding.bottomNavigation.setItemSelected(R.id.bottom_manageOrder,true);
