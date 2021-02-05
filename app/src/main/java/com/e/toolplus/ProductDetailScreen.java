@@ -330,6 +330,15 @@ public class ProductDetailScreen extends AppCompatActivity {
 
             }
         });
+
+        binding.btnProductDetailBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProductDetailScreen.this,SingleProductBuy.class);
+                intent.putExtra("product",product);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setRatingOnUi() {

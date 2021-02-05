@@ -31,7 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CartProductDetail extends AppCompatActivity {
-
+    Product product;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +58,7 @@ public class CartProductDetail extends AppCompatActivity {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {
 
-                Product product = response.body();
+                product = response.body();
 
                 Picasso.get().load(product.getImageUrl()).into(binding.cartDetailImage);
                 binding.cartDetailDescription.setText(product.getDescription());
@@ -135,6 +135,15 @@ public class CartProductDetail extends AppCompatActivity {
                     }
                 });
                 alertDialog.show();
+            }
+        });
+
+        binding.btnCartDetailBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CartProductDetail.this,SingleProductBuy.class);
+                intent.putExtra("product",product);
+                startActivity(intent);
             }
         });
     }
