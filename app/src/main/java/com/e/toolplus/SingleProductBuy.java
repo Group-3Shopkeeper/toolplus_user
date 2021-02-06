@@ -1,5 +1,6 @@
 package com.e.toolplus;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -227,7 +228,7 @@ public class SingleProductBuy extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int qty = Integer.parseInt(binding.qtyOfStock.getText().toString());
-                if (qty <= product.getQtyInStock()){
+                if (qty < product.getQtyInStock()){
                     qty++;
                     binding.qtyOfStock.setText(""+qty);
                     grandTotal = grandTotal+product.getPrice();
@@ -410,5 +411,14 @@ public class SingleProductBuy extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(SingleProductBuy.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

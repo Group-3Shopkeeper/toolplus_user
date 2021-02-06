@@ -33,6 +33,7 @@ public class BuyCart extends AppCompatActivity {
     ActivityBuyCartBinding binding;
     ArrayList<Cart> withStock;
     long grandTotal = 0;
+    ArrayList<OrderItem> reOrderItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,12 @@ public class BuyCart extends AppCompatActivity {
         Order order = (Order) intent.getSerializableExtra("reOrder");
         int flag = intent.getIntExtra("flag",0);
 
+        if (order != null){
+            reOrderItems = new ArrayList<>();
+            for (OrderItem orderItem : order.getOrderItem()){
+                reOrderItems.add(orderItem);
+            }
+        }
         BuyCartList list1 = new BuyCartList();
         list1.setList(list);
 

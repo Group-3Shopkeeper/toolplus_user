@@ -51,6 +51,9 @@ public class ProductScreenAdapter extends RecyclerView.Adapter<ProductScreenAdap
     public void onBindViewHolder(@NonNull final ProductScreenViewHolder holder, final int position) {
         final String currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        holder.binding.imageFavoriteHeart.setImageResource(R.drawable.favourite_btn);
+        holder.binding.imageFavoriteHeart.setTag("DELETE");
+
         final Product product = list.get(position);
 
         categoryId = product.getCategoryId();
