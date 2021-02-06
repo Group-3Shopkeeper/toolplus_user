@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewProfile">
+    tools:context=".ViewProfile"
+    android:background="#F3EEEE">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -14,163 +15,200 @@
         app:title="My Profile"
         app:titleTextColor="@color/white" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/userImage"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_below="@+id/toolbar"
-        android:layout_margin="15dp"
-        android:src="@drawable/person" />
-
-    <TextView
-        android:id="@+id/tvName"
+    <RelativeLayout
+        android:id="@+id/rlHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/userImage"
-        android:layout_marginLeft="15dp"
-        android:text="Name"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="25dp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvName"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp"
-        android:drawableStart="@drawable/email"
-        android:drawablePadding="10dp"
-        android:text="Store Email"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="17sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvEmail"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp"
-        android:drawableStart="@drawable/address"
-        android:drawablePadding="10dp"
-        android:text="Store Address"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="17sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvAddress"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp"
-        android:drawableStart="@drawable/phone"
-        android:drawablePadding="10dp"
-        android:text="Store Number"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="17sp"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvNumber"
-        android:weightSum="1">
+        android:layout_below="@id/toolbar"
+        android:padding="10dp">
 
         <RelativeLayout
-            android:id="@+id/rl1"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:layout_weight="0.5"
-            android:elevation="6dp">
-
-            <TextView
-                android:id="@+id/tvTotalShopping"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_marginLeft="15dp"
-                android:drawablePadding="10dp"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="Total Shopping"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="17dp"
-                android:textStyle="bold" />
+            android:background="@color/white">
 
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvTotalShopping"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
-                android:background="@drawable/circle_white"
-                android:elevation="6dp"
-                android:gravity="center"
-                android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/tvBillingAmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="Total billing"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="19sp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:layout_weight="0.5"
-            android:elevation="6dp">
-
-            <TextView
-                android:id="@+id/tvTotalOrders"
+                android:id="@+id/rlImageName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_marginLeft="15dp"
-                android:drawablePadding="10dp"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="Total Orders"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+                android:background="@color/colorPrimary"
+                android:elevation="5dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                >
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvTotalOrders"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
-                android:background="@drawable/circle_white"
-                android:elevation="6dp"
-                android:gravity="center"
-                android:padding="5dp">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/userImage"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="15dp"
+                    android:src="@drawable/person" />
 
                 <TextView
-                    android:id="@+id/tvOrderCount"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvName"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="Total Count"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="19sp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_toRightOf="@id/userImage"
+                    android:text="Name"
+                    android:textColor="@color/white"
+                    android:textSize="25dp"
                     android:textStyle="bold" />
             </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/ll1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlImageName"
+                android:elevation="10dp"
+                android:padding="5dp"
+                android:weightSum="1">
+
+                <RelativeLayout
+                    android:id="@+id/rl1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:elevation="6dp">
+
+                    <ImageView
+                        android:id="@+id/ivTotalAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/totalamount" />
+
+                    <TextView
+                        android:id="@+id/tvTotalShopping"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ivTotalAmount"
+                        android:layout_margin="5dp"
+                        android:layout_marginLeft="15dp"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="Total Shopping"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvBillingAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tvTotalShopping"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="10dp"
+                        android:text="Total billing"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="19sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:elevation="6dp">
+
+                    <ImageView
+                        android:id="@+id/ivTotalOrders"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/ivtotalorders" />
+
+                    <TextView
+                        android:id="@+id/tvTotalOrders"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ivTotalOrders"
+                        android:layout_margin="5dp"
+                        android:layout_marginLeft="15dp"
+                        android:drawablePadding="10dp"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="Total Orders"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvOrderCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tvTotalOrders"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="10dp"
+                        android:text="Total Count"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="19sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+            </LinearLayout>
+
         </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlHeader"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/rounde_corner_spinner"
+        android:elevation="5dp">
+
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:drawableStart="@drawable/email"
+            android:drawablePadding="10dp"
+            android:text="Store Email"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvEmail"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:drawableStart="@drawable/address"
+            android:drawablePadding="10dp"
+            android:text="Store Address"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvAddress"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:drawableStart="@drawable/phone"
+            android:drawablePadding="10dp"
+            android:text="Store Number"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnEdit"

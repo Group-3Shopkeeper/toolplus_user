@@ -63,6 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cv_slider_mainActivity"
                 android:layout_margin="5dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
@@ -71,11 +72,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
                     android:layout_weight="0.8"
-                    android:gravity="center_vertical"
+                    android:gravity="center_vertical|center_horizontal"
                     android:padding="8dp"
-                    android:text="Ratings of this Product"
+                    android:text="Rating"
+                    android:textSize="18sp"
                     android:textColor="@color/black" />
 
                 <LinearLayout

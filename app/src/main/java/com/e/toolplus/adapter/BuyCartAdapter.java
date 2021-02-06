@@ -62,7 +62,7 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
         holder.binding.cartProductName.setText(cart.getName());
         holder.binding.cartProductPrice.setText(" " + cart.getPrice());
         holder.binding.availableStock.setText("Available Stock : "+cart.getQtyInStock());
-        //totalAmount = Long.parseLong(total.toString());
+        
         holder.binding.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

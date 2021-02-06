@@ -137,9 +137,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ll1"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="8dp"
                     android:layout_marginBottom="5dp"
-                    android:drawableRight="@drawable/more_vertical"
                     android:text="Change Details"
                     android:textColor="#409343" />
             </RelativeLayout>

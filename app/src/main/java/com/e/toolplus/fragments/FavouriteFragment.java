@@ -1,5 +1,6 @@
 package com.e.toolplus.fragments;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -9,11 +10,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.e.toolplus.FavoriteProductDetail;
 import com.e.toolplus.adapter.FavoriteProductAdapter;
 import com.e.toolplus.api.FavoriteService;
 import com.e.toolplus.beans.Favorite;
+import com.e.toolplus.databinding.ActivityHomeBinding;
 import com.e.toolplus.databinding.FragmentFavouriteBinding;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.Circle;
@@ -60,6 +64,10 @@ public class FavouriteFragment extends Fragment {
                             startActivity(in);
                         }
                     });
+
+
+
+                    
                 } else {
 
                 }
@@ -70,6 +78,8 @@ public class FavouriteFragment extends Fragment {
 
             }
         });
+
+
 
         return binding.getRoot();
     }
