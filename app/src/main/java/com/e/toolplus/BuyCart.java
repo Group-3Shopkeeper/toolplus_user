@@ -16,8 +16,6 @@ import com.e.toolplus.adapter.BuyCartAdapter;
 import com.e.toolplus.api.OrderService;
 import com.e.toolplus.beans.BuyCartList;
 import com.e.toolplus.beans.Cart;
-import com.e.toolplus.beans.Order;
-import com.e.toolplus.beans.OrderItem;
 import com.e.toolplus.databinding.ActivityBuyCartBinding;
 import com.e.toolplus.utility.InternetConnection;
 import com.e.toolplus.utility.InternetIntentFilter;
@@ -33,7 +31,6 @@ public class BuyCart extends AppCompatActivity {
     ActivityBuyCartBinding binding;
     ArrayList<Cart> withStock;
     long grandTotal = 0;
-    ArrayList<OrderItem> reOrderItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +47,6 @@ public class BuyCart extends AppCompatActivity {
         Intent intent = getIntent();
         ArrayList<Cart> list = (ArrayList<Cart>) intent.getSerializableExtra("list");
 
-        Order order = (Order) intent.getSerializableExtra("reOrder");
-        int flag = intent.getIntExtra("flag",0);
-
-        if (order != null){
-            reOrderItems = new ArrayList<>();
-            for (OrderItem orderItem : order.getOrderItem()){
-                reOrderItems.add(orderItem);
-            }
-        }
         BuyCartList list1 = new BuyCartList();
         list1.setList(list);
 

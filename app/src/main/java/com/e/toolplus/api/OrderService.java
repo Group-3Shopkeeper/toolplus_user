@@ -3,6 +3,9 @@ package com.e.toolplus.api;
 import com.e.toolplus.beans.BuyCartList;
 import com.e.toolplus.beans.Order;
 import com.e.toolplus.beans.OrderCartList;
+import com.e.toolplus.beans.OrderItem;
+import com.e.toolplus.beans.ReOrder;
+import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
 
 import java.util.ArrayList;
 
@@ -43,6 +46,9 @@ public class OrderService {
 
         @POST("order/cancelOrder")
         Call<Order> cancelOrder(@Body Order order);
+
+        @GET("order/reOrder/getQuantity")
+        Call<ArrayList<ReOrder>> getQuantityOfOrderItems(@Body Order order);
     }
 
 }

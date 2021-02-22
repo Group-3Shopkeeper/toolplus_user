@@ -58,7 +58,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/divider"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10dp"
+                >
 
                 <ImageView
                     android:id="@+id/productImage"
@@ -204,7 +205,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvDeliveryAddress"
-                android:layout_margin="10dp">
+                android:layout_margin="10dp"
+
+                >
 
                 <LinearLayout
                     android:id="@+id/ll1"
@@ -305,7 +308,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rlUserDetail"
                 android:layout_margin="10dp"
-                android:background="@drawable/rounde_corner_spinner">
+                android:background="@drawable/rounde_corner_spinner"
+                android:elevation="2dp">
 
                 <LinearLayout
                     android:id="@+id/cd3ll1"
@@ -380,6 +384,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/detailOfDeliveryOption"
                 android:layout_margin="10dp"
+                android:elevation="2dp"
                 android:background="@drawable/rounde_corner_spinner">
 
                 <LinearLayout

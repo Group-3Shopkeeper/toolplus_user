@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SingleProductBuy"></activity>
+        <activity android:name=".SingleProductBuy" />
         <activity
             android:name=".HistoryActivity"
             android:parentActivityName=".HomeActivity" />
@@ -85,6 +85,10 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_live_ILgsfZCZoFIKMb"/>
     </application>
 
 </manifest>

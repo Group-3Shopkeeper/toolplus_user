@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -38,6 +40,8 @@ import com.e.toolplus.beans.User;
 import com.e.toolplus.databinding.ActivityNextBuyCartBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentResultListener;
 
 import org.json.JSONObject;
 
@@ -51,7 +55,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NextBuyCart extends AppCompatActivity {
+public class NextBuyCart extends AppCompatActivity implements PaymentResultListener {
     ActivityNextBuyCartBinding binding;
     ArrayList<Cart> cartList;
     ArrayList<String> tokenList;
@@ -62,12 +66,15 @@ public class NextBuyCart extends AppCompatActivity {
     AlertDialog alertDialog;
     AlertDialog.Builder builderDialog;
     OrderSummaryAdapter adapter;
+    OrderCartList order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityNextBuyCartBinding.inflate(LayoutInflater.from(NextBuyCart.this));
         setContentView(binding.getRoot());
+
+        Checkout.preload(getApplicationContext());
 
         tokenList = new ArrayList<>();
 
@@ -258,7 +265,7 @@ public class NextBuyCart extends AppCompatActivity {
                 pd.setMessage("Please wait");
                 pd.show();
 
-                OrderCartList order = new OrderCartList();
+                order = new OrderCartList();
                 order.setDeliveryOption(binding.tvDeliveryOption.getText().toString());
                 order.setTotalAmount(grandTotal);
                 order.setShippingStatus("Placed");
@@ -269,64 +276,73 @@ public class NextBuyCart extends AppCompatActivity {
                 order.setUserId(userId);
                 order.setOrderItem(cartList);
 
-                OrderService.OrderAPI api1 = OrderService.getOrderAPIInstance();
-                Call<OrderCartList> cartListCall = api1.saveOrderByCart(order);
-                cartListCall.enqueue(new Callback<OrderCartList>() {
-                    @Override
-                    public void onResponse(Call<OrderCartList> call, Response<OrderCartList> response) {
-                        if (response.code() != 200){
-                            pd.dismiss();
-                            Log.e("response code","========>"+response.code());
+                String paymentOption = binding.tvPaymentOption.getText().toString();
+
+                if (paymentOption.equals("Cash On Delivery")) {
+
+                    OrderService.OrderAPI api1 = OrderService.getOrderAPIInstance();
+                    Call<OrderCartList> cartListCall = api1.saveOrderByCart(order);
+                    cartListCall.enqueue(new Callback<OrderCartList>() {
+                        @Override
+                        public void onResponse(Call<OrderCartList> call, Response<OrderCartList> response) {
+                            if (response.code() != 200) {
+                                pd.dismiss();
+                                Log.e("response code", "========>" + response.code());
+                            }
+                            if (response.isSuccessful()) {
+                                sendingNotification(tokenList);
+
+                                deletingItemsInCart();
+
+                                Toast.makeText(NextBuyCart.this, "Order Placed", Toast.LENGTH_SHORT).show();
+                                Log.e("orderStatus", "========> Placed");
+
+                                pd.dismiss();
+
+                                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(NextBuyCart.this);
+                                View thankYou = LayoutInflater.from(NextBuyCart.this).inflate(R.layout.order_thank, null, false);
+                                setContentView(thankYou);
+
+                                RelativeLayout btnViewOrder = thankYou.findViewById(R.id.btnViewOrder);
+                                TextView done = thankYou.findViewById(R.id.done);
+
+                                AlertDialog dialog = alertBuilder.create();
+
+                                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                dialog.getWindow().getAttributes().windowAnimations = R.style.Theme_MaterialComponents_Dialog_Alert;
+
+                                btnViewOrder.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent1 = new Intent(NextBuyCart.this, HomeActivity.class);
+                                        intent1.putExtra("NextBuyCart", 420);
+                                        intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent1);
+                                        finish();
+                                    }
+                                });
+
+                                done.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        startActivity(new Intent(NextBuyCart.this, HomeActivity.class));
+                                    }
+                                });
+
+                                dialog.show();
+                            }
                         }
-                        if (response.isSuccessful()) {
-                            sendingNotification(tokenList);
 
-                            deletingItemsInCart();
-
-                            Toast.makeText(NextBuyCart.this, "Order Placed", Toast.LENGTH_SHORT).show();
-                            Log.e("orderStatus","========> Placed");
-
+                        @Override
+                        public void onFailure(Call<OrderCartList> call, Throwable t) {
                             pd.dismiss();
-
-                            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(NextBuyCart.this);
-                            View thankYou = LayoutInflater.from(NextBuyCart.this).inflate(R.layout.order_thank,null,false);
-                            setContentView(thankYou);
-
-                            RelativeLayout btnViewOrder = thankYou.findViewById(R.id.btnViewOrder);
-                            TextView done = thankYou.findViewById(R.id.done);
-
-                            AlertDialog dialog = alertBuilder.create();
-
-                            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                            dialog.getWindow().getAttributes().windowAnimations = R.style.Theme_MaterialComponents_Dialog_Alert;
-
-                            btnViewOrder.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent1 = new Intent(NextBuyCart.this,HomeActivity.class);
-                                    intent1.putExtra("NextBuyCart",420);
-                                    intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP );
-                                    startActivity(intent1);
-                                    finish();
-                                }
-                            });
-
-                            done.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    startActivity(new Intent(NextBuyCart.this,HomeActivity.class));
-                                }
-                            });
-
-                            dialog.show();
                         }
-                    }
+                    });
+                } else {
 
-                    @Override
-                    public void onFailure(Call<OrderCartList> call, Throwable t) {
-                        pd.dismiss();
-                    }
-                });
+                    startPayment();
+
+                }
             }
         });
     }
@@ -334,34 +350,34 @@ public class NextBuyCart extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == android.R.id.home){
+        if (id == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void deletingItemsInCart(){
-        for(Cart cart : cartList){
+    public void deletingItemsInCart() {
+        for (Cart cart : cartList) {
             CartService.CartAPI api1 = CartService.getCartAPIInstance();
             Call<Cart> cartCall = api1.deleteCartItem(cart.getCartId());
             cartCall.enqueue(new Callback<Cart>() {
                 @Override
                 public void onResponse(Call<Cart> call, Response<Cart> response) {
-                    if (response.isSuccessful()){
+                    if (response.isSuccessful()) {
 
                     } else
-                        Log.e("responseDeleteItem","====>"+response.code());
+                        Log.e("responseDeleteItem", "====>" + response.code());
                 }
 
                 @Override
                 public void onFailure(Call<Cart> call, Throwable t) {
-                    Log.e("responseFailure","========>"+t);
+                    Log.e("responseFailure", "========>" + t);
                 }
             });
         }
     }
 
-    public void gettingArrayListOfToken(){
+    public void gettingArrayListOfToken() {
         for (Cart cart : cartList) {
             StoreService.StoreAPI storeAPI = StoreService.getStoreAPIInstance();
             Call<Store> storeCall = storeAPI.getStore(cart.getShopKeeperId());
@@ -381,7 +397,7 @@ public class NextBuyCart extends AppCompatActivity {
         }
     }
 
-    public void sendingNotification(ArrayList<String> list){
+    public void sendingNotification(ArrayList<String> list) {
         for (String tok : list) {
             String token = tok;
             Log.e("token in forloop", "======>" + token);
@@ -428,4 +444,108 @@ public class NextBuyCart extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onPaymentSuccess(String s) {
+        final ProgressDialog pd = new ProgressDialog(NextBuyCart.this, R.style.Theme_MyDialog);
+        pd.setTitle("Saving");
+        pd.setMessage("Please wait");
+        pd.show();
+
+        OrderService.OrderAPI api1 = OrderService.getOrderAPIInstance();
+        Call<OrderCartList> cartListCall = api1.saveOrderByCart(order);
+        cartListCall.enqueue(new Callback<OrderCartList>() {
+            @Override
+            public void onResponse(Call<OrderCartList> call, Response<OrderCartList> response) {
+                if (response.code() != 200) {
+                    pd.dismiss();
+                    Log.e("response code", "========>" + response.code());
+                }
+                if (response.isSuccessful()) {
+                    sendingNotification(tokenList);
+
+                    deletingItemsInCart();
+
+                    Toast.makeText(NextBuyCart.this, "Order Placed", Toast.LENGTH_SHORT).show();
+                    Log.e("orderStatus", "========> Placed");
+
+                    pd.dismiss();
+
+                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(NextBuyCart.this);
+                    View thankYou = LayoutInflater.from(NextBuyCart.this).inflate(R.layout.order_thank, null, false);
+                    setContentView(thankYou);
+
+                    RelativeLayout btnViewOrder = thankYou.findViewById(R.id.btnViewOrder);
+                    TextView done = thankYou.findViewById(R.id.done);
+
+                    AlertDialog dialog = alertBuilder.create();
+
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.getWindow().getAttributes().windowAnimations = R.style.Theme_MaterialComponents_Dialog_Alert;
+
+                    btnViewOrder.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent1 = new Intent(NextBuyCart.this, HomeActivity.class);
+                            intent1.putExtra("NextBuyCart", 420);
+                            intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent1);
+                            finish();
+                        }
+                    });
+
+                    done.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            startActivity(new Intent(NextBuyCart.this, HomeActivity.class));
+                        }
+                    });
+
+                    dialog.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrderCartList> call, Throwable t) {
+                pd.dismiss();
+            }
+        });
+    }
+
+    @Override
+    public void onPaymentError(int i, String s) {
+
+    }
+
+    public void startPayment() {
+
+        final SharedPreferences sPref = getSharedPreferences("User", MODE_PRIVATE);
+        final Activity activity = this;
+        double price = order.getTotalAmount();
+        String email = sPref.getString("email", "Email");
+        String number = sPref.getString("mobile", "Mobile Number");
+        String logo = sPref.getString("imageUrl", "");
+        final Checkout co = new Checkout();
+        try {
+            JSONObject options = new JSONObject();
+            options.put("name", "ToolPlus");
+            //options.put("description", "Demoing Charges");
+            //You can omit the image option to fetch the image from dashboard
+            //options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
+            options.put("image", R.drawable.logo_white);
+            options.put("currency", "INR");
+            options.put("amount", price * 100);
+
+            JSONObject preFill = new JSONObject();
+            preFill.put("email", email + "");
+            preFill.put("contact", number + "");
+
+            options.put("prefill", preFill);
+
+            co.open(activity, options);
+        } catch (Exception e) {
+            Toast.makeText(activity, "Error in payment: " + e.getMessage(), Toast.LENGTH_SHORT)
+                    .show();
+            e.printStackTrace();
+        }
+    }
 }
