@@ -56,10 +56,8 @@ public class HistoryActivity extends AppCompatActivity {
                     adapter.setOnItemClick(new OrderHistoryAdapter.OnRecyclerItemClick() {
                         @Override
                         public void onItemClick(Order order, int position) {
-                            Intent in = new Intent(HistoryActivity.this, BuyCart.class);
-                            in.putExtra("reOrder",order);
-                            in.putExtra("flag",2);
-                            startActivity(in);
+
+
                         }
                     });
 
